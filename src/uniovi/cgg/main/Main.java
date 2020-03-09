@@ -1,3 +1,4 @@
+package uniovi.cgg.main;
 import java.util.Random;
 
 public class Main {

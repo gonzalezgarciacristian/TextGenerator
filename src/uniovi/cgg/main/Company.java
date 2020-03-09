@@ -1,3 +1,4 @@
+package uniovi.cgg.main;
 
 public class Company {
 	
