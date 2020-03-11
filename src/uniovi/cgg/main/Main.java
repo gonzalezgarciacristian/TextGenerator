@@ -33,6 +33,20 @@ public class Main {
 		
 	}
 	
+	public String generateText() {
+		Company company = companies[(randomNumber(0, companies.length-1))];
+		
+		String exercise = companyType(company)+"\n"+agreement()+"\n"+SalarySystem()+"\n";
+		
+		if(automateSalarySystem) {
+			exercise += server()+"\n"+passwordBBDDSystem()+"\n"+userAccounts()+"\n"; // Igual sobra aquí el último, revisarlo
+		}		
+		
+		exercise += physicalPlace(company)+"\n"+network()+"\n"+backups()+"\n"+clientService()+"\n"+dataService()+"\n"+ownSalarySystem()+"\n"+hoursData();
+		
+		return exercise;
+	}
+	
 	/**
 	 * Saca un número aleatorio que se encuentre entre el min y max, incluidos ambos
 	 * @param min número más pequeño

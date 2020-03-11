@@ -3,6 +3,8 @@ package uniovi.cgg.ui;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -12,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import uniovi.cgg.main.Main;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -52,6 +55,7 @@ public class MainApp extends Application {
 	private Tab tabGenerator() {
 		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));
 		
+		//Interface
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -60,7 +64,7 @@ public class MainApp extends Application {
 		
 		tab.setContent(grid);
 		
-		Button btnGenerate= new Button(resourceBundle.getString("tab.one.btnGenerate"));
+		Button btnGenerate= new Button(resourceBundle.getString("tab.one.btnGenerate"));		
         grid.add(btnGenerate, 0, 0);
 		
         TextArea txtAGeneratedText = new TextArea(resourceBundle.getString("tab.one.txtAGeneratedText"));
@@ -75,6 +79,9 @@ public class MainApp extends Application {
 		
 		CheckBox ccToMe = new CheckBox(resourceBundle.getString("tab.one.ccToMe"));
 		grid.add(ccToMe, 0, 3);
+		
+		// Actions
+		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(new Main().generateText()));
 		
 		return tab;
 	}
