@@ -3,12 +3,19 @@ package uniovi.cgg.ui;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 
@@ -28,15 +35,48 @@ public class MainApp extends Application {
 	private TabPane createAndConfigureTabs() {
 		TabPane tabPane = new TabPane();
 
-		Tab tab1 = new Tab(resourceBundle.getString("tab.one.title"), new Label(resourceBundle.getString("tab.one.label")));
 		Tab tab2 = new Tab(resourceBundle.getString("tab.two.title"), new Label(resourceBundle.getString("tab.two.label")));
 
-		tabPane.getTabs().add(tab1);
+		tabPane.getTabs().add(tabGenerator());
 		tabPane.getTabs().add(tab2);
 		tabPane.getTabs().add(tabConfiguration());
 		tabPane.getTabs().add(tabAbout());
 
 		return tabPane;
+	}
+	
+	/**
+	 * Creación y configuración de la pestaña 1: generador de textos
+	 * @return Tab pestaña ya creada configurada
+	 */
+	private Tab tabGenerator() {
+		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));
+		
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
+		
+		tab.setContent(grid);
+		
+		Button btnGenerate= new Button(resourceBundle.getString("tab.one.btnGenerate"));
+        grid.add(btnGenerate, 0, 0);
+		
+        TextArea txtAGeneratedText = new TextArea(resourceBundle.getString("tab.one.txtAGeneratedText"));
+		txtAGeneratedText.setPrefWidth(220);
+		grid.add(txtAGeneratedText, 0, 1);
+		
+		Label sendTo = new Label(resourceBundle.getString("tab.one.sendTo"));
+		grid.add(sendTo, 0, 2);
+		
+		TextField txtFSendTo = new TextField();		
+		grid.add(txtFSendTo, 1, 2);
+		
+		CheckBox ccToMe = new CheckBox(resourceBundle.getString("tab.one.ccToMe"));
+		grid.add(ccToMe, 0, 3);
+		
+		return tab;
 	}
 
 	/**
@@ -51,6 +91,7 @@ public class MainApp extends Application {
 
 		return tab;
 	}
+	
 	/**
 	 * Creación y configuración de la pestaña 4: Acerca de...
 	 * @return Tab pestaña ya creada configurada
@@ -98,7 +139,7 @@ public class MainApp extends Application {
 	 * Idiomas disponibles: es, en
 	 */
 	private void loadi18n() {
-		//Locale.setDefault(new Locale("es")); // es españa, en inglés
+		//Locale.setDefault(new Locale("en")); // es españa, en inglés
 		resourceBundle = ResourceBundle.getBundle(i18n_PATH);
 	}
 
