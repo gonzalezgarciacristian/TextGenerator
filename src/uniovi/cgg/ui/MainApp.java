@@ -3,17 +3,12 @@ package uniovi.cgg.ui;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 
@@ -21,9 +16,6 @@ public class MainApp extends Application {
 
 	private final int STAGE_WIDTH = 640;
 	private final int STAGE_HEIGHT = 480;
-
-	private static final String SPANISH = "es";
-	private static final String ENGLISH = "en";
 	
 	private static final String i18n_PATH = "i18n/texts";
 	
