@@ -1,5 +1,7 @@
 package uniovi.cgg.ui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -13,11 +15,14 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import uniovi.cgg.main.Main;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -29,6 +34,7 @@ public class MainApp extends Application {
 	private final int STAGE_HEIGHT = 480;
 
 	private static final String i18n_PATH = "i18n/texts";
+	private static final String MAILTO = "mailto:";
 
 	private static ResourceBundle resourceBundle = null;
 
@@ -152,8 +158,65 @@ public class MainApp extends Application {
 	 * @return Tab pestaña ya creada configurada
 	 */
 	private Tab tabAbout() {
-		Tab tab = new Tab(resourceBundle.getString("tab.four.title"),
-				new Label(resourceBundle.getString("tab.four.label")));
+		Tab tab = new Tab(resourceBundle.getString("tab.four.title"));
+		
+		// Interface
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
+		
+		tab.setContent(grid);
+		
+		Label labelDeveloper1 = new Label(resourceBundle.getString("tab.four.developer1"));
+		grid.add(labelDeveloper1, 0, 0);
+		
+		Hyperlink linkDeveloper1Email = new Hyperlink(resourceBundle.getString("tab.four.developer1Email"));
+		grid.add(linkDeveloper1Email, 1, 0);
+		
+		Label labelDeveloper2 = new Label(resourceBundle.getString("tab.four.developer2"));
+		grid.add(labelDeveloper2, 0, 1);
+		
+		Hyperlink linkDeveloper2Email = new Hyperlink(resourceBundle.getString("tab.four.developer2Email"));
+		grid.add(linkDeveloper2Email, 1, 1);
+		
+		FileInputStream fisImageEII = null;
+		try {
+			fisImageEII = new FileInputStream("resources/logoEII.png");
+			Image imageEII = new Image(fisImageEII);
+	        ImageView imageViewEII = new ImageView(imageEII);
+	        grid.add(imageViewEII, 2, 0);
+		} catch (FileNotFoundException e1) {
+			System.out.println(e1);
+			e1.printStackTrace();
+		}
+		
+        FileInputStream fisImageUniOvi = null;
+		try {
+			fisImageUniOvi = new FileInputStream("resources/logoUniOvi.png");
+			Image imageUniOvi = new Image(fisImageUniOvi);
+	        ImageView imageViewUniOvi = new ImageView(imageUniOvi);
+	        grid.add(imageViewUniOvi, 2, 1);
+		} catch (FileNotFoundException e1) {
+			System.out.println(e1);
+			e1.printStackTrace();
+		}        
+        
+		Hyperlink linkGitHub = new Hyperlink(resourceBundle.getString("tab.four.githubProject"));
+		grid.add(linkGitHub, 0, 2);
+		
+		Label license = new Label(resourceBundle.getString("tab.four.license")); // TODO
+		grid.add(license, 0, 3);
+		
+		Label version = new Label(resourceBundle.getString("tab.four.version")); // TODO
+		grid.add(version, 1, 3);
+		
+		//Actions
+		linkDeveloper1Email.setOnAction(e -> getHostServices().showDocument(MAILTO+linkDeveloper1Email.getText()));
+		linkDeveloper2Email.setOnAction(e -> getHostServices().showDocument(MAILTO+linkDeveloper2Email.getText()));
+		linkGitHub.setOnAction(e -> getHostServices().showDocument(resourceBundle.getString("tab.four.githubURL")));
+		
 
 		return tab;
 	}
