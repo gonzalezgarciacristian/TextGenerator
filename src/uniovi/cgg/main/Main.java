@@ -213,7 +213,7 @@ public class Main {
 			break;	
 		}
 		
-		// Proabilidad de 0.5
+		// Probabilidad de 0.5
 		if(password) {
 			if((randomNumber(0, 1) == 0)) {
 				text += " Cada usuario tiene un número de intentos ilimitados para acceder al sistema. ";
@@ -411,7 +411,7 @@ public class Main {
 			text += "una sala privada a la que tiene acceso todo el mundo debido a que las llaves están en un cajetín compartido. ";
 			break;
 		case 6:
-			text += "una sala privada, pero las llaves están colgadas de la cerrada en un llavero en el que se encuentran también las copias de estas. ";
+			text += "una sala privada, pero las llaves están colgadas de la cerradura en un llavero en el que se encuentran también las copias de estas. ";
 			break;
 		default:
 			break;	
@@ -474,7 +474,7 @@ public class Main {
 			text += "cuando se acuerda, a veces las hacen dos días seguidos y a veces tras pasar 5 meses. ";
 			break;
 		case 4:
-			text += "... nunca ¿Qué es una copia de seguridad? Solo ocupan espacio innecesario y desperdician tiempo. ";
+			text += "... nunca ¿Qué es una copia de seguridad? Solo ocupan espacio innecesario y desperdicia tiempo. ";
 			backups = false;
 			break;
 		default:
@@ -596,7 +596,7 @@ public class Main {
 			text += "protocolos no seguros como HTTP y FTP. ";			
 			break;
 		case 2:
-			text += "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico de manera segura con un algoritmo de seguridad de la empresa. ";		
+			text += "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico de manera segura con un algoritmo de seguridad de la empresa. "; // añadir variantes con otros algoritmos reales obsoletos y no obsoletos		
 			break;
 		default:
 			break;	
@@ -661,7 +661,7 @@ public class Main {
 	private String ownSalarySystem() {
 		boolean cessionData = false;
 		
-		String text = "Las nóminas internas de la empresa y de los clientes "; // separar opcionmes de trabajadores y clientes en 2 mejor, más juego
+		String text = "Las nóminas internas de la empresa y de los clientes "; // separar opciones de trabajadores y clientes en 2 mejor, más juego
 			
 		switch(randomNumber(0, 4)) {
 		case 0:
