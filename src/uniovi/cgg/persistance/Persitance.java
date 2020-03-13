@@ -4,11 +4,15 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Persitance {
 
@@ -23,13 +27,13 @@ public class Persitance {
 	 * @param folder
 	 */
 	private void createFolder(String folder) {
-		// To create the file you need to create the parent directories first
 		new File(folder).mkdirs();
 	}
 
 	/**
-	 * Sol ocrea el fichero y su carpeta la primera vez, es decir, en caso de que n
-	 * oexista
+	 * Solo crea el fichero y su carpeta la primera vez, es decir, en caso de que no
+	 * exista. Si el fichero va dentro de una carpeta, hay que crear esa carpeta
+	 * primero o fallará
 	 */
 	private void createFile() {
 		// To create the file you need to create the parent directories first
@@ -50,11 +54,10 @@ public class Persitance {
 	}
 
 	private void saveFile(String file, String data) {
-
 		FileWriter outputFile = null;
 
 		try {
-			outputFile = new FileWriter(FILE);
+			outputFile = new FileWriter(file);
 			outputFile.write(data);
 		} catch (IOException e) {
 			System.out.println(e);
@@ -67,7 +70,33 @@ public class Persitance {
 				e1.printStackTrace();
 			}
 		}
+	}
 
+	private JSONObject loadFileToJSON(String file) {
+		Reader inputFile = null;
+
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = null;
+
+		try {
+			inputFile = new FileReader(file);
+			jsonObject = (JSONObject) parser.parse(inputFile);
+		} catch (ParseException e) {
+			e.printStackTrace();
+
+		} catch (IOException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		} finally {
+			try {
+				inputFile.close();
+			} catch (IOException e1) {
+				System.out.println(e1);
+				e1.printStackTrace();
+			}
+		}
+		
+		return jsonObject;
 	}
 
 	public static void main(String[] args) {
@@ -89,6 +118,10 @@ public class Persitance {
 		obj.put("messages", list);
 
 		main.saveFile(FILE, obj.toJSONString());
+		
+		JSONObject json = main.loadFileToJSON(FILE);
+		
+		System.out.println(json);
 
 		System.out.print(obj);
 
