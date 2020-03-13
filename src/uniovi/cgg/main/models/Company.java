@@ -1,4 +1,4 @@
-package uniovi.cgg.main;
+package uniovi.cgg.main.models;
 
 public class Company {
 	
@@ -7,7 +7,6 @@ public class Company {
 	private String description;
 
 	public Company(String name, String type, String description) {
-		super();
 		this.name = name;
 		this.type = type;
 		this.description = description;

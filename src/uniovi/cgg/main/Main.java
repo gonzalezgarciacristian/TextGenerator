@@ -1,6 +1,8 @@
 package uniovi.cgg.main;
 import java.util.Random;
 
+import uniovi.cgg.main.models.Company;
+
 public class Main {
 	
 	private Company company1 = new Company("Asesoría SL", "una asesoría", "Se encarga de gestionar los datos de otras emplesas que son sus clientes.");
@@ -11,7 +13,7 @@ public class Main {
 	private Company company6 = new Company("Matasanos", "un médico privado", "Médico privado que ofrece diferentes servicios de medicina.");
 	private Company company7 = new Company("Sacamuelas", "un dentista", "Dentista.");
 	private Company company8 = new Company("Paquete modesto", "una compañía de venta de videojuegos", "Servicio web que vende paquetes de videojuegos a precios reducidos.");
-	private Company companies[] = {company1, company2, company3, company4, company5, company6, company7};
+	private Company companies[] = {company1, company2, company3, company4, company5, company6, company7, company8};
 	
 	private boolean automateSalarySystem;
 

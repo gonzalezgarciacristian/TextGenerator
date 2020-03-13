@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class Persitance {
+public class Persistance {
 
 	private static final String FOLDER = "../bbdd";
 	private static final String NAME = "bbdd.json";
@@ -74,13 +74,12 @@ public class Persitance {
 
 	private JSONObject loadFileToJSON(String file) {
 		Reader inputFile = null;
-
-		JSONParser parser = new JSONParser();
+		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = null;
 
 		try {
 			inputFile = new FileReader(file);
-			jsonObject = (JSONObject) parser.parse(inputFile);
+			jsonObject = (JSONObject) jsonParser.parse(inputFile);
 		} catch (ParseException e) {
 			e.printStackTrace();
 
@@ -101,7 +100,7 @@ public class Persitance {
 
 	public static void main(String[] args) {
 
-		Persitance main = new Persitance();
+		Persistance main = new Persistance();
 
 		main.createFile();
 
