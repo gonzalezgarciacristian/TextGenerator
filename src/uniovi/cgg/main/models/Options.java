@@ -16,9 +16,12 @@ public class Options {
 
 	/**
 	 * Options es String[["texto de la opción"]["probabilidad", "-/true/false
+	 * separados por comas tantas veces como dependencias haya"], "-/true/false
 	 * separados por comas tantas veces como dependencias haya"]]. Luego: [0: [0:
-	 * texto],[1: probabilidad],[2: estado al que pone la dependencia], 1: [0:
-	 * texto],[1: probabilidad],[2: estado al que pone la dependencia]]
+	 * texto],[1: probabilidad],[2: estado al que pone la dependencia si la tiene
+	 * (depencencies == true)],[3: variable de la que dependen, si hay + de 1, se separan por comas
+	 * (dependsOn == true)], 1: [0: texto],[1: probabilidad],[2: estado al que pone
+	 * la dependencia si la tiene (depencencies == true)],[3: variable de la que dependen, si hay + de 1, se separan por comas (dependsOn == true)],...]
 	 */
 	private String[][] options;
 
@@ -54,8 +57,8 @@ public class Options {
 		this.main = main;
 
 		// Metemos las dependencias en la HashMap de variables, si las hay
-		if(this.dependencies != null) {
-			for (int i = 0, length = this.dependencies.length; i < length; i++) {		
+		if (this.dependencies != null) {
+			for (int i = 0, length = this.dependencies.length; i < length; i++) {
 				main.insertDependeceVariable(this.dependencies[i], false);
 			}
 		}
@@ -72,7 +75,7 @@ public class Options {
 	private String getTextWithprobability() {
 		String text = "";
 		int random = -1;
-
+		
 		if (probabilityModified) {
 			List<String[]> optionsWithProbability = new ArrayList<String[]>();
 			int possibilities = 0;
@@ -87,6 +90,7 @@ public class Options {
 			random = randomNumber(0, possibilities - 1);
 			text += optionsWithProbability.get(random)[0];
 
+			// Comprueba si tiene variable de dependencia, y si tiene, la pone a true
 			if (optionsWithProbability.get(random)[1].equals("true")) {
 				main.insertDependeceVariable(optionsWithProbability.get(random)[1], true);
 			}
@@ -94,20 +98,20 @@ public class Options {
 			return text;
 		} else {
 			random = randomNumber(0, options.length - 1);
-			
+
 			if (options[random][1].equals("true")) {
 				main.insertDependeceVariable(options[random][1], true);
 			}
 			return options[random][0];
 		}
-		
+
 	}
-	
+
 	/**
 	 * Método que devuelve 1 resultado de este objeto entre todas las elecciones
 	 * posibles introducidas junto con su introducción y su conclusión. En el caso
 	 * de que haya opciones con diferentes probabilidades, las tiene en cuenta y
-	 * ejecuta e laletorio en base a esas probabilidades
+	 * ejecuta el aletorio en base a esas probabilidades
 	 * 
 	 * @return String Contiene la introducción, el resultado aleatorio y las
 	 *         conclusiones
@@ -115,14 +119,22 @@ public class Options {
 	@Override
 	public String toString() {
 		String text = introduction;
-		
+
+		// Si no depende de ninguna variable de otro texto, pide el texto directamente
 		if (this.dependsOn == null) {
 			text += getTextWithprobability();
-		} else {			
-			for(int i = 0, length = this.dependsOn.length; i < length; i++) {
-				if(main.getDependeceVariable(this.dependsOn[i])) {
-					text+= getTextWithprobability();
+		} else {
+			// En caso contrario, mira sus dependencias y si están a true, pide el texto, pero solo sí todas sus dependencias están a true
+			boolean dependencies = false;
+			for (int i = 0, length = this.dependsOn.length; i < length; i++) {
+				if (main.getDependeceVariable(this.dependsOn[i])) {
+					dependencies = true;
+				}else {
+					dependencies = false;
 				}
+			}
+			if (dependencies) {
+				text += getTextWithprobability();
 			}
 		}
 		text += conclusions;

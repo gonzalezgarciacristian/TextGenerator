@@ -15,7 +15,7 @@ import uniovi.cgg.main.models.Options;
 public class Main {
 
 	private List<Options> objects = null;
-	
+
 	private Map<String, Boolean> dependeciesVariables = new HashMap<String, Boolean>();
 
 	private Company company1 = new Company("Asesoría SL", "una asesoría",
@@ -37,49 +37,49 @@ public class Main {
 
 	private Options agreement = new Options(1, "Agreement", "Esta empresa ", "\n", new String[][] { {
 			"está obligada a firmar un contrato con los clientes que garantice que se van a cumplir las mismas medidas de seguridad que los clientes aplican a los datos personales que van a tratar. ",
-			"1", "true" },
+			"1", "true", "-" },
 			{ "permite que cada empresa con la que trabaja trate los datos de sus clientes siguiendo sus propias medidas de seguridad. ",
-					"1", "false" } },
-			new String[] { "automateSalarySystem" }, null, false, this); // TODO el solucionar la dependencia
-	
-	private Options salarySystem = new Options(3, "SalarySystem",
-			"La gestión de las nóminas ", "\n",
-			new String[][] { { "está automatizada en un servidor. ", "3", "-" },
-		{"se lleva a mano con papel y bolígrafo. ", "1", "-"}},
+					"1", "false", "-" } },
+			new String[] { "automateSalarySystem" }, null, false, this);
+
+	private Options salarySystem = new Options(3, "SalarySystem", "La gestión de las nóminas ", "\n",
+			new String[][] { { "está automatizada en un servidor. ", "3", "-", "-" },
+					{ "se lleva a mano con papel y bolígrafo. ", "1", "-", "-" } },
 			null, null, true, this);
 
 	private Options server = new Options(3, "Servers",
 			"Las características del servidor de esta empresa son las siguientes: \n*", "\n",
-			new String[][] { { "Sistema operativo Windows. ", "1", "-" }, { "Sistema operativo Linux. ", "1", "-" },
-					{ "Máquina Virtual con Linux en Amazon Web Service. ", "1", "-" },
-					{ "Máquina Virtual con Windows en Amazon Web Service. ", "1", "-" },
-					{ "Máquina Virtual con Linux en Microsoft Azure. ", "1", "-" },
-					{ "Máquina Virtual con Windows en Microsoft Azure. ", "1", "-" } },
+			new String[][] { { "Sistema operativo Windows. ", "1", "-", "automateSalarySystem" },
+					{ "Sistema operativo Linux. ", "1", "-", "automateSalarySystem" },
+					{ "Máquina Virtual con Linux en Amazon Web Service. ", "1", "-", "automateSalarySystem" },
+					{ "Máquina Virtual con Windows en Amazon Web Service. ", "1", "-", "automateSalarySystem" },
+					{ "Máquina Virtual con Linux en Microsoft Azure. ", "1", "-", "automateSalarySystem" },
+					{ "Máquina Virtual con Windows en Microsoft Azure. ", "1", "-", "automateSalarySystem" } },
 			null, new String[] { "automateSalarySystem" }, false, this);
 
 	private Options adminProblems = new Options(4, "AdminProblems",
 			"Como solo el responsable puede cerrar las nóminas, cuando él falta, ", "\n",
 			new String[][] { {
 					"queda otro compañero como responsable al que se le da un usuario nuevo y cuando vuelve el responsable se le deshabilita ese usuario. ",
-					"1", "-" },
+					"1", "-", "-" },
 					{ "queda otro compañero como responsable al que se le da la clave del usuario del administrador. ",
-							"1", "-" },
-					{ "se crea una cuenta de invitado con una contraseña conocida por el nuevo responsable. ", "1",
+							"1", "-", "-" },
+					{ "se crea una cuenta de invitado con una contraseña conocida por el nuevo responsable. ", "1", "-",
 							"-" },
 					{ "se crea una cuenta invitado y se dice la contraseña a todos los que tengan que cerrar una nómina. ",
-							"1", "-" },
+							"1", "-", "-" },
 					{ "se dice la contraseña del administrador a todos para que puedan arreglar sus propios problemas. ",
-							"1", "-" },
-					{ "se espera a que vuelva el responsable, sea el tiempo que sea. ", "1", "-" } },
+							"1", "-", "-" },
+					{ "se espera a que vuelva el responsable, sea el tiempo que sea. ", "1", "-", "-" } },
 			null, null, false, this);
 
 	private Options passwordChangeSystem = new Options(5, "PasswordChangeSystem", "", "\n", new String[][] { {
 			"Las contraseñas se cambian periódicamente, luego, es raro que más de una persona conozca una contraseña que no es suya. ",
-			"1", "-" },
+			"1", "-", "-" },
 			{ "El cambio de contraseña queda a decisión del propio usuario. Luego, hay trabajadores que la cambian todos los días, y otros que nunca la han cambiado y le conocen su contraseña todo el mundo.",
-					"1", "-" },
+					"1", "-", "-" },
 			{ "Las contraseñas no se cambian nunca, lo que provocó que todos los usuarios conozcan todas las contraseñas de todos. ",
-					"1", "-" } },
+					"1", "-", "-" } },
 			null, null, false, this);
 
 	private boolean automateSalarySystem;
@@ -101,7 +101,7 @@ public class Main {
 		for (int i = 0, length = main.objects.size(); i < length; i++) {
 			exercise += main.objects.get(i).toString();
 		}
-		 
+
 		System.out.println(exercise);
 	}
 
@@ -109,12 +109,13 @@ public class Main {
 		Company company = companies[(randomNumber(0, companies.length - 1))];
 
 		String exercise = "";
-		
-		//exercise = companyType(company) + "\n" + agreement() + "\n" + SalarySystem() + "\n";
+
+		// exercise = companyType(company) + "\n" + agreement() + "\n" + SalarySystem()
+		// + "\n";
 
 		if (automateSalarySystem) {
 			// Igual sobra aquí el último, revisarlo
-			exercise += server() + "\n" + passwordBBDDSystem() + "\n" + userAccounts() + "\n"; 
+			exercise += server() + "\n" + passwordBBDDSystem() + "\n" + userAccounts() + "\n";
 		}
 
 		exercise += physicalPlace(company) + "\n" + network() + "\n" + backups() + "\n" + clientService() + "\n"
@@ -150,40 +151,36 @@ public class Main {
 				+ company.getDescription() + ". ";
 	}
 
-	/*private String agreement() {
+	/*
+	 * private String agreement() {
+	 * 
+	 * String text = "Esta empresa está obligada a ";
+	 * 
+	 * switch (randomNumber(0, 1)) { case 0: automateSalarySystem = true; text +=
+	 * "firmar un contrato con los clientes que garantice que se van a cumplir las mismas medidas de seguridad que los clientes aplican a los datos personales que van a tratar. "
+	 * ; break; case 1: automateSalarySystem = false; text +=
+	 * "permite que cada empresa trate los datos de sus clientes siguiendo sus propias medidas de seguridad. "
+	 * ; break; default: break; }
+	 * 
+	 * return text; }
+	 */
 
-		String text = "Esta empresa está obligada a ";
+	/*
+	 * private String SalarySystem() {
+	 * 
+	 * String text = "La gestión de las nóminas "; text +=
+	 * "está automatizada en un servidor. ";
+	 * 
+	 * // if(randomNumber(0, 4) < 3) { text += "está automatizada en un servidor";
+	 * //}else { text = "se lleva a mano con papel y boli"; }
+	 * 
+	 * 
+	 * return text;
+	 * 
+	 * }
+	 */
 
-		switch (randomNumber(0, 1)) {
-		case 0:
-			automateSalarySystem = true;
-			text += "firmar un contrato con los clientes que garantice que se van a cumplir las mismas medidas de seguridad que los clientes aplican a los datos personales que van a tratar. ";
-			break;
-		case 1:
-			automateSalarySystem = false;
-			text += "permite que cada empresa trate los datos de sus clientes siguiendo sus propias medidas de seguridad. ";
-			break;
-		default:
-			break;
-		}
-
-		return text;
-	}*/
-
-	/*private String SalarySystem() {
-
-		String text = "La gestión de las nóminas ";
-		text += "está automatizada en un servidor. ";
-		
-		 // if(randomNumber(0, 4) < 3) { text += "está automatizada en un servidor";
-		  //}else { text = "se lleva a mano con papel y boli"; }
-		 
-
-		return text;
-
-	}*/
-
-	private String server() {
+	private String bbdd() {
 		String text = "Las características del servidor de esta empresa son las siguientes: \n*";
 		Boolean windows = false;
 
@@ -928,16 +925,17 @@ public class Main {
 
 		return text;
 	}
-	
+
 	public boolean getDependeceVariable(String key) {
 		return this.dependeciesVariables.get(key);
 	}
-	
-	
+
 	/**
-	 * Inserta un par clave-valor en la tabla hash. Si ya existía la clave, sobrescribe el valor
-	 * @param key String
-	 * @param value boolean 
+	 * Inserta un par clave-valor en la tabla hash. Si ya existía la clave,
+	 * sobrescribe el valor
+	 * 
+	 * @param key   String
+	 * @param value boolean
 	 */
 	public void insertDependeceVariable(String key, boolean value) {
 		this.dependeciesVariables.put(key, value);
