@@ -44,7 +44,7 @@ public class Options {
 
 	/**
 	 * True si los textos tienen diferente probabilidad, si todos tienen la misma
-	 * probabilidad de parición entonces false
+	 * probabilidad de aparición entonces false
 	 */
 	private boolean probabilityModified;
 
