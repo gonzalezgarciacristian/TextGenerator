@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import uniovi.cgg.main.models.Company;
 import uniovi.cgg.main.models.Options;
 
 public class Main {
@@ -15,22 +12,30 @@ public class Main {
 
 	private Map<String, Boolean> dependeciesVariables = new HashMap<String, Boolean>();
 
-	private Company company1 = new Company("Asesoría SL", "una asesoría",
-			"Se encarga de gestionar los datos de otras emplesas que son sus clientes.");
-	private Company company2 = new Company("Cambia punto ORG", "una plataforma web",
-			"Se encarga de gestionar los datos de las personas que crean firmas para protestar.");
-	private Company company3 = new Company("El Diablo", "un bufete de abogados",
-			"Se encarga de proteger a quien sea contra lo que sea.");
-	private Company company4 = new Company("Delete From", "una empresa de administración de BBDD",
-			"Se encarga de administrar tus bases de datos.");
-	private Company company5 = new Company("Págame más", "una compañía de seguros",
-			"Se encarga de asegurar vehículos a todo riesgo.");
-	private Company company6 = new Company("Matasanos", "un médico privado",
-			"Médico privado que ofrece diferentes servicios de medicina.");
-	private Company company7 = new Company("Sacamuelas", "un dentista", "Dentista.");
-	private Company company8 = new Company("Paquete modesto", "una compañía de venta de videojuegos",
-			"Servicio web que vende paquetes de videojuegos a precios reducidos.");
-	private Company companies[] = { company1, company2, company3, company4, company5, company6, company7, company8 };
+	private Options companies = new Options(0, "Companies", "La empresa a auditar es ", " ", new String[][] { {
+			"Asesoría SL. Es una asesoría que se encarga de gestionar los datos de otras empresas que son sus clientes.",
+			"1", "-", "-" },
+			{ "Cambia punto ORG. Es una plataforma web que se encarga de gestionar los datos de las personas que crean firmas para protestar.",
+					"1", "-", "-" },
+			{ "El Diablo. Es un bufete de abogados que se encarga de proteger a quien sea contra lo que sea.", "1", "-",
+					"-" },
+			{ "Delete From. Es una empresa de administración de BBDD que se encarga de administrar bases de datos de diferentes clientes.",
+					"1", "-", "-" },
+			{ "Págame más. Es una compañía de seguros que se encarga de asegurar vehículos a todo riesgo.", "1", "-",
+					"-" },
+			{ "Matasanos. Es una clínica médica privada que ofrece diferentes servicios de medicina.", "1", "-", "-" },
+			{ "Sacamuelas. Es una clínica odontológica.", "1", "-", "-" },
+			{ "Paquete modesto. Es una compañía de venta de videojuegos online que vende paquetes de videojuegos a precios reducidos.",
+					"1", "-", "-" } },
+			false, this);
+
+	private Options companySize = new Options(0, "CompanySize", "Tiene un tamaño ", " empleados.\n",
+			new String[][] { { "pequeño y cuenta con 3", "1", "-", "-" }, { "pequeño y cuenta con 7", "1", "-", "-" },
+					{ "pequeño y cuenta con 9", "1", "-", "-" }, { "mediano y cuenta con 13", "1", "-", "-" },
+					{ "mediano y cuenta con 36", "1", "-", "-" }, { "mediano y cuenta con 45", "1", "-", "-" },
+					{ "grande y cuenta con 57", "1", "-", "-" }, { "grande y cuenta con 1500", "1", "-", "-" },
+					{ "grande y cuenta con 3500", "1", "-", "-" } },
+			false, this);
 
 	private Options agreement = new Options(1, "Agreement", "Esta empresa ", "\n", new String[][] { {
 			"está obligada a firmar un contrato con los clientes que garantice que se van a cumplir las mismas medidas de seguridad que los clientes aplican a los datos personales que van a tratar. ",
@@ -225,150 +230,203 @@ public class Main {
 					{ "que recoge el responsable al siguiente día laboral. ", "1", "-", "physicalBackup" },
 					{ "que se deja en el PC hasta el siguiente día. ", "1", "-", "physicalBackup" } },
 			false, this);
-	
-	private Options clientService = new Options(19, "ClientService", "El servicio que se da a los clientes y se utiliza para responderles se basa en una ", " ",
-			  new String[][] { { "aplicación de escritorio.", "1", "-", "-" },
-		{ "aplicación web alojada en el servidor de la empresa. ", "1", "-", "-" },
-		{ "aplicación web alojada en un hosting español.", "1", "-", "-" },
-		{ "aplicación web alojada en un servicio en la nube fuera de España, pero dentro de Europa.", "1", "-", "-" },
-		{ "aplicación web alojada en un servicio en la nube fuera de Europa.", "1", "-", "-" },
-		{ "aplicación web alojada en un hosting de Estados Unidos.", "1", "-", "-" },
-		{ "aplicación móvil subida a Google Play y que obtiene sus datos del servidor de la empresa.", "1", "-", "-" } }, false, this);
-	
-	private Options clientServiceAccess = new Options(20, "ClientServiceAccess", "El acceso al servicio se hace mediante ", "\n",
-			  new String[][] { { "", "1", "-", "-" },
-		{ "un usuario y una contraseña desarrollado por la empresa para el usuario. ", "1", "-", "-" },
-		{ "el registro previo del usuario dando su email y contraseña, la cual no se guarda hasheada en el servidor. ", "1", "-", "-" },
-		{ "el registro previo del usuario dando su email y contraseña, la cual no se guarda hasheada en el servidor y se envía al usuario en un correo en texto plano. ", "1", "-", "-" },
-		{ "el registro previo del usuario dando su email y contraseña, la cual se guarda hasheada en el servidor. ", "1", "-", "-" },
-		{ "el acceso directo pues no hay usuario/contraseña. ", "1", "-", "-" },
-		{ "el acceso del nombre de la empresa contratante, pues no hay contraseña. ", "1", "-", "-" } }, false,
-			  this);
-	
-	private Options clientServiceAccessSystem = new Options(21, "ClientServiceAccessSystem", "El acceso al servicio se hace utilizando ", "\n",
-			  new String[][] { { "protocolos seguros como HTTPS y FTPS. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico de manera segura con un algoritmo de seguridad de la empresa. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando criptografía de clase privada. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando criptografía de clase pública. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando criptografía de clase híbrida. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo AES. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo DES. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo Pretty Good Privacy (PGP). ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo OpenPGP. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo SHA-1. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo SHA-3. ", "1", "-", "-" },
-		{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo MD6. ", "1", "-", "-" } }, false, this);
-	
-	private Options dataService = new Options(22, "DataService", "Otro servicio que se utiliza para recibir los datos del usuario y que usa el trabajador para responder al cliente es ", " ",
-			  new String[][] { { "", "1", "-", "-" },
-			  { "un servicio web de la propia empresa. ", "1", "encrypted", "-" },
-			  { "un servicio web de otra empresa. ", "1", "encrypted", "-" },
-			  { "una aplicación móvil. ", "1", "encrypted", "-" },
-			  { "un correo electrónico. ", "1", "encrypted", "-" },
-			  { "por correo postal.\n", "1", "-", "-" },
-			  { "un fax.\n", "1", "-", "-" },
-			  { "por teléfono.\n", "1", "-", "-" },
-			  { "en persona utilizando hojas de papel/CD/DVD/USB.\n", "1", "-", "-" },}, false, this);
-	
-	  private Options dataServiceEncrypted = new Options(23, "dataServiceEncrypted", "Este servicio ", "\n",
-		  new String[][] { { "va encriptado. ", "1", "-", "encrypted" },
-		  { "va en texto plano. ", "1", "-", "encrypted" },
-		  { "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo AES. ", "1", "-", "encrypted" },
-			{ "va encriptado usando el algoritmo DES. ", "1", "-", "encrypted" },
-			{ "va encriptado usando el algoritmo Pretty Good Privacy (PGP). ", "1", "-", "encrypted" },
-			{ "va encriptado usando el algoritmo OpenPGP. ", "1", "-", "encrypted" },
-			{ "va encriptado usando el algoritmo SHA-1. ", "1", "-", "encrypted" },
-			{ "va encriptado usando el algoritmo SHA-3. ", "1", "-", "encrypted" },
-			{ "va encriptado usando el algoritmo MD6. ", "1", "-", "encrypted" },
-		  { "usa el mismo método que el servicio anterior", "3", "-", "encrypted" } }, true, this);
-	  
+
+	private Options clientService = new Options(19, "ClientService",
+			"El servicio que se da a los clientes y se utiliza para responderles se basa en una ", " ",
+			new String[][] { { "aplicación de escritorio.", "1", "-", "-" },
+					{ "aplicación web alojada en el servidor de la empresa. ", "1", "-", "-" },
+					{ "aplicación web alojada en un hosting español.", "1", "-", "-" },
+					{ "aplicación web alojada en un servicio en la nube fuera de España, pero dentro de Europa.", "1",
+							"-", "-" },
+					{ "aplicación web alojada en un servicio en la nube fuera de Europa.", "1", "-", "-" },
+					{ "aplicación web alojada en un hosting de Estados Unidos.", "1", "-", "-" },
+					{ "aplicación móvil subida a Google Play y que obtiene sus datos del servidor de la empresa.", "1",
+							"-", "-" } },
+			false, this);
+
+	private Options clientServiceAccess = new Options(20, "ClientServiceAccess",
+			"El acceso al servicio se hace mediante ", "\n",
+			new String[][] { { "", "1", "-", "-" },
+					{ "un usuario y una contraseña desarrollado por la empresa para el usuario. ", "1", "-", "-" },
+					{ "el registro previo del usuario dando su email y contraseña, la cual no se guarda hasheada en el servidor. ",
+							"1", "-", "-" },
+					{ "el registro previo del usuario dando su email y contraseña, la cual no se guarda hasheada en el servidor y se envía al usuario en un correo en texto plano. ",
+							"1", "-", "-" },
+					{ "el registro previo del usuario dando su email y contraseña, la cual se guarda hasheada en el servidor. ",
+							"1", "-", "-" },
+					{ "el acceso directo pues no hay usuario/contraseña. ", "1", "-", "-" },
+					{ "el acceso del nombre de la empresa contratante, pues no hay contraseña. ", "1", "-", "-" } },
+			false, this);
+
+	private Options clientServiceAccessSystem = new Options(21, "ClientServiceAccessSystem",
+			"El acceso al servicio se hace utilizando ", "\n",
+			new String[][] { { "protocolos seguros como HTTPS y FTPS. ", "1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP. ", "1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico de manera segura con un algoritmo de seguridad de la empresa. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando criptografía de clase privada. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando criptografía de clase pública. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando criptografía de clase híbrida. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo AES. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo DES. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo Pretty Good Privacy (PGP). ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo OpenPGP. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo SHA-1. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo SHA-3. ",
+							"1", "-", "-" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo MD6. ",
+							"1", "-", "-" } },
+			false, this);
+
+	private Options dataService = new Options(22, "DataService",
+			"Otro servicio que se utiliza para recibir los datos del usuario y que usa el trabajador para responder al cliente es ",
+			" ",
+			new String[][] { { "", "1", "-", "-" }, { "un servicio web de la propia empresa. ", "1", "encrypted", "-" },
+					{ "un servicio web de otra empresa. ", "1", "encrypted", "-" },
+					{ "una aplicación móvil. ", "1", "encrypted", "-" },
+					{ "un correo electrónico. ", "1", "encrypted", "-" }, { "por correo postal.\n", "1", "-", "-" },
+					{ "un fax.\n", "1", "-", "-" }, { "por teléfono.\n", "1", "-", "-" },
+					{ "en persona utilizando hojas de papel/CD/DVD/USB.\n", "1", "-", "-" }, },
+			false, this);
+
+	private Options dataServiceEncrypted = new Options(23, "dataServiceEncrypted", "Este servicio ", "\n",
+			new String[][] { { "va encriptado. ", "1", "-", "encrypted" },
+					{ "va en texto plano. ", "1", "-", "encrypted" },
+					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo AES. ",
+							"1", "-", "encrypted" },
+					{ "va encriptado usando el algoritmo DES. ", "1", "-", "encrypted" },
+					{ "va encriptado usando el algoritmo Pretty Good Privacy (PGP). ", "1", "-", "encrypted" },
+					{ "va encriptado usando el algoritmo OpenPGP. ", "1", "-", "encrypted" },
+					{ "va encriptado usando el algoritmo SHA-1. ", "1", "-", "encrypted" },
+					{ "va encriptado usando el algoritmo SHA-3. ", "1", "-", "encrypted" },
+					{ "va encriptado usando el algoritmo MD6. ", "1", "-", "encrypted" },
+					{ "usa el mismo método que el servicio anterior", "3", "-", "encrypted" } },
+			true, this);
+
 	// separar opciones de trabajadores y clientes en 2 mejor, más juego
-	  private Options ownSalarySystem = new Options(24, "OwnSalarySystem", "Las nóminas internas de la empresa y de los clientes ", "",
-			  new String[][] { { "se hacen a mano. ", "1", "-", "-" },
-			  { "se hacen manualmente a ordenador. ", "1", "-", "-" },
-			  { "se generan con un programa y se guardan en un CD/DVD. ", "1", "-", "-" },
-			  { "las genera una tercera empresa que se encarga de todo. ", "1", "cessionData", "-" },
-			  { "las genera una tercera empresa con la que se firmó un contrato por el que deben de cumplir todos los criterios legales. ", "1", "cessionData", "-" } }, false, this);
-	  
-	  private Options sendToBank = new Options(25, "SendToBank", "Se envían al banco usando ", "",
-			  new String[][] { { "", "1", "-", "-" },
-			  { "un servicio web. ", "1", "-", "-" },
-			  { "un correo electrónico. ", "1", "-", "-" },
-			  { "correo postal.", "1", "-", "-" },
-			  { "un fax. ", "1", "-", "-" },
-			  { "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } }, false, this);
-	  
-	  private Options sendToRecipient = new Options(26, "SendToRecipient", "Se envían al destinatario interasado usando ", "",
-			  new String[][] { { "un servicio web. ", "1", "-", "-" },
-			  { "un correo electrónico. ", "1", "-", "-" },
-			  { "correo postal. ", "1", "-", "-" },
-			  { "un fax. ", "1", "-", "-" },
-			  { "correo electrónico y/o correo postal y/o aplicación móvil y/o aplicación web y/o fax y/o en persona usando hojas de papel/CD/DVD/USB. El cliente puede elegir cualquier combinación", "1", "-", "-" },
-			  { "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } }, false, this);
-	  
-	  private Options cessionData = new Options(27, "CessionData", "La cesión de los datos a esta tercera empresa ", "\n",
-			  new String[][] { { "se informa al cliente y a los empleados siempre. ", "1", "-", "cessionData" },
-			  { "no se informa ni a los clientes y ni a los empleados nunca. ", "1", "-", "cessionData" },
-			  { "se informa al cliente y a los empleados si preguntan. ", "1", "-", "cessionData" },
-			  { "se informa al cliente y a los empleados dependiendo dle trabajador que toque. ", "1", "-", "cessionData" } }, false, this);
-	  
-	// Los datos referentes a la propia gestoría se controlan en la propia aplicación como si de otro cliente se tratase. Los datos de las horas trabajadas están al cargo del gerente
-	  private Options hoursData = new Options(28, "HoursData", "Los datos de las horas trabajadas los lleva el gerente, que ", "",
-			  new String[][] { { "las guarda en su ordenador personal en una hoja Excel situada en su directorio personal. ", "1", "", "-" },
-			  { "los apunta en hojas de papel. ", "1", "", "-" },
-			  { "usa una aplicación web que tienen subida en su servidor y que usa el mismo sistema de usuario/password que el de las nóminas. ", "1", "", "-" },
-			  { "usa una aplicación móvil que tienen subida en su servidor y que usa el mismo sistema de usuario/password que el de las nóminas. ", "1", "", "-" }}, false, this);
+	private Options ownSalarySystem = new Options(24, "OwnSalarySystem",
+			"Las nóminas internas de la empresa y de los clientes ", "",
+			new String[][] { { "se hacen a mano. ", "1", "-", "-" },
+					{ "se hacen manualmente a ordenador. ", "1", "-", "-" },
+					{ "se generan con un programa y se guardan en un CD/DVD. ", "1", "-", "-" },
+					{ "las genera una tercera empresa que se encarga de todo. ", "1", "cessionData", "-" },
+					{ "las genera una tercera empresa con la que se firmó un contrato por el que deben de cumplir todos los criterios legales. ",
+							"1", "cessionData", "-" } },
+			false, this);
 
-	  private Options hoursDataManagement = new Options(29, "HoursDataManagement", "Los datos son introducidos por ", "",
-			  new String[][] { { "el gerente, que es el único que debería de tener acceso. ", "1", "", "-" },
-			  { "el propio empleado, pues él es su propio responsable. ", "1", "-", "-" },
-			  { "se cambia el empleado responsable de apuntar todas las horas cada X tiempo. ", "1", "-", "-" },
-			  { "cada empleado cuando entra a trabajar. ", "1", "-", "" },
-			  { "cada empleado cuando entra y sale de trabajar. ", "1", "-", "" },
-			  { "cada empleado, no obstante, no se acuerdan todos los días, cosa que suele ocurrir muy amenudo, y a veces las firman cuando cuadra, es decir, un dia cada semana o cada dos todos los que le faltan y el siguiente. ", "1", "-", "" } }, false, this);
-	  
-	  private Options printedSheet = new Options(30, "ServerLocation", "Además, esta hoja se imprime mensualmente ya que contiene los datos del mes, y se archiva ", "",
-			  new String[][] { { "en carpetas anilladas que se guardan en un armario abierto. ", "1", "-", "-" },
-			  { "en carpetas anilladas que se guardan en un armario siguiendo el mismo proceso que el acceso al servidor. ", "1", "-", "-" },
-			  { "y una vez se termina con ellas se tiran a reciclar, algo muy importante, pero sin triturar. ", "1", "-", "-" },
-			  { "y una vez se termina con ellas se tiran a reciclar, algo muy importante, después de pasar por la trituradora. ", "1", "-", "-" },
-			  { "cuando el gerente se acuerda y hay tinta en al impresora. A veces pasa semanas sin hacerlo. ", "1", "-", "-" },
-			  { "cuando el gerente se acuerda. A veces pasan semanas o meses sobre la pila de papeles de su mesa. ", "1", "-", "-" } }, false, this);
-	  
-	  private Options documentLocation = new Options(31, "ServerLocation", "Los demás documentos ", "",
-			  new String[][] { { "se meten en carpetas anilladas que se almacenan en ", "3", "location", "-" },
-			  { "una vez se termina con ellos se tiran a reciclar, algo muy importante, pero sin triturar. ", "1", "-", "-" },
-			  { "una vez se termina con ellas se tiran a reciclar, algo muy importante, pero después de haberlas triturado. ", "1", "-", "-" } }, true, this);
-	  
-	  private Options documentStorage = new Options(32, "DocumentStorage", "", "",
-				new String[][] { { "la sala común. ", "1", "-", "location" },
-						{ "la sala común, guardados en un armario bajo llave que tiene el responsable actual. ", "1", "-",
-								"location" },
-						{ "la sala común, guardados en un armario bajo llave a la que tiene acceso todo el mundo debido a que las llaves están en un cajetín compartido. ",
-								"1", "-", "location" },
-						{ "la sala común guardados, en un armario bajo llave la cual está colgando de la cerradura junto a las copias de la llave . ",
-								"1", "-", "location" },
-						{ "una sala privada a la que solo tiene acceso el responsable actual. ", "1", "-", "location" },
-						{ "una sala privada a la que tiene acceso todo el mundo debido a que las llaves están en un cajetín compartido. ",
-								"1", "-", "location" },
-						{ "una sala privada, pero las llaves están colgadas de la cerradura en un llavero en el que se encuentran también las copias de estas. ",
-								"1", "-", "location" } },
-				false, this);
-	  
-	  private Options fileLOPD = new Options(33, "FileLOPD", "\nDurante la vida de esta empresa ", "\n",
-			  new String[][] { { "jamás se han declarado los ficheros de datos de la LOPD, ni se lleva un registro de actividades del tratamiento. ", "2", "-", "-" },
-			  { "se han declarado los ficheros de datos de la LOPD, pero no se lleva un registro de actividades del tratamiento. ", "2", "-", "-" },
-			  { "se han declarado los ficheros de la LOPD y se lleva el registro de actividades del tratatamiento. ", "1", "-", "-" } }, true, this);
+	private Options sendToBank = new Options(25, "SendToBank", "Se envían al banco usando ", "",
+			new String[][] { { "", "1", "-", "-" }, { "un servicio web. ", "1", "-", "-" },
+					{ "un correo electrónico. ", "1", "-", "-" }, { "correo postal.", "1", "-", "-" },
+					{ "un fax. ", "1", "-", "-" }, { "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } },
+			false, this);
 
+	private Options sendToRecipient = new Options(26, "SendToRecipient", "Se envían al destinatario interasado usando ",
+			"",
+			new String[][] { { "un servicio web. ", "1", "-", "-" }, { "un correo electrónico. ", "1", "-", "-" },
+					{ "correo postal. ", "1", "-", "-" }, { "un fax. ", "1", "-", "-" },
+					{ "correo electrónico y/o correo postal y/o aplicación móvil y/o aplicación web y/o fax y/o en persona usando hojas de papel/CD/DVD/USB. El cliente puede elegir cualquier combinación",
+							"1", "-", "-" },
+					{ "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } },
+			false, this);
+
+	private Options cessionData = new Options(27, "CessionData", "La cesión de los datos a esta tercera empresa ", "\n",
+			new String[][] { { "se informa al cliente y a los empleados siempre. ", "1", "-", "cessionData" },
+					{ "no se informa ni a los clientes y ni a los empleados nunca. ", "1", "-", "cessionData" },
+					{ "se informa al cliente y a los empleados si preguntan. ", "1", "-", "cessionData" },
+					{ "se informa al cliente y a los empleados dependiendo dle trabajador que toque. ", "1", "-",
+							"cessionData" } },
+			false, this);
+
+	// Los datos referentes a la propia gestoría se controlan en la propia
+	// aplicación como si de otro cliente se tratase. Los datos de las horas
+	// trabajadas están al cargo del gerente
+	private Options hoursData = new Options(28, "HoursData",
+			"Los datos de las horas trabajadas los lleva el gerente, que ", "",
+			new String[][] {
+					{ "las guarda en su ordenador personal en una hoja Excel situada en su directorio personal. ", "1",
+							"", "-" },
+					{ "los apunta en hojas de papel. ", "1", "", "-" },
+					{ "usa una aplicación web que tienen subida en su servidor y que usa el mismo sistema de usuario/password que el de las nóminas. ",
+							"1", "", "-" },
+					{ "usa una aplicación móvil que tienen subida en su servidor y que usa el mismo sistema de usuario/password que el de las nóminas. ",
+							"1", "", "-" } },
+			false, this);
+
+	private Options hoursDataManagement = new Options(29, "HoursDataManagement", "Los datos son introducidos por ", "",
+			new String[][] { { "el gerente, que es el único que debería de tener acceso. ", "1", "", "-" },
+					{ "el propio empleado, pues él es su propio responsable. ", "1", "-", "-" },
+					{ "se cambia el empleado responsable de apuntar todas las horas cada X tiempo. ", "1", "-", "-" },
+					{ "cada empleado cuando entra a trabajar. ", "1", "-", "" },
+					{ "cada empleado cuando entra y sale de trabajar. ", "1", "-", "" },
+					{ "cada empleado, no obstante, no se acuerdan todos los días, cosa que suele ocurrir muy amenudo, y a veces las firman cuando cuadra, es decir, un dia cada semana o cada dos todos los que le faltan y el siguiente. ",
+							"1", "-", "" } },
+			false, this);
+
+	private Options printedSheet = new Options(30, "ServerLocation",
+			"Además, esta hoja se imprime mensualmente ya que contiene los datos del mes, y se archiva ", "",
+			new String[][] { { "en carpetas anilladas que se guardan en un armario abierto. ", "1", "-", "-" }, {
+					"en carpetas anilladas que se guardan en un armario siguiendo el mismo proceso que el acceso al servidor. ",
+					"1", "-", "-" },
+					{ "y una vez se termina con ellas se tiran a reciclar, algo muy importante, pero sin triturar. ",
+							"1", "-", "-" },
+					{ "y una vez se termina con ellas se tiran a reciclar, algo muy importante, después de pasar por la trituradora. ",
+							"1", "-", "-" },
+					{ "cuando el gerente se acuerda y hay tinta en al impresora. A veces pasa semanas sin hacerlo. ",
+							"1", "-", "-" },
+					{ "cuando el gerente se acuerda. A veces pasan semanas o meses sobre la pila de papeles de su mesa. ",
+							"1", "-", "-" } },
+			false, this);
+
+	private Options documentLocation = new Options(31, "ServerLocation", "Los demás documentos ", "", new String[][] {
+			{ "se meten en carpetas anilladas que se almacenan en ", "3", "location", "-" },
+			{ "una vez se termina con ellos se tiran a reciclar, algo muy importante, pero sin triturar. ", "1", "-",
+					"-" },
+			{ "una vez se termina con ellas se tiran a reciclar, algo muy importante, pero después de haberlas triturado. ",
+					"1", "-", "-" } },
+			true, this);
+
+	private Options documentStorage = new Options(32, "DocumentStorage", "", "", new String[][] {
+			{ "la sala común. ", "1", "-", "location" },
+			{ "la sala común, guardados en un armario bajo llave que tiene el responsable actual. ", "1", "-",
+					"location" },
+			{ "la sala común, guardados en un armario bajo llave a la que tiene acceso todo el mundo debido a que las llaves están en un cajetín compartido. ",
+					"1", "-", "location" },
+			{ "la sala común guardados, en un armario bajo llave la cual está colgando de la cerradura junto a las copias de la llave . ",
+					"1", "-", "location" },
+			{ "una sala privada a la que solo tiene acceso el responsable actual. ", "1", "-", "location" },
+			{ "una sala privada a la que tiene acceso todo el mundo debido a que las llaves están en un cajetín compartido. ",
+					"1", "-", "location" },
+			{ "una sala privada, pero las llaves están colgadas de la cerradura en un llavero en el que se encuentran también las copias de estas. ",
+					"1", "-", "location" } },
+			false, this);
+
+	private Options fileLOPD = new Options(33, "FileLOPD", "\nDurante la vida de esta empresa ", "\n", new String[][] {
+			{ "jamás se han declarado los ficheros de datos de la LOPD, ni se lleva un registro de actividades del tratamiento. ",
+					"2", "-", "-" },
+			{ "se han declarado los ficheros de datos de la LOPD, pero no se lleva un registro de actividades del tratamiento. ",
+					"2", "-", "-" },
+			{ "se han declarado los ficheros de la LOPD y se lleva el registro de actividades del tratatamiento. ", "1",
+					"-", "-" } },
+			true, this);
+
+	private static Main main;
+	
 	public static void main(String[] args) {
 
-		Main main = new Main();
-
-		Company company = main.companies[(main.randomNumber(0, main.companies.length - 1))];
+		main = new Main();
 
 		main.objects = new ArrayList<Options>();
 
+		main.objects.add(main.companies);
+		main.objects.add(main.companySize);
 		main.objects.add(main.agreement);
 		main.objects.add(main.salarySystem);
 		main.objects.add(main.operatingSystem);
@@ -401,7 +459,7 @@ public class Main {
 		main.objects.add(main.printedSheet);
 		main.objects.add(main.documentLocation);
 		main.objects.add(main.documentStorage);
-		main.objects.add(main.fileLOPD);		
+		main.objects.add(main.fileLOPD);
 
 		String exercise = "";
 		for (int i = 0, length = main.objects.size(); i < length; i++) {
@@ -410,36 +468,18 @@ public class Main {
 
 		System.out.println(exercise);
 	}
-
-	/**
-	 * Saca un número aleatorio que se encuentre entre el min y max, incluidos ambos
-	 * 
-	 * @param min número más pequeño
-	 * @param max número más grande
-	 * @return un número entre el min y el max, incluidos
-	 */
-	private int randomNumber(int min, int max) {
-		return new Random().nextInt((max - min) + 1) + min;
-	}
-
-	private String companyType(Company company) {
-		int employeesNumber = randomNumber(3, 100);
-		String companySize = "";
-		if (employeesNumber < 10) {
-			companySize = "pequeña";
-		} else if (employeesNumber < 50) {
-			companySize = "mediana";
-		} else {
-			companySize = "grande";
+	
+	public String generateText() {
+		String exercise = "";
+		for (int i = 0, length = main.objects.size(); i < length; i++) {
+			exercise += main.objects.get(i).toString();
 		}
 
-		return "La empresa a auditar es " + company.getName() + ". Es " + company.getType() + " que tiene un tamaño "
-				+ companySize + " y dispone de " + employeesNumber + " empleados. Esta empresa "
-				+ company.getDescription() + ". ";
+		return exercise;
 	}
-	
+
 	/**
-	 * Comprueba que la key exista, y en caso positivo, devuelve su valor. Si no,
+	 * Comprueba que la key exista y, en caso positivo, devuelve su valor. Si no,
 	 * false.
 	 * 
 	 * @param key String clave a buscar
