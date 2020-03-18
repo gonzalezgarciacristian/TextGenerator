@@ -2,12 +2,9 @@ package uniovi.cgg.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 import uniovi.cgg.main.models.Company;
 import uniovi.cgg.main.models.Options;
@@ -37,27 +34,40 @@ public class Main {
 
 	private Options agreement = new Options(1, "Agreement", "Esta empresa ", "\n", new String[][] { {
 			"está obligada a firmar un contrato con los clientes que garantice que se van a cumplir las mismas medidas de seguridad que los clientes aplican a los datos personales que van a tratar. ",
-			"1", "true", "-" },
+			"3", "automateSalarySystem", "-" },
 			{ "permite que cada empresa con la que trabaja trate los datos de sus clientes siguiendo sus propias medidas de seguridad. ",
-					"1", "false", "-" } },
-			new String[] { "automateSalarySystem" }, null, false, this);
+					"1", "-", "-" } },
+			true, this);
 
 	private Options salarySystem = new Options(3, "SalarySystem", "La gestión de las nóminas ", "\n",
 			new String[][] { { "está automatizada en un servidor. ", "3", "-", "-" },
 					{ "se lleva a mano con papel y bolígrafo. ", "1", "-", "-" } },
-			null, null, true, this);
+			 true, this);
 
-	private Options server = new Options(3, "Servers",
+	private Options operatingSystem = new Options(3, "Operating System",
 			"Las características del servidor de esta empresa son las siguientes: \n*", "\n",
-			new String[][] { { "Sistema operativo Windows. ", "1", "-", "automateSalarySystem" },
+			new String[][] { { "Sistema operativo Windows. ", "1", "windows", "automateSalarySystem" },
 					{ "Sistema operativo Linux. ", "1", "-", "automateSalarySystem" },
 					{ "Máquina Virtual con Linux en Amazon Web Service. ", "1", "-", "automateSalarySystem" },
-					{ "Máquina Virtual con Windows en Amazon Web Service. ", "1", "-", "automateSalarySystem" },
+					{ "Máquina Virtual con Windows en Amazon Web Service. ", "1", "windows", "automateSalarySystem" },
 					{ "Máquina Virtual con Linux en Microsoft Azure. ", "1", "-", "automateSalarySystem" },
-					{ "Máquina Virtual con Windows en Microsoft Azure. ", "1", "-", "automateSalarySystem" } },
-			null, new String[] { "automateSalarySystem" }, false, this);
+					{ "Máquina Virtual con Windows en Microsoft Azure. ", "1", "windows", "automateSalarySystem" } },
+			false, this);
+	
+	private Options dataBase = new Options(4, "DataBase",
+			"Base de datos ", "\n",
+			new String[][] { { "Oracle. ", "1", "-", "automateSalarySystem" },
+					{ "MySQL. ", "1", "-", "automateSalarySystem" },
+					{ "PostgreSQL. ", "1", "-", "automateSalarySystem" },
+					{ "MariaDB. ", "1", "-", "automateSalarySystem" },
+					{ "SQLite. ", "1", "-", "automateSalarySystem" },
+					{ "MongoDB. ", "1", "-", "automateSalarySystem" }, 
+					{ "Cassandra. ", "1", "-", "automateSalarySystem" }, 
+					{ "Microsoft Access. ", "1", "-", "windows,automateSalarySystem" }, 
+					{ "Microsoft SQL Server. ", "1", "-", "windows,automateSalarySystem" } },
+			false, this);
 
-	private Options adminProblems = new Options(4, "AdminProblems",
+	private Options adminProblems = new Options(5, "AdminProblems",
 			"Como solo el responsable puede cerrar las nóminas, cuando él falta, ", "\n",
 			new String[][] { {
 					"queda otro compañero como responsable al que se le da un usuario nuevo y cuando vuelve el responsable se le deshabilita ese usuario. ",
@@ -71,16 +81,16 @@ public class Main {
 					{ "se dice la contraseña del administrador a todos para que puedan arreglar sus propios problemas. ",
 							"1", "-", "-" },
 					{ "se espera a que vuelva el responsable, sea el tiempo que sea. ", "1", "-", "-" } },
-			null, null, false, this);
+			false, this);
 
-	private Options passwordChangeSystem = new Options(5, "PasswordChangeSystem", "", "\n", new String[][] { {
+	private Options passwordChangeSystem = new Options(6, "PasswordChangeSystem", "", "\n", new String[][] { {
 			"Las contraseñas se cambian periódicamente, luego, es raro que más de una persona conozca una contraseña que no es suya. ",
 			"1", "-", "-" },
 			{ "El cambio de contraseña queda a decisión del propio usuario. Luego, hay trabajadores que la cambian todos los días, y otros que nunca la han cambiado y le conocen su contraseña todo el mundo.",
 					"1", "-", "-" },
 			{ "Las contraseñas no se cambian nunca, lo que provocó que todos los usuarios conozcan todas las contraseñas de todos. ",
 					"1", "-", "-" } },
-			null, null, false, this);
+			false, this);
 
 	private boolean automateSalarySystem;
 
@@ -93,7 +103,8 @@ public class Main {
 		main.objects = new ArrayList<Options>();
 		main.objects.add(main.agreement);
 		main.objects.add(main.salarySystem);
-		main.objects.add(main.server);
+		main.objects.add(main.operatingSystem);
+		main.objects.add(main.dataBase);
 		main.objects.add(main.adminProblems);
 		main.objects.add(main.passwordChangeSystem);
 
@@ -179,10 +190,11 @@ public class Main {
 	 * 
 	 * }
 	 */
-
-	private String bbdd() {
+	boolean windows = false;
+	
+	private String server() {
 		String text = "Las características del servidor de esta empresa son las siguientes: \n*";
-		Boolean windows = false;
+		
 
 		// Tipo de SSOO
 		switch (randomNumber(0, 5)) {
@@ -210,11 +222,16 @@ public class Main {
 		default:
 			break;
 		}
+		
+		text+="\n*";
+		
+		return text;
+	}
 
-		text += "\n*";
-
+	private String bbdd() {
 		// Tipo de BBDD
 		int maxBBDD = 6;
+		String text = "";
 		if (windows) {
 			maxBBDD += 2;
 		}
@@ -926,8 +943,16 @@ public class Main {
 		return text;
 	}
 
+	/**
+	 * Comprueba que la key exista, y en caso positivo, devuelve su valor. Si no, false.
+	 * @param key String clave a buscar
+	 * @return boolean valor de la key, si no existe false
+	 */
 	public boolean getDependeceVariable(String key) {
-		return this.dependeciesVariables.get(key);
+		if(this.dependeciesVariables.containsKey(key)) {
+			return this.dependeciesVariables.get(key);
+		}
+		return false;
 	}
 
 	/**

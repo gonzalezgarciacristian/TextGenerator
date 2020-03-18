@@ -5,3 +5,10 @@
  
 *Si da problema al arrancar (Error: JavaFX runtime components are missing, and are required to run this application) hay que poner como argumento de la VM lo siguiente:
  	java --module-path "C:\Program Files\Java\javafx-sdk-13.0.2\lib" --add-modules javafx.controls,javafx.fxml,java.logging,java.desktop -cp . Main
+ 	
+-----
+* Si no depende de ninguna variable de otro/s texto/s, pide el texto directamente. En caso contrario, mira sus dependencias y si están a true, pide el texto, pero solo sí todas sus depe
+	* Vamos, es un dependencia1 && dependencia2, no se deja hacer OR (||)
+* Cada posible texto puede estar linkado a una variable o más. Si no se quiere itnroducción o conclusiones entocnes no meterla,s si estas van a ser las mismas, pero sus posibles sentencias dependen todas de otra cosa, mete rintro y conclusiones en cada sentencia aunq sea repetir, ya que sino podrían salir ambas pero si n ose cumplió nada, no llevarían nada de texto intermedio.
+* Las probabilidades de un texto son por apariciones antes de tirar los dados
+	* De momento no soporta el 0, pero debería, por si se quiere guardar pero que no la tire

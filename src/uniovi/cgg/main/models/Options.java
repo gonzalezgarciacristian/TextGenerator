@@ -1,9 +1,12 @@
 package uniovi.cgg.main.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import uniovi.cgg.exceptions.NoOptions;
 import uniovi.cgg.main.Main;
 
 public class Options {
@@ -15,27 +18,29 @@ public class Options {
 	private String conclusions;
 
 	/**
-	 * Options es String[["texto de la opción"]["probabilidad", "-/true/false
-	 * separados por comas tantas veces como dependencias haya"], "-/true/false
-	 * separados por comas tantas veces como dependencias haya"]]. Luego: [0: [0:
-	 * texto],[1: probabilidad],[2: estado al que pone la dependencia si la tiene
-	 * (depencencies == true)],[3: variable de la que dependen, si hay + de 1, se separan por comas
-	 * (dependsOn == true)], 1: [0: texto],[1: probabilidad],[2: estado al que pone
-	 * la dependencia si la tiene (depencencies == true)],[3: variable de la que dependen, si hay + de 1, se separan por comas (dependsOn == true)],...]
+	 * Options es un String[][] que se convierte a List<String[]> en el constructor
+	 * para poder manipularlo. Es un String[["texto de la opción"]["probabilidad",
+	 * "-/true/false separados por comas tantas veces como dependencias haya"],
+	 * "-/true/false separados por comas tantas veces como dependencias haya"]].
+	 * Luego: [0: [0: texto],[1: probabilidad],[2: estado al que pone la dependencia
+	 * si la tiene (depencencies == true)],[3: variable de la que dependen, si hay +
+	 * de 1, se separan por comas (dependsOn == true)], 1: [0: texto],[1:
+	 * probabilidad],[2: estado al que pone la dependencia si la tiene (depencencies
+	 * == true)],[3: variable de la que dependen, si hay + de 1, se separan por
+	 * comas (dependsOn == true)],...]
 	 */
-	private String[][] options;
+	private List<String[]> options;
 
-	/**
-	 * Nombre de la dependencia que sirve para visualizarla en el formulario. Si hay
-	 * más de 1, se meten separadas por comas
-	 */
-	private String[] dependencies;
+	private static final int TEXT = 0;
+	private static final int PROBABILITY = 1;
+	private static final int DEPENDENCIES = 2;
+	private static final int DEPENDSON = 3;
+	private static final String NOTHING = "-";
 
-	/**
-	 * Nombre de la dependencia de la que depende y que tiene que buscar para saber
-	 * si se ejecutará. Si hay más de 1, se meten separadas por comas
+	/*
+	 * private int[] probability; private String[] dependencies; private String[]
+	 * dependsOn;
 	 */
-	private String[] dependsOn;
 
 	/**
 	 * True si los textos tienen diferente probabilidad, si todos tienen la misma
@@ -46,22 +51,16 @@ public class Options {
 	private Main main;
 
 	public Options(long id, String name, String introduction, String conclusions, String[][] options,
-			String[] dependencies, String[] dependsOn, boolean probabilityModified, Main main) {
+			boolean probabilityModified, Main main) {
 		this.id = id;
 		this.name = name;
 		this.introduction = introduction;
 		this.conclusions = conclusions;
-		this.options = options;
-		this.dependencies = dependencies;
+		// Hay que crearla ya que Arrays.asList no permite operaciones:
+		// https://stackoverflow.com/questions/2965747/why-do-i-get-an-unsupportedoperationexception-when-trying-to-remove-an-element-f
+		this.options = new LinkedList<String[]>(Arrays.asList(options));
 		this.probabilityModified = probabilityModified;
 		this.main = main;
-
-		// Metemos las dependencias en la HashMap de variables, si las hay
-		if (this.dependencies != null) {
-			for (int i = 0, length = this.dependencies.length; i < length; i++) {
-				main.insertDependeceVariable(this.dependencies[i], false);
-			}
-		}
 	}
 
 	/**
@@ -71,74 +70,105 @@ public class Options {
 	 * aleatorio directamente
 	 * 
 	 * @return String Texto aleatorio después de ejecutar las probabilidades
+	 * @throws NoOptions Lanza esta excepción si no hay opciones entre las que
+	 *                   elegir
 	 */
-	private String getTextWithprobability() {
+	private String getTextWithprobability() throws NoOptions {
 		String text = "";
 		int random = -1;
+		String[] dependencies = null;
+		List<String[]> noPossibleOptions = new LinkedList<String[]>();
+
+		// Elimina de las posibles opciones aquellas que dependan de una variable y
+		// dicha variable esté a false
+		for (int i = 0, length = options.size(); i < length; i++) {
+			dependencies = options.get(i)[DEPENDSON].split(",");			
+			for (int j = 0, lengthJ = dependencies.length; j < lengthJ; j++) {
+				if (!dependencies[j].contentEquals(NOTHING) && !main.getDependeceVariable(dependencies[j])) {
+					noPossibleOptions.add(options.get(i));
+				}
+			}
+		}
 		
+		//System.out.println("posibles: " + options.size());
+		//System.out.println("no posibles: " + noPossibleOptions.size());
+		options.removeAll(noPossibleOptions);
+		//System.out.println("restantes: " + options.size());
+
+		checkRemainingOptions(options.size(), this.name);
+
+		// Si las probabilidad son diferentes para cada texto a generar
 		if (probabilityModified) {
 			List<String[]> optionsWithProbability = new ArrayList<String[]>();
 			int possibilities = 0;
-
-			for (int i = 0, length = options.length; i < length; i++) {
-				for (int j = 0, lengthJ = Integer.parseInt(options[i][1]); j < lengthJ; j++) {
-					optionsWithProbability.add(new String[] { options[i][0], options[i][2] });
+			// Se introducen el número de probabilidad de cada texto en una nueva lista que
+			// se usará para sacar la sentencia aleatoria
+			for (int i = 0, length = options.size(); i < length; i++) {
+				for (int j = 0, lengthJ = Integer.parseInt(options.get(i)[PROBABILITY]); j < lengthJ; j++) {
+					optionsWithProbability.add(new String[] { options.get(i)[TEXT], options.get(i)[DEPENDENCIES] });
 					possibilities++;
 				}
 			}
 
 			random = randomNumber(0, possibilities - 1);
-			text += optionsWithProbability.get(random)[0];
+			text += optionsWithProbability.get(random)[TEXT];
 
-			// Comprueba si tiene variable de dependencia, y si tiene, la pone a true
-			if (optionsWithProbability.get(random)[1].equals("true")) {
-				main.insertDependeceVariable(optionsWithProbability.get(random)[1], true);
-			}
+			checkToInsertDependence(optionsWithProbability.get(random)[1]);
 
 			return text;
 		} else {
-			random = randomNumber(0, options.length - 1);
-
-			if (options[random][1].equals("true")) {
-				main.insertDependeceVariable(options[random][1], true);
-			}
-			return options[random][0];
+			int max = options.size();
+			checkRemainingOptions(max, this.name);
+			random = randomNumber(0, max - 1);
+			checkToInsertDependence(options.get(random)[DEPENDENCIES]);
+			return options.get(random)[TEXT];
 		}
 
 	}
 
 	/**
-	 * Método que devuelve 1 resultado de este objeto entre todas las elecciones
+	 * Comprueba si el número que se le pasa es menor que 1, si así es, lanza la
+	 * excepción NoOptions. Este método debe ser llamada cuando haya que comprobar
+	 * si quedan opciones entre las que elegir
+	 * 
+	 * @param options int
+	 * @throws NoOptions
+	 */
+	private void checkRemainingOptions(int options, String name) throws NoOptions {
+		if (options < 1) {
+			throw new NoOptions(name);
+		}
+	}
+
+	/**
+	 * Comprueba si tiene variable de dependencia, y si tiene, la pone a true
+	 * 
+	 * @param option String[] Opción elegida en el método que llama a este
+	 */
+	private void checkToInsertDependence(String dependence) {
+		if (!dependence.equals(NOTHING)) {
+			main.insertDependeceVariable(dependence, true);
+		}
+	}
+
+	/**
+	 * Método que devuelve un resultado de este objeto entre todas las elecciones
 	 * posibles introducidas junto con su introducción y su conclusión. En el caso
 	 * de que haya opciones con diferentes probabilidades, las tiene en cuenta y
-	 * ejecuta el aletorio en base a esas probabilidades
+	 * ejecuta el aletorio en base a esas probabilidades. Se encarga de capturar la
+	 * excepción NoOptions
 	 * 
 	 * @return String Contiene la introducción, el resultado aleatorio y las
 	 *         conclusiones
 	 */
 	@Override
 	public String toString() {
-		String text = introduction;
-
-		// Si no depende de ninguna variable de otro texto, pide el texto directamente
-		if (this.dependsOn == null) {
-			text += getTextWithprobability();
-		} else {
-			// En caso contrario, mira sus dependencias y si están a true, pide el texto, pero solo sí todas sus dependencias están a true
-			boolean dependencies = false;
-			for (int i = 0, length = this.dependsOn.length; i < length; i++) {
-				if (main.getDependeceVariable(this.dependsOn[i])) {
-					dependencies = true;
-				}else {
-					dependencies = false;
-				}
-			}
-			if (dependencies) {
-				text += getTextWithprobability();
-			}
+		try {
+			return introduction + getTextWithprobability() + conclusions;
+		} catch (NoOptions e) {
+			e.printStackTrace();			
 		}
-		text += conclusions;
-		return text;
+		return "";
 	}
 
 	/**
@@ -154,10 +184,6 @@ public class Options {
 
 	public String getName() {
 		return name;
-	}
-
-	public String[] getDependencies() {
-		return dependencies;
 	}
 
 }
