@@ -14,17 +14,18 @@ import uniovi.cgg.main.Main;
 
 public class Options {
 
+	public static final String ID = "id";
+	public static final String NAME = "name";
+	public static final String INTRODUCTION = "introduction";
+	public static final String CONCLUSIONS = "conclusions";
+	public static final String OPTIONS = "options";
+	public static final String PROBABILITY_MODIFIED = "probabilityModified";
+
 	private static final int TEXT = 0;
 	private static final int PROBABILITY = 1;
 	private static final int DEPENDENCIES = 2;
 	private static final int DEPENDSON = 3;
 	private static final String NOTHING = "-";
-	private static final String ID = "id";
-	private static final String NAME = "name";
-	private static final String INTRODUCTION = "introduction";
-	private static final String CONCLUSIONS = "conclusions";
-	private static final String OPTIONS = "options";
-	private static final String PROBABILITY_MODIFIED = "probabilityModified";
 
 	private long id;
 
@@ -54,7 +55,7 @@ public class Options {
 
 	private Main main;
 
-	public Options(long id, String name, String introduction, String conclusions, String[][] options,
+	public Options(long id, String name, String introduction, String conclusions, String[][] optionsList,
 			boolean probabilityModified, Main main) {
 		this.id = id;
 		this.name = name;
@@ -62,7 +63,18 @@ public class Options {
 		this.conclusions = conclusions;
 		// Hay que crearla ya que Arrays.asList no permite operaciones:
 		// https://stackoverflow.com/questions/2965747/why-do-i-get-an-unsupportedoperationexception-when-trying-to-remove-an-element-f
-		this.options = new LinkedList<String[]>(Arrays.asList(options));
+		this.options = new LinkedList<String[]>(Arrays.asList(optionsList));
+		this.probabilityModified = probabilityModified;
+		this.main = main;
+	}
+
+	public Options(long id, String name, String introduction, String conclusions, List<String[]> optionsList,
+			boolean probabilityModified, Main main) {
+		this.id = id;
+		this.name = name;
+		this.introduction = introduction;
+		this.conclusions = conclusions;
+		this.options = new LinkedList<String[]>(optionsList);
 		this.probabilityModified = probabilityModified;
 		this.main = main;
 	}
@@ -184,6 +196,7 @@ public class Options {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 		JSONArray optionsArray = new JSONArray();
+		JSONArray optionArray = null;
 
 		jsonObject.put(ID, this.id);
 		jsonObject.put(NAME, this.name);
@@ -191,13 +204,16 @@ public class Options {
 		jsonObject.put(CONCLUSIONS, this.conclusions);
 
 		// Como las opciones se parsean al sacar las probabilidades, no hace falta
-		// meterlas en variables separadas n irecorrerlas si tienen diferentes
-		// dependencias
+		// meterlas en variables separadas ni recorrerlas si tienen diferentes
+		// dependencias, solamente hace falta separarlas en arrays individuales para que
+		// cuando se vuelvan a crear cada opció nsea un JSONArray
 		for (int i = 0, length = this.options.size(); i < length; i++) {
-			optionsArray.add(TEXT, options.get(i)[TEXT]);
-			optionsArray.add(PROBABILITY, options.get(i)[PROBABILITY]);
-			optionsArray.add(DEPENDENCIES, options.get(i)[DEPENDENCIES]);
-			optionsArray.add(DEPENDSON, options.get(i)[DEPENDSON]);
+			optionArray = new JSONArray();
+			optionArray.add(TEXT, options.get(i)[TEXT]);
+			optionArray.add(PROBABILITY, options.get(i)[PROBABILITY]);
+			optionArray.add(DEPENDENCIES, options.get(i)[DEPENDENCIES]);
+			optionArray.add(DEPENDSON, options.get(i)[DEPENDSON]);
+			optionsArray.add(optionArray);
 		}
 
 		jsonObject.put(OPTIONS, optionsArray);

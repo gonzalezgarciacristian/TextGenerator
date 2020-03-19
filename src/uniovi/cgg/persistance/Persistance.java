@@ -2,13 +2,12 @@ package uniovi.cgg.persistance;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -25,7 +24,7 @@ public class Persistance {
 	private static Persistance instance = null;
 
 	/**
-	 * Se usa apra obtener la instancia de esta clase. Solo se permite una. Patrón
+	 * Se usa para obtener la instancia de esta clase. Solo se permite una. Patrón
 	 * Singleton.
 	 * 
 	 * @return Persistance
@@ -78,9 +77,16 @@ public class Persistance {
 		}
 	}
 
+	/**
+	 * Comprueba que el fichero exista llamando a createFile, y después guarda su contenido en codificación UTF8
+	 * @param file Ruta del fichero y nombre de este
+	 * @param data Datos a guardar en el fichero
+	 */
 	public void saveFile(String file, String data) {
+		createFile();
+		
 		OutputStreamWriter outputFile = null;
-
+		
 		try {
 			outputFile = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
 			outputFile.write(data);
@@ -96,28 +102,38 @@ public class Persistance {
 			}
 		}
 	}
+	
+	/**
+	 * Carga el fichero que recibe com oparámetro (ruta incluída) usando UTF9 como codificación
+	 * @param file ruta+fichero a leer
+	 * @return String contiene todo el texto del fichero
+	 */
+	public String loadFileToString(String file) {
+		String text = "";
+		
+		try {
+			text = new String(Files.readAllBytes(Paths.get(file)), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
 
-	private JSONObject loadFileToJSON(String file) {
-		Reader inputFile = null;
+		return text;
+	}
+
+	/**
+	 * Convierte el texto que se le pasa a JSONObject
+	 * @param text String texto a convertir
+	 * @return JSONObject texto convertido
+	 */
+	public JSONObject stringToJSON(String text) {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = null;
 
 		try {
-			inputFile = new FileReader(file);
-			jsonObject = (JSONObject) jsonParser.parse(inputFile);
+			jsonObject = (JSONObject) jsonParser.parse(text);
 		} catch (ParseException e) {
 			e.printStackTrace();
-
-		} catch (IOException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		} finally {
-			try {
-				inputFile.close();
-			} catch (IOException e1) {
-				System.out.println(e1);
-				e1.printStackTrace();
-			}
 		}
 
 		return jsonObject;
@@ -128,27 +144,10 @@ public class Persistance {
 		Persistance main = new Persistance();
 
 		main.createFile();
-
-		JSONObject obj = new JSONObject();
-		obj.put("company", "UniOvi");
-		obj.put("company2", "MDE Research Group");
-
-		JSONArray list = new JSONArray();
-		list.add("UniOvi");
-		list.add("pequeña");
-		list.add("10 empleados");
-		list.add("educación");
-
-		obj.put("messages", list);
-
-		main.saveFile(FILE, obj.toJSONString());
-
-		JSONObject json = main.loadFileToJSON(FILE);
+		
+		JSONObject json = main.stringToJSON(main.loadFileToString(FILE));
 
 		System.out.println(json);
-
-		System.out.print(obj);
-
 	}
 
 }

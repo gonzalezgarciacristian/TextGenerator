@@ -1,9 +1,14 @@
 package uniovi.cgg.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import uniovi.cgg.main.models.Options;
 import uniovi.cgg.persistance.Persistance;
 
@@ -418,12 +423,12 @@ public class Main {
 					"-", "-" } },
 			true, this);
 
-	private static Main main;
+	private static Main main = new Main();
 	
-	public static void main(String[] args) {
-
-		main = new Main();
-
+	/**
+	 * Ejecuta el programa y genera un informe
+	 */
+	private void test1() {
 		main.objects = new ArrayList<Options>();
 
 		main.objects.add(main.companies);
@@ -462,7 +467,19 @@ public class Main {
 		main.objects.add(main.documentStorage);
 		main.objects.add(main.fileLOPD);
 		
-		//////////////
+		String exercise = "";
+		
+		for (int i = 0, length = main.objects.size(); i < length; i++) {
+			exercise += main.objects.get(i).toString();
+		}
+
+		System.out.println(exercise);		
+	}
+	
+	/**
+	 * Salva parte del programa en un fichero, lo carga y genera un informe
+	 */
+	private void test2() {
 		Persistance persistance = Persistance.getInstance();
 		/*persistance.saveFile(Persistance.FILE, main.companies.toJSON().toJSONString());
 		persistance.saveFile(Persistance.FILE, main.companySize.toJSON().toJSONString());
@@ -499,15 +516,115 @@ public class Main {
 		persistance.saveFile(Persistance.FILE, main.printedSheet.toJSON().toJSONString());
 		persistance.saveFile(Persistance.FILE, main.documentLocation.toJSON().toJSONString());
 		persistance.saveFile(Persistance.FILE, main.documentStorage.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.fileLOPD.toJSON().toJSONString());*/
-		//////////////
+		persistance.saveFile(Persistance.FILE, main.fileLOPD.toJSON().toJSONString());
+		*/
 		
-		String exercise = "";
-		for (int i = 0, length = main.objects.size(); i < length; i++) {
-			exercise += main.objects.get(i).toString();
-		}
-
+		JSONObject json = persistance.stringToJSON(persistance.loadFileToString(Persistance.FILE));
+		Options testOption = main.loadJSONToObject(json);
+		String exercise = testOption.toString();
 		System.out.println(exercise);
+	}
+	
+	/**
+	 * Salva el programa en un fichero, lo carga y genera un informe
+	 */
+	private void test3() {
+		Persistance persistance = Persistance.getInstance();
+
+		//StringBuilder text = 
+		/*persistance.saveFile(Persistance.FILE, main.companies.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.companySize.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.agreement.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.salarySystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.operatingSystem.toJSON().toJSONString());		
+		persistance.saveFile(Persistance.FILE, main.dataBase.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.loginDataBaseSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.passwordDataBaseAttemptsSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.passwordChangeSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.userAccounts.toJSON().toJSONString());
+		*/
+		persistance.saveFile(Persistance.FILE, main.userProfiles.toJSON().toJSONString());
+		/*persistance.saveFile(Persistance.FILE, main.passwordChangeSystem2.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.salaryAdmin.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.physicalPlace.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.roomsPlace.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.serverLocation.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.network.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.backups.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.backupTool.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.physicalBackup.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.clientService.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.clientServiceAccess.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.clientServiceAccessSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.dataService.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.dataServiceEncrypted.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.ownSalarySystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.sendToBank.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.sendToRecipient.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.cessionData.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.hoursData.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.hoursDataManagement.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.printedSheet.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.documentLocation.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.documentStorage.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.fileLOPD.toJSON().toJSONString());*/
+		
+		JSONObject json = persistance.stringToJSON(persistance.loadFileToString(Persistance.FILE));
+		Options testOption = main.loadJSONToObject(json);
+		String exercise = testOption.toString();
+		System.out.println(exercise);
+	}
+	
+	public static void main(String[] args) {
+		//main.test1();
+		//main.test2();
+		main.test3();
+		
+	}
+	
+	private Options loadJSONToObject(JSONObject json) {
+        System.out.println(json);
+
+        long id = (long) json.get(Options.ID);
+        System.out.println(id);
+
+        String name = (String) json.get(Options.NAME);
+        System.out.println(name);
+        
+        String introduction = (String) json.get(Options.INTRODUCTION);
+        System.out.println(name);
+        
+        String conclusions = (String) json.get(Options.CONCLUSIONS);
+        System.out.println(name);
+
+        List<String[]> optionsList = new ArrayList<String[]>(); 
+        JSONArray optionsJSONArray = (JSONArray) json.get(Options.OPTIONS);
+        JSONArray option;
+        String[] option2 = null;
+        
+        for(int i = 0, length = optionsJSONArray.size(); i < length; i++) {
+        	option = (JSONArray) optionsJSONArray.get(i);        	
+        	option2 = new String[4];
+        	/*
+        	optionsList.add(0, (String) option.get(0)); // TEXT
+        	optionsList.add(1, (String) option.get(1)); // PROBABILITY
+        	optionsList.add(2, (String) option.get(2)); // DEPENDENCIES
+        	optionsList.add(3, (String) option.get(3)); // DEPENDSON
+        	*/
+        	
+        	option2[0] = (String) option.get(0);
+        	option2[1] = (String) option.get(1);
+        	option2[2] = (String) option.get(2);
+        	option2[3] = (String) option.get(3);
+        	
+        	optionsList.add(option2);
+        	
+        	System.out.println(optionsJSONArray.get(i));
+        	}        
+        boolean probabilityModified = (Boolean) json.get(Options.PROBABILITY_MODIFIED);
+        System.out.println(probabilityModified);
+		
+		return new Options(id, name, introduction, conclusions, optionsList, probabilityModified, this);
 	}
 	
 	public String generateText() {
