@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import uniovi.cgg.exceptions.NoOptions;
 import uniovi.cgg.main.Main;
 
@@ -30,23 +34,18 @@ public class Options {
 	 * comas (dependsOn == true)],...]
 	 */
 	private List<String[]> options;
-
-	private static final int TEXT = 0;
-	private static final int PROBABILITY = 1;
-	private static final int DEPENDENCIES = 2;
-	private static final int DEPENDSON = 3;
-	private static final String NOTHING = "-";
-
-	/*
-	 * private int[] probability; private String[] dependencies; private String[]
-	 * dependsOn;
-	 */
-
+	
 	/**
 	 * True si los textos tienen diferente probabilidad, si todos tienen la misma
 	 * probabilidad de aparición entonces false
 	 */
 	private boolean probabilityModified;
+
+	private static final int TEXT = 0;
+	private static final int PROBABILITY = 1;
+	private static final int DEPENDENCIES = 2;
+	private static final int DEPENDSON = 3;
+	private static final String NOTHING = "-";	
 
 	private Main main;
 
@@ -77,25 +76,26 @@ public class Options {
 		String text = "";
 		int random = -1;
 		String[] dependencies = null;
-		List<String[]> noPossibleOptions = new LinkedList<String[]>();
+		List<String[]> optionsCopy = new LinkedList<String[]>(this.options);
+		List<String[]> noPossibleOptions = new LinkedList<String[]>();		
 
 		// Elimina de las posibles opciones aquellas que dependan de una variable y
 		// dicha variable esté a false
-		for (int i = 0, length = options.size(); i < length; i++) {
-			dependencies = options.get(i)[DEPENDSON].split(",");			
+		for (int i = 0, length = optionsCopy.size(); i < length; i++) {
+			dependencies = optionsCopy.get(i)[DEPENDSON].split(",");			
 			for (int j = 0, lengthJ = dependencies.length; j < lengthJ; j++) {
 				if (!dependencies[j].contentEquals(NOTHING) && !main.getDependeceVariable(dependencies[j])) {
-					noPossibleOptions.add(options.get(i));
+					noPossibleOptions.add(optionsCopy.get(i));
 				}
 			}
 		}
 		
 		//System.out.println("posibles: " + options.size());
 		//System.out.println("no posibles: " + noPossibleOptions.size());
-		options.removeAll(noPossibleOptions);
+		optionsCopy.removeAll(noPossibleOptions);
 		//System.out.println("restantes: " + options.size());
 
-		checkRemainingOptions(options.size(), this.name);
+		checkRemainingOptions(optionsCopy.size(), this.name);
 
 		// Si las probabilidad son diferentes para cada texto a generar
 		if (probabilityModified) {
@@ -103,9 +103,9 @@ public class Options {
 			int possibilities = 0;
 			// Se introducen el número de probabilidad de cada texto en una nueva lista que
 			// se usará para sacar la sentencia aleatoria
-			for (int i = 0, length = options.size(); i < length; i++) {
-				for (int j = 0, lengthJ = Integer.parseInt(options.get(i)[PROBABILITY]); j < lengthJ; j++) {
-					optionsWithProbability.add(new String[] { options.get(i)[TEXT], options.get(i)[DEPENDENCIES] });
+			for (int i = 0, length = optionsCopy.size(); i < length; i++) {
+				for (int j = 0, lengthJ = Integer.parseInt(optionsCopy.get(i)[PROBABILITY]); j < lengthJ; j++) {
+					optionsWithProbability.add(new String[] { optionsCopy.get(i)[TEXT], optionsCopy.get(i)[DEPENDENCIES] });
 					possibilities++;
 				}
 			}
@@ -117,11 +117,11 @@ public class Options {
 
 			return text;
 		} else {
-			int max = options.size();
+			int max = optionsCopy.size();
 			checkRemainingOptions(max, this.name);
 			random = randomNumber(0, max - 1);
-			checkToInsertDependence(options.get(random)[DEPENDENCIES]);
-			return options.get(random)[TEXT];
+			checkToInsertDependence(optionsCopy.get(random)[DEPENDENCIES]);
+			return optionsCopy.get(random)[TEXT];
 		}
 
 	}
@@ -169,6 +169,33 @@ public class Options {
 			e.printStackTrace();			
 		}
 		return "";
+	}
+	
+	public JSONObject toJSON() {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray optionsArray = new JSONArray();
+		
+		jsonObject.put("id", this.id);
+		jsonObject.put("name", this.name);
+		jsonObject.put("introduction", this.introduction);
+		jsonObject.put("conclusions", this.conclusions);
+	
+		JSONObject jsonObjectOptions = new JSONObject();		
+		JSONObject jsonObjectText = new JSONObject();
+		
+		for(int i = 0, length = this.options.size(); i < length; i++) {
+			optionsArray.add(TEXT, options.get(i)[TEXT]);
+			optionsArray.add(PROBABILITY, options.get(i)[PROBABILITY]);
+			optionsArray.add(DEPENDENCIES, options.get(i)[DEPENDENCIES]);
+			optionsArray.add(DEPENDSON, options.get(i)[DEPENDSON]);
+		}
+		
+		jsonObjectOptions.put("options", optionsArray);
+				
+		jsonObject.put("options", optionsArray);
+		jsonObject.put("probabilityModified", this.probabilityModified);	
+
+		return jsonObject;
 	}
 
 	/**

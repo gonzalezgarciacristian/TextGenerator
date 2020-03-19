@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import uniovi.cgg.main.models.Options;
+import uniovi.cgg.persistance.Persistance;
 
 public class Main {
 
@@ -460,7 +461,47 @@ public class Main {
 		main.objects.add(main.documentLocation);
 		main.objects.add(main.documentStorage);
 		main.objects.add(main.fileLOPD);
-
+		
+		//////////////
+		Persistance persistance = Persistance.getInstance();
+		/*persistance.saveFile(Persistance.FILE, main.companies.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.companySize.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.agreement.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.salarySystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.operatingSystem.toJSON().toJSONString());		
+		persistance.saveFile(Persistance.FILE, main.dataBase.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.loginDataBaseSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.passwordDataBaseAttemptsSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.passwordChangeSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.userAccounts.toJSON().toJSONString());
+		*/
+		persistance.saveFile(Persistance.FILE, main.userProfiles.toJSON().toJSONString());
+		/*persistance.saveFile(Persistance.FILE, main.passwordChangeSystem2.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.salaryAdmin.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.physicalPlace.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.roomsPlace.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.serverLocation.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.network.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.backups.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.backupTool.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.physicalBackup.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.clientService.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.clientServiceAccess.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.clientServiceAccessSystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.dataService.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.dataServiceEncrypted.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.ownSalarySystem.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.sendToBank.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.sendToRecipient.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.cessionData.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.hoursData.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.hoursDataManagement.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.printedSheet.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.documentLocation.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.documentStorage.toJSON().toJSONString());
+		persistance.saveFile(Persistance.FILE, main.fileLOPD.toJSON().toJSONString());*/
+		//////////////
+		
 		String exercise = "";
 		for (int i = 0, length = main.objects.size(); i < length; i++) {
 			exercise += main.objects.get(i).toString();
