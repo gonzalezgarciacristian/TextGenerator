@@ -8,12 +8,23 @@ import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import uniovi.cgg.exceptions.NoOptions;
 import uniovi.cgg.main.Main;
 
 public class Options {
+
+	private static final int TEXT = 0;
+	private static final int PROBABILITY = 1;
+	private static final int DEPENDENCIES = 2;
+	private static final int DEPENDSON = 3;
+	private static final String NOTHING = "-";
+	private static final String ID = "id";
+	private static final String NAME = "name";
+	private static final String INTRODUCTION = "introduction";
+	private static final String CONCLUSIONS = "conclusions";
+	private static final String OPTIONS = "options";
+	private static final String PROBABILITY_MODIFIED = "probabilityModified";
 
 	private long id;
 
@@ -34,18 +45,12 @@ public class Options {
 	 * comas (dependsOn == true)],...]
 	 */
 	private List<String[]> options;
-	
+
 	/**
 	 * True si los textos tienen diferente probabilidad, si todos tienen la misma
 	 * probabilidad de aparición entonces false
 	 */
 	private boolean probabilityModified;
-
-	private static final int TEXT = 0;
-	private static final int PROBABILITY = 1;
-	private static final int DEPENDENCIES = 2;
-	private static final int DEPENDSON = 3;
-	private static final String NOTHING = "-";	
 
 	private Main main;
 
@@ -77,23 +82,20 @@ public class Options {
 		int random = -1;
 		String[] dependencies = null;
 		List<String[]> optionsCopy = new LinkedList<String[]>(this.options);
-		List<String[]> noPossibleOptions = new LinkedList<String[]>();		
+		List<String[]> noPossibleOptions = new LinkedList<String[]>();
 
 		// Elimina de las posibles opciones aquellas que dependan de una variable y
 		// dicha variable esté a false
 		for (int i = 0, length = optionsCopy.size(); i < length; i++) {
-			dependencies = optionsCopy.get(i)[DEPENDSON].split(",");			
+			dependencies = optionsCopy.get(i)[DEPENDSON].split(",");
 			for (int j = 0, lengthJ = dependencies.length; j < lengthJ; j++) {
 				if (!dependencies[j].contentEquals(NOTHING) && !main.getDependeceVariable(dependencies[j])) {
 					noPossibleOptions.add(optionsCopy.get(i));
 				}
 			}
 		}
-		
-		//System.out.println("posibles: " + options.size());
-		//System.out.println("no posibles: " + noPossibleOptions.size());
+
 		optionsCopy.removeAll(noPossibleOptions);
-		//System.out.println("restantes: " + options.size());
 
 		checkRemainingOptions(optionsCopy.size(), this.name);
 
@@ -105,7 +107,8 @@ public class Options {
 			// se usará para sacar la sentencia aleatoria
 			for (int i = 0, length = optionsCopy.size(); i < length; i++) {
 				for (int j = 0, lengthJ = Integer.parseInt(optionsCopy.get(i)[PROBABILITY]); j < lengthJ; j++) {
-					optionsWithProbability.add(new String[] { optionsCopy.get(i)[TEXT], optionsCopy.get(i)[DEPENDENCIES] });
+					optionsWithProbability
+							.add(new String[] { optionsCopy.get(i)[TEXT], optionsCopy.get(i)[DEPENDENCIES] });
 					possibilities++;
 				}
 			}
@@ -166,34 +169,39 @@ public class Options {
 		try {
 			return introduction + getTextWithprobability() + conclusions;
 		} catch (NoOptions e) {
-			e.printStackTrace();			
+			e.printStackTrace();
 		}
 		return "";
 	}
-	
+
+	/**
+	 * Método que introduce en un JSONObject con formato JSON el objeto inicial
+	 * original entero, es decir. Las opciones van dentro de un JSONArray en el
+	 * mismo orden en como se tratan en el propio objeto
+	 * 
+	 * @return JSONObject
+	 */
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 		JSONArray optionsArray = new JSONArray();
-		
-		jsonObject.put("id", this.id);
-		jsonObject.put("name", this.name);
-		jsonObject.put("introduction", this.introduction);
-		jsonObject.put("conclusions", this.conclusions);
-	
-		JSONObject jsonObjectOptions = new JSONObject();		
-		JSONObject jsonObjectText = new JSONObject();
-		
-		for(int i = 0, length = this.options.size(); i < length; i++) {
+
+		jsonObject.put(ID, this.id);
+		jsonObject.put(NAME, this.name);
+		jsonObject.put(INTRODUCTION, this.introduction);
+		jsonObject.put(CONCLUSIONS, this.conclusions);
+
+		// Como las opciones se parsean al sacar las probabilidades, no hace falta
+		// meterlas en variables separadas n irecorrerlas si tienen diferentes
+		// dependencias
+		for (int i = 0, length = this.options.size(); i < length; i++) {
 			optionsArray.add(TEXT, options.get(i)[TEXT]);
 			optionsArray.add(PROBABILITY, options.get(i)[PROBABILITY]);
 			optionsArray.add(DEPENDENCIES, options.get(i)[DEPENDENCIES]);
 			optionsArray.add(DEPENDSON, options.get(i)[DEPENDSON]);
 		}
-		
-		jsonObjectOptions.put("options", optionsArray);
-				
-		jsonObject.put("options", optionsArray);
-		jsonObject.put("probabilityModified", this.probabilityModified);	
+
+		jsonObject.put(OPTIONS, optionsArray);
+		jsonObject.put(PROBABILITY_MODIFIED, this.probabilityModified);
 
 		return jsonObject;
 	}
@@ -207,10 +215,6 @@ public class Options {
 	 */
 	private int randomNumber(int min, int max) {
 		return new Random().nextInt((max - min) + 1) + min;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 }
