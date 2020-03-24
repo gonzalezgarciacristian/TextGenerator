@@ -1,7 +1,8 @@
-package uniovi.cgg.main;
+package uniovi.cgg.main.models;
+
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,6 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import uniovi.cgg.main.models.Options;
 import uniovi.cgg.persistance.Persistance;
 
 public class Main {
@@ -35,7 +35,7 @@ public class Main {
 					"1", "-", "-" } },
 			false, this);
 
-	private Options companySize = new Options(0, "CompanySize", "Tiene un tamaño ", " empleados.\n",
+	private Options companySize = new Options(1, "CompanySize", "Tiene un tamaño ", " empleados.\n",
 			new String[][] { { "pequeño y cuenta con 3", "1", "-", "-" }, { "pequeño y cuenta con 7", "1", "-", "-" },
 					{ "pequeño y cuenta con 9", "1", "-", "-" }, { "mediano y cuenta con 13", "1", "-", "-" },
 					{ "mediano y cuenta con 36", "1", "-", "-" }, { "mediano y cuenta con 45", "1", "-", "-" },
@@ -43,19 +43,19 @@ public class Main {
 					{ "grande y cuenta con 3500", "1", "-", "-" } },
 			false, this);
 
-	private Options agreement = new Options(1, "Agreement", "Esta empresa ", "\n", new String[][] { {
+	private Options agreement = new Options(2, "Agreement", "Esta empresa ", "\n", new String[][] { {
 			"está obligada a firmar un contrato con los clientes que garantice que se van a cumplir las mismas medidas de seguridad que los clientes aplican a los datos personales que van a tratar. ",
 			"3", "automateSalarySystem", "-" },
 			{ "permite que cada empresa con la que trabaja trate los datos de sus clientes siguiendo sus propias medidas de seguridad. ",
 					"1", "-", "-" } },
 			true, this);
 
-	private Options salarySystem = new Options(2, "SalarySystem", "La gestión de las nóminas ", "\n",
+	private Options salarySystem = new Options(3, "SalarySystem", "La gestión de las nóminas ", "\n",
 			new String[][] { { "está automatizada en un servidor. ", "3", "-", "-" },
 					{ "se lleva a mano con papel y bolígrafo. ", "1", "-", "-" } },
 			true, this);
 
-	private Options operatingSystem = new Options(3, "Operating System",
+	private Options operatingSystem = new Options(4, "Operating System",
 			"Las características del servidor de esta empresa son las siguientes: \n*", "\n",
 			new String[][] { { "Sistema operativo Windows. ", "1", "windows", "automateSalarySystem" },
 					{ "Sistema operativo Linux. ", "1", "-", "automateSalarySystem" },
@@ -65,7 +65,7 @@ public class Main {
 					{ "Máquina Virtual con Windows en Microsoft Azure. ", "1", "windows", "automateSalarySystem" } },
 			false, this);
 
-	private Options dataBase = new Options(4, "DataBase", "*Base de datos ", "\n", new String[][] {
+	private Options dataBase = new Options(5, "DataBase", "*Base de datos ", "\n", new String[][] {
 			{ "Oracle. ", "1", "-", "automateSalarySystem" }, { "MySQL. ", "1", "-", "automateSalarySystem" },
 			{ "PostgreSQL. ", "1", "-", "automateSalarySystem" }, { "MariaDB. ", "1", "-", "automateSalarySystem" },
 			{ "SQLite. ", "1", "-", "automateSalarySystem" }, { "MongoDB. ", "1", "-", "automateSalarySystem" },
@@ -73,7 +73,7 @@ public class Main {
 			{ "Microsoft Access. ", "1", "-", "windows,automateSalarySystem" },
 			{ "Microsoft SQL Server. ", "1", "-", "windows,automateSalarySystem" } }, false, this);
 
-	private Options loginDataBaseSystem = new Options(5, "LoginDataBaseSystem", "", " ", new String[][] { {
+	private Options loginDataBaseSystem = new Options(6, "LoginDataBaseSystem", "", " ", new String[][] { {
 			"Los empleados que trabajan con la base de datos tienen un usuario con una contraseña individual para acceder al sistema de gestión de nóminas.  ",
 			"1", "passwordBBDDSystem", "-" },
 			{ "Los empleados que trabajan con la base de datos usan el mismo usuario que tienen para acceder tanto a su propio ordenador como para acceder al sistema de gestión de nóminas. ",
@@ -86,12 +86,12 @@ public class Main {
 					"1", "-", "-" },
 			{ "", "1", "-", "" } }, false, this);
 
-	private Options passwordDataBaseAttemptsSystem = new Options(6, "PasswordDataBaseAttemptsSystem",
+	private Options passwordDataBaseAttemptsSystem = new Options(7, "PasswordDataBaseAttemptsSystem",
 			"Cada usuario tiene un número de intentos ", " para acceder al sistema. \n", new String[][] {
 					{ "ilimitados", "1", "-", "passwordBBDDSystem" }, { "limitados", "1", "-", "passwordBBDDSystem" } },
 			false, this);
 
-	private Options passwordChangeSystem = new Options(7, "PasswordChangeSystem", "", "\n", new String[][] { {
+	private Options passwordChangeSystem = new Options(8, "PasswordChangeSystem", "", "\n", new String[][] { {
 			"Las contraseñas se cambian periódicamente, luego, es raro que más de una persona conozca una contraseña que no es suya. ",
 			"1", "-", "passwordBBDDSystem" },
 			{ "El cambio de contraseña queda a decisión del propio usuario. Luego, hay trabajadores que la cambian todos los días, y otros que nunca la han cambiado y entonces conoce su contraseña todo el mundo. ",
@@ -100,13 +100,13 @@ public class Main {
 					"1", "-", "passwordBBDDSystem" } },
 			false, this);
 
-	private Options userAccounts = new Options(8, "UserAccounts", "", "\n", new String[][] {
+	private Options userAccounts = new Options(9, "UserAccounts", "", "\n", new String[][] {
 			{ "No existen usuarios y todos pueden acceder directamente a cualquier ordenador. ", "2", "-", "-" },
 			{ "Los usuarios están limitados y no están autorizados a realizar todas las acciones disponibles pues existen diferentes perfiles de usuario. ",
 					"1", "profile", "-" }, },
 			true, this);
 
-	private Options userProfiles = new Options(9, "UserProfiles", "", "\n", new String[][] { {
+	private Options userProfiles = new Options(10, "UserProfiles", "", "\n", new String[][] { {
 			"Uno de los perfiles que existen es el del responsable de la empresa que se gestiona, este perfil es el único que puede modificar y cerrar la nómina de esa empresa. ",
 			"1", "salaryAdmin,userAccounts,passwordChangeSystem2", "profile" },
 			{ "Uno de los perfiles que existen es el del responsable de la empresa que se gestiona, este perfil puede modificar y cerrar la nómina de esa empresa, pero existen otros dos usuarios que pueden modificar y cerrar la nómina para cuando el responsable no esté. Se podría dar el caso de que ninguno de los 3 esté. ",
@@ -125,7 +125,7 @@ public class Main {
 					"1", "-", "profile" } },
 			false, this);
 
-	private Options passwordChangeSystem2 = new Options(10, "PasswordChangeSystem2", "", "\n", new String[][] { {
+	private Options passwordChangeSystem2 = new Options(11, "PasswordChangeSystem2", "", "\n", new String[][] { {
 			"Las contraseñas se cambian periódicamente, luego, es raro que más de una persona conozca una contraseña que no es suya. ",
 			"1", "-", "userAccounts" },
 			{ "El cambio de contraseña queda a decisión del propio usuario. Luego, hay trabajadores que la cambian todos los días, y otros que nunca la han cambiado y entonces conoce su contraseña todo el mundo. ",
@@ -134,7 +134,7 @@ public class Main {
 					"1", "-", "userAccounts" } },
 			false, this);
 
-	private Options salaryAdmin = new Options(11, "SalaryAdmin",
+	private Options salaryAdmin = new Options(12, "SalaryAdmin",
 			"Como solo el responsable puede cerrar las nóminas, cuando él falta, ", "\n",
 			new String[][] { {
 					"queda otro compañero como responsable al que se le da un usuario nuevo y cuando vuelve el responsable se le deshabilita ese usuario. ",
@@ -150,13 +150,13 @@ public class Main {
 					{ "se espera a que vuelva el responsable, sea el tiempo que sea. ", "1", "-", "salaryAdmin" } },
 			false, this);
 
-	private Options physicalPlace = new Options(12, "PhysicalPlace",
+	private Options physicalPlace = new Options(13, "PhysicalPlace",
 			"Respecto al espacio físico, la compañía se encuentra en ", "\n",
 			new String[][] { { "un piso. ", "1", "-", "-" }, { "un edificio de oficinas. ", "1", "-", "-" },
 					{ "un edificio propio. ", "1", "-", "-" } },
 			false, this);
 
-	private Options roomsPlace = new Options(13, "RoomsPlace", "Los despachos ", "\n", new String[][] {
+	private Options roomsPlace = new Options(14, "RoomsPlace", "Los despachos ", "\n", new String[][] {
 			{ "no existen, es una gran sala en donde cada uno tiene su mesa o una mesa compartida. ", "1", "-", "-" },
 			{ "no existen, es una gran sala en donde cada uno tiene su mesa o una mesa compartida, pero cada mesa está separada por mamparas. ",
 					"1", "-", "-" },
@@ -166,7 +166,7 @@ public class Main {
 					"1", "-", "-" },
 			{ "son individuales y privados para todo el mundo. ", "1", "-", "-" }, }, false, this);
 
-	private Options serverLocation = new Options(14, "ServerLocation", "El servidor se encuentra en ", "\n",
+	private Options serverLocation = new Options(15, "ServerLocation", "El servidor se encuentra en ", "\n",
 			new String[][] { { "la sala común. ", "1", "-", "-" },
 					{ "la sala común, guardado en un armario bajo llave que tiene el responsable actual. ", "1", "-",
 							"-" },
@@ -181,7 +181,7 @@ public class Main {
 							"1", "-", "-" } },
 			false, this);
 
-	private Options network = new Options(15, "Network", "La red del local ", "\n", new String[][] {
+	private Options network = new Options(16, "Network", "La red del local ", "\n", new String[][] {
 			{ "está cableada entera y no se usa WI-FI. ", "1", "-", "-" },
 			{ "está cableada entera, pero también hay una red WI-FI que da acceso a todos los trabajadores. ", "1", "-",
 					"-" },
@@ -198,7 +198,7 @@ public class Main {
 					"1", "-", "-" } },
 			false, this);
 
-	private Options backups = new Options(16, "Backups", "Las copias de seguridad se hacen ", "", new String[][] {
+	private Options backups = new Options(17, "Backups", "Las copias de seguridad se hacen ", "", new String[][] {
 			{ "todos los viernes. ", "1", "backup", "-" }, { "1 vez al mes. ", "1", "backup", "-" },
 			{ "1 vez al año. ", "1", "backup", "-" },
 			{ "cuando se acuerdan, a veces las hacen dos días seguidos y a veces tras pasar 5 meses. ", "1", "backup",
@@ -207,7 +207,7 @@ public class Main {
 					"1", "-", "-" } },
 			false, this);
 
-	private Options backupTool = new Options(17, "BackupTool", "Para hacer las copias se utiliza ", "", new String[][] {
+	private Options backupTool = new Options(18, "BackupTool", "Para hacer las copias se utiliza ", "", new String[][] {
 			{ "un sistema automatizado que las envía a un servicio en una nube pública (AWS, Azure, ...).", "1", "-",
 					"backup" },
 			{ "un sistema automatizado que las envía a un servicio a una nube privada a la que solo tiene acceso esta empresa.",
@@ -225,7 +225,7 @@ public class Main {
 					"physicalBackup", "backup" } },
 			false, this);
 
-	private Options physicalBackup = new Options(18, "PhysicalBackup", "", "\n",
+	private Options physicalBackup = new Options(19, "PhysicalBackup", "", "\n",
 			new String[][] { { "que se almacena en la empresa. ", "1", "-", "physicalBackup" },
 					{ "que recoge el jefe cuando termina de hacerse y se lo lleva para casa ", "1", "-",
 							"physicalBackup" },
@@ -237,7 +237,7 @@ public class Main {
 					{ "que se deja en el PC hasta el siguiente día. ", "1", "-", "physicalBackup" } },
 			false, this);
 
-	private Options clientService = new Options(19, "ClientService",
+	private Options clientService = new Options(20, "ClientService",
 			"El servicio que se da a los clientes y se utiliza para responderles se basa en una ", " ",
 			new String[][] { { "aplicación de escritorio.", "1", "-", "-" },
 					{ "aplicación web alojada en el servidor de la empresa. ", "1", "-", "-" },
@@ -250,7 +250,7 @@ public class Main {
 							"-", "-" } },
 			false, this);
 
-	private Options clientServiceAccess = new Options(20, "ClientServiceAccess",
+	private Options clientServiceAccess = new Options(21, "ClientServiceAccess",
 			"El acceso al servicio se hace mediante ", "\n",
 			new String[][] { { "", "1", "-", "-" },
 					{ "un usuario y una contraseña desarrollado por la empresa para el usuario. ", "1", "-", "-" },
@@ -264,7 +264,7 @@ public class Main {
 					{ "el acceso del nombre de la empresa contratante, pues no hay contraseña. ", "1", "-", "-" } },
 			false, this);
 
-	private Options clientServiceAccessSystem = new Options(21, "ClientServiceAccessSystem",
+	private Options clientServiceAccessSystem = new Options(22, "ClientServiceAccessSystem",
 			"El acceso al servicio se hace utilizando ", "\n",
 			new String[][] { { "protocolos seguros como HTTPS y FTPS. ", "1", "-", "-" },
 					{ "protocolos no seguros como HTTP y FTP. ", "1", "-", "-" },
@@ -292,7 +292,7 @@ public class Main {
 							"1", "-", "-" } },
 			false, this);
 
-	private Options dataService = new Options(22, "DataService",
+	private Options dataService = new Options(23, "DataService",
 			"Otro servicio que se utiliza para recibir los datos del usuario y que usa el trabajador para responder al cliente es ",
 			" ",
 			new String[][] { { "", "1", "-", "-" }, { "un servicio web de la propia empresa. ", "1", "encrypted", "-" },
@@ -303,7 +303,7 @@ public class Main {
 					{ "en persona utilizando hojas de papel/CD/DVD/USB.\n", "1", "-", "-" }, },
 			false, this);
 
-	private Options dataServiceEncrypted = new Options(23, "dataServiceEncrypted", "Este servicio ", "\n",
+	private Options dataServiceEncrypted = new Options(24, "dataServiceEncrypted", "Este servicio ", "\n",
 			new String[][] { { "va encriptado. ", "1", "-", "encrypted" },
 					{ "va en texto plano. ", "1", "-", "encrypted" },
 					{ "protocolos no seguros como HTTP y FTP, pero encriptando todo el tráfico usando el algoritmo AES. ",
@@ -318,7 +318,7 @@ public class Main {
 			true, this);
 
 	// separar opciones de trabajadores y clientes en 2 mejor, más juego
-	private Options ownSalarySystem = new Options(24, "OwnSalarySystem",
+	private Options ownSalarySystem = new Options(25, "OwnSalarySystem",
 			"Las nóminas internas de la empresa y de los clientes ", "",
 			new String[][] { { "se hacen a mano. ", "1", "-", "-" },
 					{ "se hacen manualmente a ordenador. ", "1", "-", "-" },
@@ -328,13 +328,13 @@ public class Main {
 							"1", "cessionData", "-" } },
 			false, this);
 
-	private Options sendToBank = new Options(25, "SendToBank", "Se envían al banco usando ", "",
+	private Options sendToBank = new Options(26, "SendToBank", "Se envían al banco usando ", "",
 			new String[][] { { "", "1", "-", "-" }, { "un servicio web. ", "1", "-", "-" },
 					{ "un correo electrónico. ", "1", "-", "-" }, { "correo postal.", "1", "-", "-" },
 					{ "un fax. ", "1", "-", "-" }, { "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } },
 			false, this);
 
-	private Options sendToRecipient = new Options(26, "SendToRecipient", "Se envían al destinatario interasado usando ",
+	private Options sendToRecipient = new Options(27, "SendToRecipient", "Se envían al destinatario interasado usando ",
 			"",
 			new String[][] { { "un servicio web. ", "1", "-", "-" }, { "un correo electrónico. ", "1", "-", "-" },
 					{ "correo postal. ", "1", "-", "-" }, { "un fax. ", "1", "-", "-" },
@@ -343,7 +343,7 @@ public class Main {
 					{ "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } },
 			false, this);
 
-	private Options cessionData = new Options(27, "CessionData", "La cesión de los datos a esta tercera empresa ", "\n",
+	private Options cessionData = new Options(28, "CessionData", "La cesión de los datos a esta tercera empresa ", "\n",
 			new String[][] { { "se informa al cliente y a los empleados siempre. ", "1", "-", "cessionData" },
 					{ "no se informa ni a los clientes y ni a los empleados nunca. ", "1", "-", "cessionData" },
 					{ "se informa al cliente y a los empleados si preguntan. ", "1", "-", "cessionData" },
@@ -354,7 +354,7 @@ public class Main {
 	// Los datos referentes a la propia gestoría se controlan en la propia
 	// aplicación como si de otro cliente se tratase. Los datos de las horas
 	// trabajadas están al cargo del gerente
-	private Options hoursData = new Options(28, "HoursData",
+	private Options hoursData = new Options(29, "HoursData",
 			"Los datos de las horas trabajadas los lleva el gerente, que ", "",
 			new String[][] {
 					{ "las guarda en su ordenador personal en una hoja Excel situada en su directorio personal. ", "1",
@@ -366,7 +366,7 @@ public class Main {
 							"1", "", "-" } },
 			false, this);
 
-	private Options hoursDataManagement = new Options(29, "HoursDataManagement", "Los datos son introducidos por ", "",
+	private Options hoursDataManagement = new Options(30, "HoursDataManagement", "Los datos son introducidos por ", "",
 			new String[][] { { "el gerente, que es el único que debería de tener acceso. ", "1", "", "-" },
 					{ "el propio empleado, pues él es su propio responsable. ", "1", "-", "-" },
 					{ "se cambia el empleado responsable de apuntar todas las horas cada X tiempo. ", "1", "-", "-" },
@@ -376,7 +376,7 @@ public class Main {
 							"1", "-", "" } },
 			false, this);
 
-	private Options printedSheet = new Options(30, "ServerLocation",
+	private Options printedSheet = new Options(31, "ServerLocation",
 			"Además, esta hoja se imprime mensualmente ya que contiene los datos del mes, y se archiva ", "",
 			new String[][] { { "en carpetas anilladas que se guardan en un armario abierto. ", "1", "-", "-" }, {
 					"en carpetas anilladas que se guardan en un armario siguiendo el mismo proceso que el acceso al servidor. ",
@@ -391,7 +391,7 @@ public class Main {
 							"1", "-", "-" } },
 			false, this);
 
-	private Options documentLocation = new Options(31, "ServerLocation", "Los demás documentos ", "", new String[][] {
+	private Options documentLocation = new Options(32, "ServerLocation", "Los demás documentos ", "", new String[][] {
 			{ "se meten en carpetas anilladas que se almacenan en ", "3", "location", "-" },
 			{ "una vez se termina con ellos se tiran a reciclar, algo muy importante, pero sin triturar. ", "1", "-",
 					"-" },
@@ -399,7 +399,7 @@ public class Main {
 					"1", "-", "-" } },
 			true, this);
 
-	private Options documentStorage = new Options(32, "DocumentStorage", "", "", new String[][] {
+	private Options documentStorage = new Options(33, "DocumentStorage", "", "", new String[][] {
 			{ "la sala común. ", "1", "-", "location" },
 			{ "la sala común, guardados en un armario bajo llave que tiene el responsable actual. ", "1", "-",
 					"location" },
@@ -414,7 +414,7 @@ public class Main {
 					"1", "-", "location" } },
 			false, this);
 
-	private Options fileLOPD = new Options(33, "FileLOPD", "\nDurante la vida de esta empresa ", "\n", new String[][] {
+	private Options fileLOPD = new Options(34, "FileLOPD", "\nDurante la vida de esta empresa ", "\n", new String[][] {
 			{ "jamás se han declarado los ficheros de datos de la LOPD, ni se lleva un registro de actividades del tratamiento. ",
 					"2", "-", "-" },
 			{ "se han declarado los ficheros de datos de la LOPD, pero no se lleva un registro de actividades del tratamiento. ",
@@ -424,11 +424,167 @@ public class Main {
 			true, this);
 
 	private static Main main = new Main();
-	
+
 	/**
-	 * Ejecuta el programa y genera un informe
+	 * Ejecuta el programa y genera un informe. En este test se carga todo en
+	 * memoria, no hay persistencia física
 	 */
 	private void test1() {
+		String exercise = "";
+
+		for (int i = 0, length = main.objects.size(); i < length; i++) {
+			exercise += main.objects.get(i).toString();
+		}
+
+		System.out.println(exercise);
+	}
+
+	/**
+	 * Salva parte del programa en un fichero, lo carga y genera un informe.
+	 * Descomentar la parte que se quiere probar y comentar el resto
+	 */
+	private void test2() {
+		Persistance persistance = Persistance.getInstance();
+		/*
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.companies.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.companySize.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.agreement.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.salarySystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.operatingSystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.dataBase.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.loginDataBaseSystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.passwordDataBaseAttemptsSystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.passwordChangeSystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.userAccounts.toJSON().toJSONString());
+		 */
+		persistance.saveFile(Persistance.FILE, main.userProfiles.toJSON().toJSONString());
+		/*
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.passwordChangeSystem2.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.salaryAdmin.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.physicalPlace.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.roomsPlace.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.serverLocation.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE, main.network.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE, main.backups.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.backupTool.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.physicalBackup.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.clientService.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.clientServiceAccess.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.clientServiceAccessSystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.dataService.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.dataServiceEncrypted.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.ownSalarySystem.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.sendToBank.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.sendToRecipient.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.cessionData.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.hoursData.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.hoursDataManagement.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.printedSheet.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.documentLocation.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.documentStorage.toJSON().toJSONString());
+		 * persistance.saveFile(Persistance.FILE,
+		 * main.fileLOPD.toJSON().toJSONString());
+		 */
+
+		JSONObject json = persistance.stringToJSONObject(persistance.loadFileToString(Persistance.FILE));
+		Options testOption = main.loadJSONToObject(json);
+		String exercise = testOption.toString();
+		System.out.println(exercise);
+	}
+
+	/**
+	 * Comprobación de que existe el mismo contenido al crear los objectos, al
+	 * guardarlos, y al cargarlos
+	 */
+	private void test3() {
+		Persistance persistance = Persistance.getInstance();
+
+		UseCase useCaseOriginal = new UseCase(main.objects);
+
+		persistance.saveFile(Persistance.FILE, useCaseOriginal.toString());
+
+		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistance.FILE));
+
+		List<Options> options = new ArrayList<Options>();
+		for (int i = 0, length = json.size(); i < length; i++) {
+			options.add(main.loadJSONToObject((JSONObject) json.get(i)));
+		}
+
+		UseCase useCaseFinal = new UseCase(options);
+
+		assertTrue(main.objects.size() == useCaseOriginal.getOptions().size());
+		assertTrue(main.objects.containsAll(useCaseOriginal.getOptions()));
+
+		assertTrue(main.objects.size() == useCaseFinal.getOptions().size());
+		for (int i = 0, length = main.objects.size(); i < length; i++) {
+			assertTrue(main.objects.get(i).toJSON().equals(useCaseFinal.getOptions().get(i).toJSON()));
+		}
+
+		assertTrue(useCaseOriginal.getOptions().size() == useCaseOriginal.getOptions().size());
+		assertTrue(useCaseOriginal.getOptions().containsAll(useCaseOriginal.getOptions()));
+	}
+
+	/**
+	 * Salva el programa entero en un fichero, lo carga y genera un informe.
+	 */
+	private void test4() {
+		Persistance persistance = Persistance.getInstance();
+
+		UseCase useCaseOriginal = new UseCase(main.objects);
+
+		persistance.saveFile(Persistance.FILE, useCaseOriginal.toString());
+
+		// System.out.println(useCaseOriginal.toString());
+
+		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistance.FILE));
+
+		List<Options> options = new ArrayList<Options>();
+		for (int i = 0, length = json.size(); i < length; i++) {
+			options.add(main.loadJSONToObject((JSONObject) json.get(i)));
+		}
+
+		// Options testOption = main.loadJSONToObject(json);
+
+		UseCase useCaseFinal = new UseCase(options);
+		// System.out.println(useCaseFinal.toString());
+		System.out.println(useCaseFinal.exercise());
+	}
+
+	/**
+	 * Inicializa los datos necesarios para que el programa funcione
+	 */
+	private void preload() {
 		main.objects = new ArrayList<Options>();
 
 		main.objects.add(main.companies);
@@ -466,169 +622,66 @@ public class Main {
 		main.objects.add(main.documentLocation);
 		main.objects.add(main.documentStorage);
 		main.objects.add(main.fileLOPD);
-		
-		String exercise = "";
-		
-		for (int i = 0, length = main.objects.size(); i < length; i++) {
-			exercise += main.objects.get(i).toString();
+	}
+
+	public static void main(String[] args) {
+		main.preload();
+		// main.test1();
+		// main.test2();
+		// main.test3();
+		main.test4();
+
+	}
+
+	/**
+	 * Transforma un JSONObject a Option
+	 * 
+	 * @param json
+	 * @return Options
+	 */
+	private Options loadJSONToObject(JSONObject json) {
+		// System.out.println(json);
+
+		long id = (long) json.get(Options.ID);
+		// System.out.println(id);
+
+		String name = (String) json.get(Options.NAME);
+		// System.out.println(name);
+
+		String introduction = (String) json.get(Options.INTRODUCTION);
+		// System.out.println(name);
+
+		String conclusions = (String) json.get(Options.CONCLUSIONS);
+		// System.out.println(name);
+
+		List<String[]> optionsList = new ArrayList<String[]>();
+		JSONArray optionsJSONArray = (JSONArray) json.get(Options.OPTIONS);
+		JSONArray option;
+		String[] option2 = null;
+
+		for (int i = 0, length = optionsJSONArray.size(); i < length; i++) {
+			option = (JSONArray) optionsJSONArray.get(i);
+			option2 = new String[4];
+
+			option2[0] = (String) option.get(0); // TEXT
+			option2[1] = (String) option.get(1); // PROBABILITY
+			option2[2] = (String) option.get(2); // DEPENDENCIES
+			option2[3] = (String) option.get(3); // DEPENDSON
+
+			optionsList.add(option2);
+
+			// System.out.println(optionsJSONArray.get(i));
 		}
 
-		System.out.println(exercise);		
-	}
-	
-	/**
-	 * Salva parte del programa en un fichero, lo carga y genera un informe
-	 */
-	private void test2() {
-		Persistance persistance = Persistance.getInstance();
-		/*persistance.saveFile(Persistance.FILE, main.companies.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.companySize.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.agreement.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.salarySystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.operatingSystem.toJSON().toJSONString());		
-		persistance.saveFile(Persistance.FILE, main.dataBase.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.loginDataBaseSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.passwordDataBaseAttemptsSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.passwordChangeSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.userAccounts.toJSON().toJSONString());
-		*/
-		persistance.saveFile(Persistance.FILE, main.userProfiles.toJSON().toJSONString());
-		/*persistance.saveFile(Persistance.FILE, main.passwordChangeSystem2.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.salaryAdmin.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.physicalPlace.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.roomsPlace.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.serverLocation.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.network.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.backups.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.backupTool.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.physicalBackup.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.clientService.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.clientServiceAccess.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.clientServiceAccessSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.dataService.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.dataServiceEncrypted.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.ownSalarySystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.sendToBank.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.sendToRecipient.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.cessionData.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.hoursData.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.hoursDataManagement.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.printedSheet.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.documentLocation.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.documentStorage.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.fileLOPD.toJSON().toJSONString());
-		*/
-		
-		JSONObject json = persistance.stringToJSON(persistance.loadFileToString(Persistance.FILE));
-		Options testOption = main.loadJSONToObject(json);
-		String exercise = testOption.toString();
-		System.out.println(exercise);
-	}
-	
-	/**
-	 * Salva el programa en un fichero, lo carga y genera un informe
-	 */
-	private void test3() {
-		Persistance persistance = Persistance.getInstance();
+		boolean probabilityModified = (Boolean) json.get(Options.PROBABILITY_MODIFIED);
+		// System.out.println(probabilityModified);
 
-		//StringBuilder text = 
-		/*persistance.saveFile(Persistance.FILE, main.companies.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.companySize.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.agreement.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.salarySystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.operatingSystem.toJSON().toJSONString());		
-		persistance.saveFile(Persistance.FILE, main.dataBase.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.loginDataBaseSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.passwordDataBaseAttemptsSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.passwordChangeSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.userAccounts.toJSON().toJSONString());
-		*/
-		persistance.saveFile(Persistance.FILE, main.userProfiles.toJSON().toJSONString());
-		/*persistance.saveFile(Persistance.FILE, main.passwordChangeSystem2.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.salaryAdmin.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.physicalPlace.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.roomsPlace.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.serverLocation.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.network.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.backups.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.backupTool.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.physicalBackup.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.clientService.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.clientServiceAccess.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.clientServiceAccessSystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.dataService.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.dataServiceEncrypted.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.ownSalarySystem.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.sendToBank.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.sendToRecipient.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.cessionData.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.hoursData.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.hoursDataManagement.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.printedSheet.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.documentLocation.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.documentStorage.toJSON().toJSONString());
-		persistance.saveFile(Persistance.FILE, main.fileLOPD.toJSON().toJSONString());*/
-		
-		JSONObject json = persistance.stringToJSON(persistance.loadFileToString(Persistance.FILE));
-		Options testOption = main.loadJSONToObject(json);
-		String exercise = testOption.toString();
-		System.out.println(exercise);
-	}
-	
-	public static void main(String[] args) {
-		//main.test1();
-		//main.test2();
-		main.test3();
-		
-	}
-	
-	private Options loadJSONToObject(JSONObject json) {
-        System.out.println(json);
-
-        long id = (long) json.get(Options.ID);
-        System.out.println(id);
-
-        String name = (String) json.get(Options.NAME);
-        System.out.println(name);
-        
-        String introduction = (String) json.get(Options.INTRODUCTION);
-        System.out.println(name);
-        
-        String conclusions = (String) json.get(Options.CONCLUSIONS);
-        System.out.println(name);
-
-        List<String[]> optionsList = new ArrayList<String[]>(); 
-        JSONArray optionsJSONArray = (JSONArray) json.get(Options.OPTIONS);
-        JSONArray option;
-        String[] option2 = null;
-        
-        for(int i = 0, length = optionsJSONArray.size(); i < length; i++) {
-        	option = (JSONArray) optionsJSONArray.get(i);        	
-        	option2 = new String[4];
-        	/*
-        	optionsList.add(0, (String) option.get(0)); // TEXT
-        	optionsList.add(1, (String) option.get(1)); // PROBABILITY
-        	optionsList.add(2, (String) option.get(2)); // DEPENDENCIES
-        	optionsList.add(3, (String) option.get(3)); // DEPENDSON
-        	*/
-        	
-        	option2[0] = (String) option.get(0);
-        	option2[1] = (String) option.get(1);
-        	option2[2] = (String) option.get(2);
-        	option2[3] = (String) option.get(3);
-        	
-        	optionsList.add(option2);
-        	
-        	System.out.println(optionsJSONArray.get(i));
-        	}        
-        boolean probabilityModified = (Boolean) json.get(Options.PROBABILITY_MODIFIED);
-        System.out.println(probabilityModified);
-		
 		return new Options(id, name, introduction, conclusions, optionsList, probabilityModified, this);
 	}
-	
+
 	public String generateText() {
 		String exercise = "";
+
 		for (int i = 0, length = main.objects.size(); i < length; i++) {
 			exercise += main.objects.get(i).toString();
 		}

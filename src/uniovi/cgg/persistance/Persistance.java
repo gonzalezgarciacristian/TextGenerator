@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -126,7 +127,7 @@ public class Persistance {
 	 * @param text String texto a convertir
 	 * @return JSONObject texto convertido
 	 */
-	public JSONObject stringToJSON(String text) {
+	public JSONObject stringToJSONObject(String text) {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = null;
 
@@ -138,6 +139,24 @@ public class Persistance {
 
 		return jsonObject;
 	}
+	
+	/**
+	 * Convierte el texto que se le pasa a JSONArray
+	 * @param text String texto a convertir
+	 * @return JSONArray texto convertido
+	 */
+	public JSONArray stringToJSONArray(String text) {
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = null;
+
+		try {
+			jsonArray = (JSONArray) jsonParser.parse(text);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return jsonArray;
+	}
 
 	public static void main(String[] args) {
 
@@ -145,7 +164,7 @@ public class Persistance {
 
 		main.createFile();
 		
-		JSONObject json = main.stringToJSON(main.loadFileToString(FILE));
+		JSONArray json = main.stringToJSONArray(main.loadFileToString(FILE));
 
 		System.out.println(json);
 	}

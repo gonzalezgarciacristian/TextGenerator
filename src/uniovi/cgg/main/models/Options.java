@@ -10,7 +10,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import uniovi.cgg.exceptions.NoOptions;
-import uniovi.cgg.main.Main;
 
 public class Options {
 
@@ -54,6 +53,11 @@ public class Options {
 	private boolean probabilityModified;
 
 	private Main main;
+	
+	/**
+	 * Privado para evitar que se pueda instanciar el constructor por defecto
+	 */
+	private Options() {}
 
 	public Options(long id, String name, String introduction, String conclusions, String[][] optionsList,
 			boolean probabilityModified, Main main) {
@@ -232,5 +236,5 @@ public class Options {
 	private int randomNumber(int min, int max) {
 		return new Random().nextInt((max - min) + 1) + min;
 	}
-
+	
 }
