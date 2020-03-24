@@ -1,4 +1,4 @@
-package uniovi.cgg.main.models;
+package uniovi.cgg.test;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +10,8 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import uniovi.cgg.main.models.Options;
+import uniovi.cgg.main.models.UseCase;
 import uniovi.cgg.persistance.Persistance;
 
 public class Main {
