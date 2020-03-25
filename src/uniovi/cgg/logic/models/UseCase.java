@@ -1,7 +1,9 @@
-package uniovi.cgg.main.models;
+package uniovi.cgg.logic.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 
@@ -16,6 +18,8 @@ import org.json.simple.JSONArray;
 public class UseCase {
 
 	private List<Options> options;
+	
+	private Map<String, Boolean> dependeciesVariables = new HashMap<String, Boolean>();
 
 	/**
 	 * Utilizar solo cuando se vaya a generar uno nuevo y se vayan cargando de una
@@ -63,7 +67,7 @@ public class UseCase {
 	 * 
 	 * @return
 	 */
-	public String exercise() {
+	public String generateExercise() {
 		String exercise = "";
 
 		for (int i = 0, length = this.options.size(); i < length; i++) {
@@ -75,6 +79,31 @@ public class UseCase {
 
 	public List<Options> getOptions() {
 		return options;
+	}
+	
+	/**
+	 * Comprueba que la key exista y, en caso positivo, devuelve su valor. Si no,
+	 * false.
+	 * 
+	 * @param key String clave a buscar
+	 * @return boolean valor de la key, si no existe false
+	 */
+	public boolean getDependeceVariable(String key) {
+		if (this.dependeciesVariables.containsKey(key)) {
+			return this.dependeciesVariables.get(key);
+		}
+		return false;
+	}
+
+	/**
+	 * Inserta un par clave-valor en la tabla hash. Si ya existía la clave,
+	 * sobrescribe el valor
+	 * 
+	 * @param key   String
+	 * @param value boolean
+	 */
+	public void insertDependeceVariable(String key, boolean value) {
+		this.dependeciesVariables.put(key, value);
 	}
 	
 }

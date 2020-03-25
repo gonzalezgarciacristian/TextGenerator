@@ -1,4 +1,4 @@
-package uniovi.cgg.main.models;
+package uniovi.cgg.logic.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +53,10 @@ public class Options {
 	 */
 	private boolean probabilityModified;
 
-	private Main main;
+	private UseCase useCase;
+	/*que hago con esta variable de tipo main? como idesenlazo esto? siguiente trabajo es este. Posiblemente la depednencia y la tabla tendrá que ir en el UseCase que es único 
+			y entonces así arreglo el main de test para romper esta depednencia y puedo arreglar el main de logic para comenzar a depende de él y hacer a ese las llamadas desde
+			el MainApp que es el gráfico*/
 	
 	/**
 	 * Privado para evitar que se pueda instanciar el constructor por defecto
@@ -61,7 +64,7 @@ public class Options {
 	private Options() {}
 
 	public Options(long id, String name, String introduction, String conclusions, String[][] optionsList,
-			boolean probabilityModified, Main main) {
+			boolean probabilityModified, UseCase useCase) {
 		this.id = id;
 		this.name = name;
 		this.introduction = introduction;
@@ -70,18 +73,18 @@ public class Options {
 		// https://stackoverflow.com/questions/2965747/why-do-i-get-an-unsupportedoperationexception-when-trying-to-remove-an-element-f
 		this.options = new LinkedList<String[]>(Arrays.asList(optionsList));
 		this.probabilityModified = probabilityModified;
-		this.main = main;
+		this.useCase = useCase;
 	}
 
 	public Options(long id, String name, String introduction, String conclusions, List<String[]> optionsList,
-			boolean probabilityModified, Main main) {
+			boolean probabilityModified, UseCase useCase) {
 		this.id = id;
 		this.name = name;
 		this.introduction = introduction;
 		this.conclusions = conclusions;
 		this.options = new LinkedList<String[]>(optionsList);
 		this.probabilityModified = probabilityModified;
-		this.main = main;
+		this.useCase = useCase;
 	}
 
 	/**
@@ -106,7 +109,7 @@ public class Options {
 		for (int i = 0, length = optionsCopy.size(); i < length; i++) {
 			dependencies = optionsCopy.get(i)[DEPENDSON].split(",");
 			for (int j = 0, lengthJ = dependencies.length; j < lengthJ; j++) {
-				if (!dependencies[j].contentEquals(NOTHING) && !main.getDependeceVariable(dependencies[j])) {
+				if (!dependencies[j].contentEquals(NOTHING) && !useCase.getDependeceVariable(dependencies[j])) {
 					noPossibleOptions.add(optionsCopy.get(i));
 				}
 			}
@@ -167,7 +170,7 @@ public class Options {
 	 */
 	private void checkToInsertDependence(String dependence) {
 		if (!dependence.equals(NOTHING)) {
-			main.insertDependeceVariable(dependence, true);
+			useCase.insertDependeceVariable(dependence, true);
 		}
 	}
 

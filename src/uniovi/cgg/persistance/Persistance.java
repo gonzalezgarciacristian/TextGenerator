@@ -7,11 +7,16 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import uniovi.cgg.logic.models.Options;
+import uniovi.cgg.logic.models.UseCase;
 
 public class Persistance {
 
@@ -156,6 +161,52 @@ public class Persistance {
 		}
 
 		return jsonArray;
+	}
+	
+	/**
+	 * Transforma un JSONObject a Option
+	 * 
+	 * @param json
+	 * @return Options
+	 */
+	public Options loadJSONToObject(JSONObject json, UseCase useCase) {
+		// System.out.println(json);
+
+		long id = (long) json.get(Options.ID);
+		// System.out.println(id);
+
+		String name = (String) json.get(Options.NAME);
+		// System.out.println(name);
+
+		String introduction = (String) json.get(Options.INTRODUCTION);
+		// System.out.println(name);
+
+		String conclusions = (String) json.get(Options.CONCLUSIONS);
+		// System.out.println(name);
+
+		List<String[]> optionsList = new ArrayList<String[]>();
+		JSONArray optionsJSONArray = (JSONArray) json.get(Options.OPTIONS);
+		JSONArray option;
+		String[] option2 = null;
+
+		for (int i = 0, length = optionsJSONArray.size(); i < length; i++) {
+			option = (JSONArray) optionsJSONArray.get(i);
+			option2 = new String[4];
+
+			option2[0] = (String) option.get(0); // TEXT
+			option2[1] = (String) option.get(1); // PROBABILITY
+			option2[2] = (String) option.get(2); // DEPENDENCIES
+			option2[3] = (String) option.get(3); // DEPENDSON
+
+			optionsList.add(option2);
+
+			// System.out.println(optionsJSONArray.get(i));
+		}
+
+		boolean probabilityModified = (Boolean) json.get(Options.PROBABILITY_MODIFIED);
+		// System.out.println(probabilityModified);
+
+		return new Options(id, name, introduction, conclusions, optionsList, probabilityModified, useCase);
 	}
 
 	public static void main(String[] args) {
