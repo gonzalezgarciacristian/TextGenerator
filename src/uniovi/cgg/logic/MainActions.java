@@ -1,18 +1,11 @@
 package uniovi.cgg.logic;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import uniovi.cgg.logic.models.Options;
 import uniovi.cgg.logic.models.UseCase;
-import uniovi.cgg.persistance.Persistance;
 
-public class Main {
+public class MainActions {
 
 	private List<Options> objects = null;
 	

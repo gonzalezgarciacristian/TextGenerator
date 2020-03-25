@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.test.Main;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -35,6 +36,8 @@ public class MainApp extends Application {
 	private static final String MAILTO = "mailto:";
 
 	private static ResourceBundle resourceBundle = null;
+	
+	private UseCase useCase;
 
 	/**
 	 * Creamos y configuramos las pestañas
@@ -72,9 +75,12 @@ public class MainApp extends Application {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		tab.setContent(grid);
-
+		
+		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
+		grid.add(btnLoad, 0, 0);
+		
 		Button btnGenerate = new Button(resourceBundle.getString("tab.one.btnGenerate"));
-		grid.add(btnGenerate, 0, 0);
+		grid.add(btnGenerate, 1, 0);
 
 		TextArea txtAGeneratedText = new TextArea(resourceBundle.getString("tab.one.txtAGeneratedText"));
 		txtAGeneratedText.setPrefWidth(220);
@@ -90,7 +96,9 @@ public class MainApp extends Application {
 		grid.add(ccToMe, 0, 3);
 
 		// Actions
-		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(new Main().generateText()));
+		//Deshabilitado al inicio ya que no hay ningún texto guardado
+		btnGenerate.setDisable(true);
+		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(useCase.generateExercise()));
 
 		return tab;
 	}
@@ -267,6 +275,8 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage stage) {
 		loadi18n();
+		
+		useCase = new UseCase();
 
 		TabPane tabPane = createAndConfigureTabs();
 
