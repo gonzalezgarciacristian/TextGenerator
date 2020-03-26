@@ -1,5 +1,6 @@
 package uniovi.cgg.ui;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.test.Main;
 import javafx.scene.control.Button;
@@ -25,6 +27,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 
 public class MainApp extends Application {
@@ -65,7 +68,7 @@ public class MainApp extends Application {
 	 * @return Tab pestaña ya creada configurada
 	 */
 	private Tab tabGenerator() {
-		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));
+		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));		
 
 		// Interface
 		GridPane grid = new GridPane();
@@ -96,11 +99,22 @@ public class MainApp extends Application {
 		grid.add(ccToMe, 0, 3);
 
 		// Actions
+		// AL clicar sobre el botó nde cargar, abrimos un nuevo FileChooser
+		btnLoad.setOnAction(e -> openFileChooser());
+		
 		//Deshabilitado al inicio ya que no hay ningún texto guardado
 		btnGenerate.setDisable(true);
 		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(useCase.generateExercise()));
-
+		
+//ahora linkar el boton load co nla carga de un fichero, hacer que se visualice como en windows para elegir ubicación y que lo lea, cargue en memoria, habilite el boton generar y genere el informe
 		return tab;
+	}
+	
+	private void openFileChooser() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
+		File file = fileChooser.showOpenDialog(new Stage());
+		System.out.println(file.toString());
 	}
 
 	/**
