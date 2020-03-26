@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import uniovi.cgg.logic.MainActions;
 import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.test.Main;
 import javafx.scene.control.Button;
@@ -99,8 +100,8 @@ public class MainApp extends Application {
 		grid.add(ccToMe, 0, 3);
 
 		// Actions
-		// AL clicar sobre el botó nde cargar, abrimos un nuevo FileChooser
-		btnLoad.setOnAction(e -> openFileChooser());
+		// Al clicar sobre el botón de cargar, abrimos un nuevo FileChooser
+		btnLoad.setOnAction(e -> openFileChooser(btnGenerate));
 		
 		//Deshabilitado al inicio ya que no hay ningún texto guardado
 		btnGenerate.setDisable(true);
@@ -110,11 +111,21 @@ public class MainApp extends Application {
 		return tab;
 	}
 	
-	private void openFileChooser() {
+	private void openFileChooser(Button btnGenerate) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
 		File file = fileChooser.showOpenDialog(new Stage());
-		System.out.println(file.toString());
+		
+		if(file == null) {
+			// TODO mostrar popup
+			System.out.println("Cancelada apertura de fichero -> File == null");
+			return;
+		}
+		
+		System.out.println(file.toString());		
+		MainActions mainActions = new MainActions();
+		useCase = mainActions.loadFile(file);
+		btnGenerate.setDisable(false);
 	}
 
 	/**

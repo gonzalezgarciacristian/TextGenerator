@@ -110,7 +110,7 @@ public class Persistance {
 	}
 	
 	/**
-	 * Carga el fichero que recibe com oparámetro (ruta incluída) usando UTF9 como codificación
+	 * Carga el fichero que recibe como parámetro (ruta incluída) usando UTF9 como codificación
 	 * @param file ruta+fichero a leer
 	 * @return String contiene todo el texto del fichero
 	 */

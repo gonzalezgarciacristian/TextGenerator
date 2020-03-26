@@ -567,11 +567,12 @@ public class Main {
 
 		// System.out.println(useCaseOriginal.toString());
 
+		UseCase useCaseLoad = new UseCase();
 		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistance.FILE));
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {
-			options.add(Persistance.getInstance().loadJSONToObject((JSONObject) json.get(i), useCase));
+			options.add(Persistance.getInstance().loadJSONToObject((JSONObject) json.get(i), useCaseLoad));
 		}
 
 		// Options testOption = main.loadJSONToObject(json);
