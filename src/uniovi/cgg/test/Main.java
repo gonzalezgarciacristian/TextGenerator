@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 
 import uniovi.cgg.logic.models.Options;
 import uniovi.cgg.logic.models.UseCase;
-import uniovi.cgg.persistance.Persistance;
+import uniovi.cgg.persistence.Persistence;
 
 public class Main {
 
@@ -444,7 +444,7 @@ public class Main {
 	 * Descomentar la parte que se quiere probar y comentar el resto
 	 */
 	private void test2() {
-		Persistance persistance = Persistance.getInstance();
+		Persistence persistance = Persistence.getInstance();
 		/*
 		 * persistance.saveFile(Persistance.FILE,
 		 * main.companies.toJSON().toJSONString());
@@ -467,7 +467,7 @@ public class Main {
 		 * persistance.saveFile(Persistance.FILE,
 		 * main.userAccounts.toJSON().toJSONString());
 		 */
-		persistance.saveFile(Persistance.FILE, main.userProfiles.toJSON().toJSONString());
+		persistance.saveFile(Persistence.FILE, main.userProfiles.toJSON().toJSONString());
 		/*
 		 * persistance.saveFile(Persistance.FILE,
 		 * main.passwordChangeSystem2.toJSON().toJSONString());
@@ -517,8 +517,8 @@ public class Main {
 		 * main.fileLOPD.toJSON().toJSONString());
 		 */
 
-		JSONObject json = persistance.stringToJSONObject(persistance.loadFileToString(Persistance.FILE));
-		Options testOption = Persistance.getInstance().loadJSONToObject(json, useCase);
+		JSONObject json = persistance.stringToJSONObject(persistance.loadFileToString(Persistence.FILE));
+		Options testOption = Persistence.getInstance().loadJSONToObject(json, useCase);
 		String exercise = testOption.toString();
 		System.out.println(exercise);
 	}
@@ -528,17 +528,17 @@ public class Main {
 	 * guardarlos, y al cargarlos
 	 */
 	private void test3() {
-		Persistance persistance = Persistance.getInstance();
+		Persistence persistance = Persistence.getInstance();
 
 		UseCase useCaseOriginal = new UseCase(main.objects);
 
-		persistance.saveFile(Persistance.FILE, useCaseOriginal.toString());
+		persistance.saveFile(Persistence.FILE, useCaseOriginal.toString());
 
-		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistance.FILE));
+		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistence.FILE));
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {
-			options.add(Persistance.getInstance().loadJSONToObject((JSONObject) json.get(i), useCase));
+			options.add(Persistence.getInstance().loadJSONToObject((JSONObject) json.get(i), useCase));
 		}
 
 		UseCase useCaseFinal = new UseCase(options);
@@ -559,20 +559,20 @@ public class Main {
 	 * Salva el programa entero en un fichero, lo carga y genera un informe.
 	 */
 	private void test4() {
-		Persistance persistance = Persistance.getInstance();
+		Persistence persistance = Persistence.getInstance();
 
 		UseCase useCaseOriginal = new UseCase(main.objects);
 
-		persistance.saveFile(Persistance.FILE, useCaseOriginal.toString());
+		persistance.saveFile(Persistence.FILE, useCaseOriginal.toString());
 
 		// System.out.println(useCaseOriginal.toString());
 
 		UseCase useCaseLoad = new UseCase();
-		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistance.FILE));
+		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistence.FILE));
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {
-			options.add(Persistance.getInstance().loadJSONToObject((JSONObject) json.get(i), useCaseLoad));
+			options.add(Persistence.getInstance().loadJSONToObject((JSONObject) json.get(i), useCaseLoad));
 		}
 
 		// Options testOption = main.loadJSONToObject(json);

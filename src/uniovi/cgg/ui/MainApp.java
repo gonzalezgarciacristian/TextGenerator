@@ -17,10 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import uniovi.cgg.logic.MainActions;
 import uniovi.cgg.logic.models.UseCase;
-import uniovi.cgg.test.Main;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -40,7 +38,7 @@ public class MainApp extends Application {
 	private static final String MAILTO = "mailto:";
 
 	private static ResourceBundle resourceBundle = null;
-	
+
 	private UseCase useCase;
 
 	/**
@@ -69,7 +67,7 @@ public class MainApp extends Application {
 	 * @return Tab pestaña ya creada configurada
 	 */
 	private Tab tabGenerator() {
-		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));		
+		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));
 
 		// Interface
 		GridPane grid = new GridPane();
@@ -79,10 +77,10 @@ public class MainApp extends Application {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		tab.setContent(grid);
-		
+
 		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
 		grid.add(btnLoad, 0, 0);
-		
+
 		Button btnGenerate = new Button(resourceBundle.getString("tab.one.btnGenerate"));
 		grid.add(btnGenerate, 1, 0);
 
@@ -102,27 +100,30 @@ public class MainApp extends Application {
 		// Actions
 		// Al clicar sobre el botón de cargar, abrimos un nuevo FileChooser
 		btnLoad.setOnAction(e -> openFileChooser(btnGenerate));
-		
-		//Deshabilitado al inicio ya que no hay ningún texto guardado
+
+		// Deshabilitado al inicio ya que no hay ningún texto guardado
 		btnGenerate.setDisable(true);
 		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(useCase.generateExercise()));
 		
-//ahora linkar el boton load co nla carga de un fichero, hacer que se visualice como en windows para elegir ubicación y que lo lea, cargue en memoria, habilite el boton generar y genere el informe
 		return tab;
 	}
-	
+
 	private void openFileChooser(Button btnGenerate) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
-		File file = fileChooser.showOpenDialog(new Stage());
+		//fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), System.getProperty("user.dir")+Persistance.FOLDER)); 
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
 		
-		if(file == null) {
+
+		File file = fileChooser.showOpenDialog(new Stage());
+
+		if (file == null) {
 			// TODO mostrar popup
 			System.out.println("Cancelada apertura de fichero -> File == null");
 			return;
 		}
-		
-		System.out.println(file.toString());		
+
+		System.out.println(file.toString());
 		MainActions mainActions = new MainActions();
 		useCase = mainActions.loadFile(file);
 		btnGenerate.setDisable(false);
@@ -190,64 +191,63 @@ public class MainApp extends Application {
 	 */
 	private Tab tabAbout() {
 		Tab tab = new Tab(resourceBundle.getString("tab.four.title"));
-		
+
 		// Interface
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		
+
 		tab.setContent(grid);
-		
+
 		Label labelDeveloper1 = new Label(resourceBundle.getString("tab.four.developer1"));
 		grid.add(labelDeveloper1, 0, 0);
-		
+
 		Hyperlink linkDeveloper1Email = new Hyperlink(resourceBundle.getString("tab.four.developer1Email"));
 		grid.add(linkDeveloper1Email, 1, 0);
-		
+
 		Label labelDeveloper2 = new Label(resourceBundle.getString("tab.four.developer2"));
 		grid.add(labelDeveloper2, 0, 1);
-		
+
 		Hyperlink linkDeveloper2Email = new Hyperlink(resourceBundle.getString("tab.four.developer2Email"));
 		grid.add(linkDeveloper2Email, 1, 1);
-		
+
 		FileInputStream fisImageEII = null;
 		try {
 			fisImageEII = new FileInputStream("resources/logoEII.png");
 			Image imageEII = new Image(fisImageEII);
-	        ImageView imageViewEII = new ImageView(imageEII);
-	        grid.add(imageViewEII, 2, 0);
+			ImageView imageViewEII = new ImageView(imageEII);
+			grid.add(imageViewEII, 2, 0);
 		} catch (FileNotFoundException e1) {
 			System.out.println(e1);
 			e1.printStackTrace();
 		}
-		
-        FileInputStream fisImageUniOvi = null;
+
+		FileInputStream fisImageUniOvi = null;
 		try {
 			fisImageUniOvi = new FileInputStream("resources/logoUniOvi.png");
 			Image imageUniOvi = new Image(fisImageUniOvi);
-	        ImageView imageViewUniOvi = new ImageView(imageUniOvi);
-	        grid.add(imageViewUniOvi, 2, 1);
+			ImageView imageViewUniOvi = new ImageView(imageUniOvi);
+			grid.add(imageViewUniOvi, 2, 1);
 		} catch (FileNotFoundException e1) {
 			System.out.println(e1);
 			e1.printStackTrace();
-		}        
-        
+		}
+
 		Hyperlink linkGitHub = new Hyperlink(resourceBundle.getString("tab.four.githubProject"));
 		grid.add(linkGitHub, 0, 2);
-		
+
 		Label license = new Label(resourceBundle.getString("tab.four.license")); // TODO
 		grid.add(license, 0, 3);
-		
+
 		Label version = new Label(resourceBundle.getString("tab.four.version")); // TODO
 		grid.add(version, 1, 3);
-		
-		//Actions
-		linkDeveloper1Email.setOnAction(e -> getHostServices().showDocument(MAILTO+linkDeveloper1Email.getText()));
-		linkDeveloper2Email.setOnAction(e -> getHostServices().showDocument(MAILTO+linkDeveloper2Email.getText()));
+
+		// Actions
+		linkDeveloper1Email.setOnAction(e -> getHostServices().showDocument(MAILTO + linkDeveloper1Email.getText()));
+		linkDeveloper2Email.setOnAction(e -> getHostServices().showDocument(MAILTO + linkDeveloper2Email.getText()));
 		linkGitHub.setOnAction(e -> getHostServices().showDocument(resourceBundle.getString("tab.four.githubURL")));
-		
 
 		return tab;
 	}
@@ -300,7 +300,7 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage stage) {
 		loadi18n();
-		
+
 		useCase = new UseCase();
 
 		TabPane tabPane = createAndConfigureTabs();

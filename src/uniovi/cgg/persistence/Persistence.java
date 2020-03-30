@@ -1,4 +1,4 @@
-package uniovi.cgg.persistance;
+package uniovi.cgg.persistence;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,16 +18,16 @@ import org.json.simple.parser.ParseException;
 import uniovi.cgg.logic.models.Options;
 import uniovi.cgg.logic.models.UseCase;
 
-public class Persistance {
+public class Persistence {
 
-	private static final String FOLDER = "../bbdd";
+	public static final String FOLDER = "../bbdd";
 	private static final String NAME = "bbdd.json";
 	public static final String FILE = FOLDER + File.separator + NAME;
 
 	/**
 	 * Variable que guarda la instance de la clase actual
 	 */
-	private static Persistance instance = null;
+	private static Persistence instance = null;
 
 	/**
 	 * Se usa para obtener la instancia de esta clase. Solo se permite una. Patrón
@@ -35,9 +35,9 @@ public class Persistance {
 	 * 
 	 * @return Persistance
 	 */
-	public static Persistance getInstance() {
+	public static Persistence getInstance() {
 		if (instance == null) {
-			instance = new Persistance();
+			instance = new Persistence();
 		}
 		return instance;
 	}
@@ -46,7 +46,7 @@ public class Persistance {
 	 * Privado para que no se puedan crear varias, ya que solo queremos una. Patrón
 	 * Singleton.
 	 */
-	private Persistance() {
+	private Persistence() {
 
 	}
 
@@ -211,7 +211,7 @@ public class Persistance {
 
 	public static void main(String[] args) {
 
-		Persistance main = new Persistance();
+		Persistence main = new Persistence();
 
 		main.createFile();
 		
