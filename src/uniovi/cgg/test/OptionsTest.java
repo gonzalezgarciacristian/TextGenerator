@@ -12,7 +12,7 @@ import uniovi.cgg.logic.models.Options;
 import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.persistence.Persistence;
 
-public class Main {
+public class OptionsTest {
 
 	private List<Options> objects = null;
 	
@@ -423,7 +423,7 @@ public class Main {
 					"-", "-" } },
 			true, useCase);
 
-	private static Main main = new Main();
+	private static OptionsTest main = new OptionsTest();
 
 	/**
 	 * Ejecuta el programa y genera un informe. En este test se carga todo en

@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import uniovi.cgg.logic.MainActions;
 import uniovi.cgg.logic.models.UseCase;
+import uniovi.cgg.persistence.Persistence;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -34,7 +35,6 @@ public class MainApp extends Application {
 	private final int STAGE_WIDTH = 640;
 	private final int STAGE_HEIGHT = 480;
 
-	private static final String i18n_PATH = "i18n/texts";
 	private static final String MAILTO = "mailto:";
 
 	private static ResourceBundle resourceBundle = null;
@@ -304,7 +304,7 @@ public class MainApp extends Application {
 	 */
 	private void loadi18n() {
 		// Locale.setDefault(new Locale("en")); // es españa, en inglés
-		resourceBundle = ResourceBundle.getBundle(i18n_PATH);
+		resourceBundle = ResourceBundle.getBundle(Persistence.i18n_PATH);
 	}
 
 	@Override

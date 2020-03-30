@@ -12,3 +12,6 @@
 * Cada posible texto puede estar linkado a una variable o más. Si no se quiere itnroducción o conclusiones entocnes no meterla,s si estas van a ser las mismas, pero sus posibles sentencias dependen todas de otra cosa, mete rintro y conclusiones en cada sentencia aunq sea repetir, ya que sino podrían salir ambas pero si n ose cumplió nada, no llevarían nada de texto intermedio.
 * Las probabilidades de un texto son por apariciones antes de tirar los dados
 	* De momento no soporta el 0, pero debería, por si se quiere guardar pero que no la tire
+-----
+Manual:
+	*Si se usa Gmail deberas desactivar la verificación en dos pasos o tras un intento y que te de error, ir a tu cuenta y permitir que esta aplicación

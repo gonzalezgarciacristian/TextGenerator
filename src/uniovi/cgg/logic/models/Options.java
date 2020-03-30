@@ -10,7 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import uniovi.cgg.exceptions.NoOptions;
-import uniovi.cgg.test.Main;
+import uniovi.cgg.test.OptionsTest;
 
 public class Options {
 

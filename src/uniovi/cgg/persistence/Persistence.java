@@ -27,6 +27,7 @@ public class Persistence {
 	public static final String FILE_WITH_FOLDER = FOLDER + File.separator + FILE_NAME;
 	private static final String CONFIGURATION_NAME = "configuration"+CONF_EXTENSION;
 	private static final String CONFIGURATION = FOLDER + File.separator + CONFIGURATION_NAME;
+	public static final String i18n_PATH = "i18n/texts";
 
 	/**
 	 * Variable que guarda la instance de la clase actual
