@@ -467,7 +467,7 @@ public class Main {
 		 * persistance.saveFile(Persistance.FILE,
 		 * main.userAccounts.toJSON().toJSONString());
 		 */
-		persistance.saveFile(Persistence.FILE, main.userProfiles.toJSON().toJSONString());
+		persistance.saveFile(Persistence.FILE_WITH_FOLDER, main.userProfiles.toJSON().toJSONString());
 		/*
 		 * persistance.saveFile(Persistance.FILE,
 		 * main.passwordChangeSystem2.toJSON().toJSONString());
@@ -517,7 +517,7 @@ public class Main {
 		 * main.fileLOPD.toJSON().toJSONString());
 		 */
 
-		JSONObject json = persistance.stringToJSONObject(persistance.loadFileToString(Persistence.FILE));
+		JSONObject json = persistance.stringToJSONObject(persistance.loadFileToString(Persistence.FILE_WITH_FOLDER));
 		Options testOption = Persistence.getInstance().loadJSONToObject(json, useCase);
 		String exercise = testOption.toString();
 		System.out.println(exercise);
@@ -532,9 +532,9 @@ public class Main {
 
 		UseCase useCaseOriginal = new UseCase(main.objects);
 
-		persistance.saveFile(Persistence.FILE, useCaseOriginal.toString());
+		persistance.saveFile(Persistence.FILE_WITH_FOLDER, useCaseOriginal.toString());
 
-		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistence.FILE));
+		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistence.FILE_WITH_FOLDER));
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {
@@ -563,12 +563,12 @@ public class Main {
 
 		UseCase useCaseOriginal = new UseCase(main.objects);
 
-		persistance.saveFile(Persistence.FILE, useCaseOriginal.toString());
+		persistance.saveFile(Persistence.FILE_WITH_FOLDER, useCaseOriginal.toString());
 
 		// System.out.println(useCaseOriginal.toString());
 
 		UseCase useCaseLoad = new UseCase();
-		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistence.FILE));
+		JSONArray json = persistance.stringToJSONArray(persistance.loadFileToString(Persistence.FILE_WITH_FOLDER));
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {

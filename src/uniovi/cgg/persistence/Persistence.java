@@ -20,9 +20,13 @@ import uniovi.cgg.logic.models.UseCase;
 
 public class Persistence {
 
-	public static final String FOLDER = "../bbdd";
-	private static final String NAME = "bbdd.json";
-	public static final String FILE = FOLDER + File.separator + NAME;
+	private static final String FOLDER = "../bbdd";
+	private static final String JSON_EXTENSION = ".json";
+	private static final String CONF_EXTENSION = ".conf";
+	private static final String FILE_NAME = "bbdd"+JSON_EXTENSION;
+	public static final String FILE_WITH_FOLDER = FOLDER + File.separator + FILE_NAME;
+	private static final String CONFIGURATION_NAME = "configuration"+CONF_EXTENSION;
+	private static final String CONFIGURATION = FOLDER + File.separator + CONFIGURATION_NAME;
 
 	/**
 	 * Variable que guarda la instance de la clase actual
@@ -69,13 +73,13 @@ public class Persistence {
 		// To create the file you need to create the parent directories first
 		createFolder(FOLDER);
 
-		File file = new File(FILE);
+		File file = new File(FILE_WITH_FOLDER);
 
 		try {
 			if (file.createNewFile()) {
-				System.out.println(FILE + " created");
+				System.out.println(FILE_WITH_FOLDER + " created");
 			} else {
-				System.out.println(FILE + " already exists");
+				System.out.println(FILE_WITH_FOLDER + " already exists");
 			}
 		} catch (IOException e) {
 			System.out.println(e);
@@ -215,7 +219,7 @@ public class Persistence {
 
 		main.createFile();
 		
-		JSONArray json = main.stringToJSONArray(main.loadFileToString(FILE));
+		JSONArray json = main.stringToJSONArray(main.loadFileToString(FILE_WITH_FOLDER));
 
 		System.out.println(json);
 	}

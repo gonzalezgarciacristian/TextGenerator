@@ -50,15 +50,24 @@ public class MainApp extends Application {
 	private TabPane createAndConfigureTabs() {
 		TabPane tabPane = new TabPane();
 
-		Tab tab2 = new Tab(resourceBundle.getString("tab.two.title"),
-				new Label(resourceBundle.getString("tab.two.label")));
-
 		tabPane.getTabs().add(tabGenerator());
-		tabPane.getTabs().add(tab2);
+		tabPane.getTabs().add(tab2());
 		tabPane.getTabs().add(tabConfiguration());
 		tabPane.getTabs().add(tabAbout());
 
 		return tabPane;
+	}
+	
+	private GridPane generalGrid() {		
+		GridPane grid = new GridPane();		
+		// Alineamiento
+		grid.setAlignment(Pos.CENTER);
+		// Padding
+		grid.setHgap(10);
+		grid.setVgap(10);		
+		grid.setPadding(new Insets(25, 25, 25, 25));
+		
+		return grid;
 	}
 
 	/**
@@ -70,32 +79,29 @@ public class MainApp extends Application {
 		Tab tab = new Tab(resourceBundle.getString("tab.one.title"));
 
 		// Interface
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
+		GridPane grid = generalGrid();
 
 		tab.setContent(grid);
 
 		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
-		grid.add(btnLoad, 0, 0);
+		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		grid.add(btnLoad, 0, 0, 1, 1);
 
 		Button btnGenerate = new Button(resourceBundle.getString("tab.one.btnGenerate"));
-		grid.add(btnGenerate, 1, 0);
+		grid.add(btnGenerate, 1, 0, 1, 1);
 
 		TextArea txtAGeneratedText = new TextArea(resourceBundle.getString("tab.one.txtAGeneratedText"));
 		txtAGeneratedText.setPrefWidth(220);
-		grid.add(txtAGeneratedText, 0, 1);
+		grid.add(txtAGeneratedText, 0, 1, 2, 1);
 
 		Label sendTo = new Label(resourceBundle.getString("tab.one.sendTo"));
-		grid.add(sendTo, 0, 2);
+		grid.add(sendTo, 0, 2, 1, 1);
 
 		TextField txtFSendTo = new TextField();
-		grid.add(txtFSendTo, 1, 2);
+		grid.add(txtFSendTo, 1, 2, 1, 1);
 
 		CheckBox ccToMe = new CheckBox(resourceBundle.getString("tab.one.ccToMe"));
-		grid.add(ccToMe, 0, 3);
+		grid.add(ccToMe, 0, 3, 1, 1);
 
 		// Actions
 		// Al clicar sobre el botón de cargar, abrimos un nuevo FileChooser
@@ -128,6 +134,18 @@ public class MainApp extends Application {
 		useCase = mainActions.loadFile(file);
 		btnGenerate.setDisable(false);
 	}
+	
+	/**
+	 * Creación y configuración de la pestaña 2: 
+	 * 
+	 * @return Tab pestaña ya creada configurada
+	 */
+	private Tab tab2() {
+		Tab tab = new Tab(resourceBundle.getString("tab.two.title"),
+				new Label(resourceBundle.getString("tab.two.label")));
+		
+		return tab;
+	}
 
 	/**
 	 * Creación y configuración de la pestaña 3: configuración
@@ -138,48 +156,44 @@ public class MainApp extends Application {
 		Tab tab = new Tab(resourceBundle.getString("tab.three.title"));
 
 		// Interface
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
+		GridPane grid = generalGrid();
 
 		tab.setContent(grid);
 
 		Label currentLanguage = new Label(
 				resourceBundle.getString("tab.three.currentLanguage") + Locale.getDefault().toString());
-		grid.add(currentLanguage, 0, 0);
+		grid.add(currentLanguage, 0, 0, 1, 1);
 
 		ComboBox<String> comboBox = new ComboBox<String>();
 		comboBox.getItems().add(resourceBundle.getString("languageSpanish"));
 		comboBox.getItems().add(resourceBundle.getString("languageEnglish"));
-		grid.add(comboBox, 1, 0);
+		grid.add(comboBox, 1, 0, 1, 1);
 
 		Label labelUserEmail = new Label(resourceBundle.getString("tab.three.userEmail"));
-		grid.add(labelUserEmail, 0, 1);
+		grid.add(labelUserEmail, 0, 1, 1, 1);
 
 		TextField tftFUserEmail = new TextField();
-		grid.add(tftFUserEmail, 1, 1);
+		grid.add(tftFUserEmail, 1, 1, 1, 1);
 
 		Label labelEmailHead = new Label(resourceBundle.getString("tab.three.emailIntroduction"));
-		grid.add(labelEmailHead, 0, 2);
+		grid.add(labelEmailHead, 0, 2, 1, 1);
 
 		TextArea txtAEmailIntroduction = new TextArea();
 		txtAEmailIntroduction.setPrefWidth(220);
-		grid.add(txtAEmailIntroduction, 1, 2);
+		grid.add(txtAEmailIntroduction, 1, 2, 1, 1);
 
 		Label labelEmailSign = new Label(resourceBundle.getString("tab.three.emailEnd"));
-		grid.add(labelEmailSign, 0, 3);
+		grid.add(labelEmailSign, 0, 3, 1, 1);
 
 		TextArea txtAEmailSign = new TextArea();
 		txtAEmailSign.setPrefWidth(220);
-		grid.add(txtAEmailSign, 1, 3);
+		grid.add(txtAEmailSign, 1, 3, 1, 1);
 
 		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
-		grid.add(btnSave, 0, 4);
+		grid.add(btnSave, 0, 4, 1, 1);
 
 		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
-		grid.add(btnWithoutSave, 1, 4);
+		grid.add(btnWithoutSave, 1, 4, 1, 1);
 
 		return tab;
 	}
@@ -193,32 +207,28 @@ public class MainApp extends Application {
 		Tab tab = new Tab(resourceBundle.getString("tab.four.title"));
 
 		// Interface
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
+		GridPane grid = generalGrid();
 
 		tab.setContent(grid);
 
 		Label labelDeveloper1 = new Label(resourceBundle.getString("tab.four.developer1"));
-		grid.add(labelDeveloper1, 0, 0);
+		grid.add(labelDeveloper1, 0, 0, 1, 1);
 
 		Hyperlink linkDeveloper1Email = new Hyperlink(resourceBundle.getString("tab.four.developer1Email"));
-		grid.add(linkDeveloper1Email, 1, 0);
+		grid.add(linkDeveloper1Email, 1, 0, 1, 1);
 
 		Label labelDeveloper2 = new Label(resourceBundle.getString("tab.four.developer2"));
-		grid.add(labelDeveloper2, 0, 1);
+		grid.add(labelDeveloper2, 0, 1, 1, 1);
 
 		Hyperlink linkDeveloper2Email = new Hyperlink(resourceBundle.getString("tab.four.developer2Email"));
-		grid.add(linkDeveloper2Email, 1, 1);
+		grid.add(linkDeveloper2Email, 1, 1, 1, 1);
 
 		FileInputStream fisImageEII = null;
 		try {
 			fisImageEII = new FileInputStream("resources/logoEII.png");
 			Image imageEII = new Image(fisImageEII);
 			ImageView imageViewEII = new ImageView(imageEII);
-			grid.add(imageViewEII, 2, 0);
+			grid.add(imageViewEII, 2, 0, 1, 1);
 		} catch (FileNotFoundException e1) {
 			System.out.println(e1);
 			e1.printStackTrace();
@@ -229,20 +239,20 @@ public class MainApp extends Application {
 			fisImageUniOvi = new FileInputStream("resources/logoUniOvi.png");
 			Image imageUniOvi = new Image(fisImageUniOvi);
 			ImageView imageViewUniOvi = new ImageView(imageUniOvi);
-			grid.add(imageViewUniOvi, 2, 1);
+			grid.add(imageViewUniOvi, 2, 1, 1, 1);
 		} catch (FileNotFoundException e1) {
 			System.out.println(e1);
 			e1.printStackTrace();
 		}
 
 		Hyperlink linkGitHub = new Hyperlink(resourceBundle.getString("tab.four.githubProject"));
-		grid.add(linkGitHub, 0, 2);
+		grid.add(linkGitHub, 0, 2, 1, 1);
 
 		Label license = new Label(resourceBundle.getString("tab.four.license")); // TODO
-		grid.add(license, 0, 3);
+		grid.add(license, 0, 3, 1, 1);
 
 		Label version = new Label(resourceBundle.getString("tab.four.version")); // TODO
-		grid.add(version, 1, 3);
+		grid.add(version, 1, 3, 1, 1);
 
 		// Actions
 		linkDeveloper1Email.setOnAction(e -> getHostServices().showDocument(MAILTO + linkDeveloper1Email.getText()));
