@@ -73,7 +73,7 @@ public class Options {
 		// https://stackoverflow.com/questions/2965747/why-do-i-get-an-unsupportedoperationexception-when-trying-to-remove-an-element-f
 		this.options = new LinkedList<String[]>(Arrays.asList(optionsList));
 		this.probabilityModified = probabilityModified;
-		this.useCase = useCase;
+		addToUseCase(useCase);
 	}
 
 	public Options(long id, String name, String introduction, String conclusions, List<String[]> optionsList,
@@ -84,7 +84,16 @@ public class Options {
 		this.conclusions = conclusions;
 		this.options = new LinkedList<String[]>(optionsList);
 		this.probabilityModified = probabilityModified;
+		addToUseCase(useCase);
+	}
+	
+	/**
+	 * Añade la opción al UseCase para que así este la tenga dentro de su lista
+	 * @param useCase
+	 */
+	private void addToUseCase(UseCase useCase) {
 		this.useCase = useCase;
+		this.useCase.addOption(this);
 	}
 
 	/**

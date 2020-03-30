@@ -22,10 +22,11 @@ public class UseCase {
 	private Map<String, Boolean> dependeciesVariables = new HashMap<String, Boolean>();
 
 	/**
-	 * Utilizar solo cuando se vaya a generar uno nuevo y se vayan cargando de una
+	 * Utilizar solo cuando se vaya a generar uno nuevo y se vayan cargando de una. Lo único que hace es inicializar la lista de opciones con una vacía
 	 * en una la sopciones
 	 */
 	public UseCase() {
+		this.options = new ArrayList<Options>();
 	}
 
 	/**
@@ -79,6 +80,14 @@ public class UseCase {
 
 	public List<Options> getOptions() {
 		return options;
+	}
+	
+	/**
+	 * Método que añade una opción nueva al caso de uso.
+	 * @param option Options
+	 */
+	public void addOption(Options option) {
+		this.options.add(option);
 	}
 	
 	/**
