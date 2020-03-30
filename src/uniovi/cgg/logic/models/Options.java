@@ -198,7 +198,8 @@ public class Options {
 		try {
 			return introduction + getTextWithprobability() + conclusions;
 		} catch (NoOptions e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println(e);
 		}
 		return "";
 	}
