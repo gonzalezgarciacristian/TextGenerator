@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,11 +24,13 @@ import javafx.stage.Stage;
 import uniovi.cgg.logic.MainActions;
 import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.persistence.Persistence;
+import uniovi.cgg.util.SendEmails;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -99,9 +105,24 @@ public class MainApp extends Application {
 
 		TextField txtFSendTo = new TextField();
 		grid.add(txtFSendTo, 1, 2, 1, 1);
+		
+		Label labelBccEmails = new Label(resourceBundle.getString("tab.one.bccEmails"));
+		grid.add(labelBccEmails, 0, 3, 1, 1);
+
+		TextField txtFbccEmails = new TextField();
+		grid.add(txtFbccEmails, 1, 3, 1, 1);
+		
+		Label labelPassword = new Label(resourceBundle.getString("tab.one.password"));
+		grid.add(labelPassword, 0, 4, 1, 1);
+
+		PasswordField txtFPassword = new PasswordField();
+		grid.add(txtFPassword, 1, 4, 1, 1);
 
 		CheckBox ccToMe = new CheckBox(resourceBundle.getString("tab.one.ccToMe"));
-		grid.add(ccToMe, 0, 3, 1, 1);
+		grid.add(ccToMe, 0, 5, 1, 1);
+		
+		Button btnSend = new Button(resourceBundle.getString("tab.one.btnSend"));
+		grid.add(btnSend, 1, 5, 1, 1);
 
 		// Actions
 		// Al clicar sobre el botón de cargar, abrimos un nuevo FileChooser
@@ -111,7 +132,34 @@ public class MainApp extends Application {
 		btnGenerate.setDisable(true);
 		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(useCase.generateExercise()));
 		
+		btnSend.setOnAction(e -> sendMessage(txtFPassword.getText(), txtFSendTo.getText(), ccToMe.isSelected(), txtFbccEmails.getText(), "título", txtAGeneratedText.getText()));		
+		
 		return tab;
+	}
+	
+	private void sendMessage(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
+		String smtpServer = "smtp.gmail.com";
+		String from = "@hotmail.com";
+		String userAccount = "@gmail.com";
+		//String emailsTo = "@gmail.com, @hotmail.com";
+		String ccEmail = "";
+		//String bcc = "@uniovi.es";	
+		title = "Title here!!!!";
+		//String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, sapien finibus commodo semper, sapien velit sodales ipsum, at tristique mauris sapien id tortor. Duis iaculis velit in lectus hendrerit, a cursus mauris vehicula. Nam ac viverra sem, in laoreet quam. Pellentesque sagittis, orci non facilisis tincidunt, nisi diam malesuada ante, sed ultrices justo erat non diam. Suspendisse rhoncus luctus eros at blandit. Aliquam eleifend fringilla velit, at consectetur ipsum tempus nec. Fusce in aliquam lacus. Proin aliquet dignissim porta.";
+
+		if(cc) {
+			// TODO: mirar en opciones y meterlo aquí si lo tiene
+			ccEmail = "@hotmail.com";
+		}
+		
+		try {
+			new SendEmails(smtpServer, from, userAccount, password, sendTo, ccEmail, bccEmails, title, text);
+		} catch (AddressException e) {
+			// TODO: mostrar popup en este y en el siguiente catch
+			System.out.println(resourceBundle.getString("authenticationFailedException") + ": " + e.getMessage());
+		} catch (MessagingException e) {
+			System.out.println(resourceBundle.getString("authenticationFailedException") + ": " + e.getMessage());
+		}
 	}
 
 	private void openFileChooser(Button btnGenerate) {

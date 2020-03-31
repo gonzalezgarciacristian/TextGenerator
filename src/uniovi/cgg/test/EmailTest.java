@@ -2,6 +2,9 @@ package uniovi.cgg.test;
 
 import java.util.Scanner;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import uniovi.cgg.util.SendEmails;
 
 public class EmailTest {
@@ -40,8 +43,15 @@ public class EmailTest {
 			text = scanner.nextLine();
 		} finally {
 			scanner.close();
+		}		
+		
+		try {
+			new SendEmails(smtpServer, from, userAccount, password, emailsTo, cc, bcc, title, text);
+		} catch (AddressException e) {
+			System.out.println(e.getMessage());
+		} catch (MessagingException e) {
+			System.out.println(e.getMessage());
 		}
-		new SendEmails(smtpServer, from, userAccount, password, emailsTo, cc, bcc, title, text);
 	}
 
 }
