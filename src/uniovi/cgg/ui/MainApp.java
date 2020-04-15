@@ -15,6 +15,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -59,6 +60,8 @@ public class MainApp extends Application {
 		tabPane.getTabs().add(tab2());
 		tabPane.getTabs().add(tabConfiguration());
 		tabPane.getTabs().add(tabAbout());
+		
+		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		return tabPane;
 	}
