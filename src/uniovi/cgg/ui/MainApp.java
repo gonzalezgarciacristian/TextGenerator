@@ -139,23 +139,24 @@ public class MainApp extends Application {
 		return tab;
 	}
 	
-	private void sendMessage(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {		
-		String smtpServer = "smtp.gmail.com";
-		String from = "@hotmail.com";
-		String userAccount = "@gmail.com";
+	private void sendMessage(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
+		Configuration configuration = new MainActions().loadConfiguration();
+
+		//String from = "@hotmail.com";
+		//String userAccount = "@gmail.com";
 		//String emailsTo = "@gmail.com, @hotmail.com";
 		String ccEmail = "";
 		//String bcc = "@uniovi.es";	
-		title = "Title here!!!!";
+		//title = "Title here!!!!";
 		//String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, sapien finibus commodo semper, sapien velit sodales ipsum, at tristique mauris sapien id tortor. Duis iaculis velit in lectus hendrerit, a cursus mauris vehicula. Nam ac viverra sem, in laoreet quam. Pellentesque sagittis, orci non facilisis tincidunt, nisi diam malesuada ante, sed ultrices justo erat non diam. Suspendisse rhoncus luctus eros at blandit. Aliquam eleifend fringilla velit, at consectetur ipsum tempus nec. Fusce in aliquam lacus. Proin aliquet dignissim porta.";
 
 		if(cc) {
 			// TODO: mirar en opciones y meterlo aquí si lo tiene
-			ccEmail = "@hotmail.com";
+			ccEmail = configuration.getFrom();
 		}
 		
 		try {
-			new SendEmails(smtpServer, from, userAccount, password, sendTo, ccEmail, bccEmails, title, text);
+			new SendEmails(configuration.getSMTPServer(), configuration.getUserEmail(), configuration.getUserEmail(), password, sendTo, ccEmail, bccEmails, configuration.getTitle(), text);
 		} catch (AddressException e) {
 			// TODO: mostrar popup en este y en el siguiente catch
 			System.out.println(resourceBundle.getString("authenticationFailedException") + ": " + e.getMessage());
@@ -220,60 +221,82 @@ public class MainApp extends Application {
 		comboBox.getItems().add(resourceBundle.getString("languageEnglish"));
 		grid.add(comboBox, 1, 0, 1, 1);*/
 		
-		Label labelUserEmail = new Label(resourceBundle.getString("tab.three.userEmail"));
-		grid.add(labelUserEmail, 0, 0, 1, 1);
+		Label labelFrom = new Label(resourceBundle.getString("tab.three.from"));
+		grid.add(labelFrom, 0, 0, 1, 1);
 
-		TextField tftFUserEmail = new TextField();
-		grid.add(tftFUserEmail, 1, 0, 1, 1);
+		TextField txtFFrom = new TextField();
+		grid.add(txtFFrom, 1, 0, 1, 1);
+		
+		Label labelUserEmail = new Label(resourceBundle.getString("tab.three.userEmail"));
+		grid.add(labelUserEmail, 0, 1, 1, 1);
+
+		TextField txtFUserEmail = new TextField();
+		grid.add(txtFUserEmail, 1, 1, 1, 1);
+		
+		Label labelSMTPServer = new Label(resourceBundle.getString("tab.three.smtpServer"));
+		grid.add(labelSMTPServer, 0, 2, 1, 1);
+
+		TextField txtFSMTPServer = new TextField();
+		grid.add(txtFSMTPServer, 1, 2, 1, 1);
 
 		Label labelEmailTitle = new Label(resourceBundle.getString("tab.three.emailTitle"));
-		grid.add(labelEmailTitle, 0, 1, 1, 1);
+		grid.add(labelEmailTitle, 0, 3, 1, 1);
 
-		TextField tftFEmailTitle = new TextField();
-		grid.add(tftFEmailTitle, 1, 1, 1, 1);
+		TextField txtFEmailTitle = new TextField();
+		grid.add(txtFEmailTitle, 1, 3, 1, 1);
 
 		Label labelEmailHead = new Label(resourceBundle.getString("tab.three.emailIntroduction"));
-		grid.add(labelEmailHead, 0, 2, 1, 1);
+		grid.add(labelEmailHead, 0, 4, 1, 1);
 
 		TextArea txtAEmailIntroduction = new TextArea();
 		txtAEmailIntroduction.setPrefWidth(220);
-		grid.add(txtAEmailIntroduction, 1, 2, 1, 1);
+		grid.add(txtAEmailIntroduction, 1, 4, 1, 1);
 
 		Label labelEmailSign = new Label(resourceBundle.getString("tab.three.emailEnd"));
-		grid.add(labelEmailSign, 0, 3, 1, 1);
+		grid.add(labelEmailSign, 0, 5, 1, 1);
 
 		TextArea txtAEmailSign = new TextArea();
 		txtAEmailSign.setPrefWidth(220);
-		grid.add(txtAEmailSign, 1, 3, 1, 1);
+		grid.add(txtAEmailSign, 1, 5, 1, 1);
 
 		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
-		grid.add(btnSave, 0, 4, 1, 1);
+		grid.add(btnSave, 0, 6, 1, 1);
 
 		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
-		grid.add(btnWithoutSave, 1, 4, 1, 1);
+		grid.add(btnWithoutSave, 1, 6, 1, 1);
+		
+		PasswordField txtFPassword = new PasswordField();
+		grid.add(txtFPassword, 0, 7, 1, 1);
+		
+		Button btnCheckSendEmail = new Button(resourceBundle.getString("tab.three.btnCheckSendEmail"));
+		grid.add(btnCheckSendEmail, 1, 7, 1, 1);
 		
 		//Load configuration			
-		reloadConfiguration(tftFUserEmail, tftFEmailTitle, txtAEmailIntroduction, txtAEmailSign);
+		reloadConfiguration(txtFFrom, txtFUserEmail, txtFSMTPServer, txtFEmailTitle, txtAEmailIntroduction, txtAEmailSign);
 		
 		// Actions
 		// Al clicar sobre el botón, salvamos las opciones en un fichero de texto
-		btnSave.setOnAction(e -> saveConfiguration(tftFUserEmail.getText(), tftFEmailTitle.getText(), txtAEmailIntroduction.getText(), txtAEmailSign.getText()));
+		btnSave.setOnAction(e -> saveConfiguration(txtFFrom.getText(), txtFUserEmail.getText(), txtFSMTPServer.getText(), txtFEmailTitle.getText(), txtAEmailIntroduction.getText(), txtAEmailSign.getText()));
 		
-		btnWithoutSave.setOnAction(e -> reloadConfiguration(tftFUserEmail, tftFEmailTitle, txtAEmailIntroduction, txtAEmailSign));
+		btnWithoutSave.setOnAction(e -> reloadConfiguration(txtFFrom, txtFUserEmail, txtFSMTPServer, txtFEmailTitle, txtAEmailIntroduction, txtAEmailSign));
+		
+		btnCheckSendEmail.setOnAction(e -> sendMessage(txtFPassword.getText(), txtFFrom.getText(), true, "", txtFEmailTitle.getText(), resourceBundle.getString("tab.three.testEmail")));
 
 		return tab;
 	}	
 	
-	private void saveConfiguration(String userEmail, String title, String introduction, String sign) {
-		new MainActions().saveConfiguration(new Configuration(userEmail, title, introduction, sign));
+	private void saveConfiguration(String from, String userEmail, String SMTPServer, String title, String introduction, String sign) {
+		new MainActions().saveConfiguration(new Configuration(from, userEmail, SMTPServer, title, introduction, sign));
 	}
 	
-	private void reloadConfiguration(TextField tftFUserEmail, TextField tftFEmailTitle, TextArea txtAEmailIntroduction, TextArea txtAEmailSign) {
+	private void reloadConfiguration(TextField tftFrom, TextField tftUserEmail, TextField tftSMTPServer, TextField tftEmailTitle, TextArea txtAEmailIntroduction, TextArea txtAEmailSign) {
 		Configuration configuration = new MainActions().loadConfiguration();
 		
 		//comboBox.getSelectionModel().select(configuration.getLanguageID());
-		tftFUserEmail.setText(configuration.getUserEmail());
-		tftFEmailTitle.setText(configuration.getTitle());
+		tftFrom.setText(configuration.getFrom());
+		tftUserEmail.setText(configuration.getUserEmail());
+		tftSMTPServer.setText(configuration.getSMTPServer());
+		tftEmailTitle.setText(configuration.getTitle());
 		txtAEmailIntroduction.setText(configuration.getIntroduction());
 		txtAEmailSign.setText(configuration.getSign());
 	}
