@@ -260,9 +260,7 @@ public class MainApp extends Application {
 	}	
 	
 	private void saveConfiguration(String userEmail, String introduction, String sign) {
-		MainActions mainActions = new MainActions();
-		Configuration configuration = new Configuration(userEmail, introduction, sign);
-		mainActions.saveConfiguration(configuration);
+		new MainActions().saveConfiguration(new Configuration(userEmail, introduction, sign));
 	}
 
 	/**

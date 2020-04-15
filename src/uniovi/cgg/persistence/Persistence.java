@@ -220,11 +220,7 @@ public class Persistence {
 	}
 	
 	public Configuration loadConfiguration() {
-		String json = loadFileToString(CONFIGURATION);
-		JSONObject a = stringToJSONObject(json);
-		Configuration configuration = new Configuration(a);
-		System.out.println("listo");
-		return configuration;
+		return new Configuration(stringToJSONObject(loadFileToString(CONFIGURATION)));
 	}
 
 	public static void main(String[] args) {
