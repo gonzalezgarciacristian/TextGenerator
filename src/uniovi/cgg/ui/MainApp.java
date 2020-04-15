@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import uniovi.cgg.logic.MainActions;
+import uniovi.cgg.logic.models.Configuration;
 import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.persistence.Persistence;
 import uniovi.cgg.util.SendEmails;
@@ -31,6 +32,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -137,7 +139,7 @@ public class MainApp extends Application {
 		return tab;
 	}
 	
-	private void sendMessage(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
+	private void sendMessage(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {		
 		String smtpServer = "smtp.gmail.com";
 		String from = "@hotmail.com";
 		String userAccount = "@gmail.com";
@@ -242,8 +244,18 @@ public class MainApp extends Application {
 
 		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
 		grid.add(btnWithoutSave, 1, 4, 1, 1);
+		
+		// Actions
+		// Al clicar sobre el botón, salvamos las opciones en un fichero de texto
+		btnSave.setOnAction(e -> saveConfiguration(comboBox.getSelectionModel().getSelectedItem(), tftFUserEmail.getText(), txtAEmailIntroduction.getText(), txtAEmailSign.getText()));
 
 		return tab;
+	}	
+	
+	private void saveConfiguration(String language, String userEmail, String introduction, String sign) {
+		MainActions mainActions = new MainActions();
+		Configuration configuration = new Configuration(language, userEmail, introduction, sign);
+		mainActions.saveOptions(configuration);
 	}
 
 	/**

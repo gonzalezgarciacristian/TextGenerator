@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import uniovi.cgg.logic.models.Configuration;
 import uniovi.cgg.logic.models.Options;
 import uniovi.cgg.logic.models.UseCase;
 
@@ -70,17 +71,17 @@ public class Persistence {
 	 * exista. Si el fichero va dentro de una carpeta, hay que crear esa carpeta
 	 * primero o fallará
 	 */
-	private void createFile() {
+	private void createFile(String nameWithFolder) {
 		// To create the file you need to create the parent directories first
 		createFolder(FOLDER);
 
-		File file = new File(FILE_WITH_FOLDER);
+		File file = new File(nameWithFolder);
 
 		try {
 			if (file.createNewFile()) {
-				System.out.println(FILE_WITH_FOLDER + " created");
+				System.out.println(nameWithFolder + " created");
 			} else {
-				System.out.println(FILE_WITH_FOLDER + " already exists");
+				System.out.println(nameWithFolder + " already exists");
 			}
 		} catch (IOException e) {
 			System.out.println(e);
@@ -94,7 +95,7 @@ public class Persistence {
 	 * @param data Datos a guardar en el fichero
 	 */
 	public void saveFile(String file, String data) {
-		createFile();
+		createFile(file);
 		
 		OutputStreamWriter outputFile = null;
 		
@@ -174,7 +175,7 @@ public class Persistence {
 	 * @param json
 	 * @return Options
 	 */
-	public Options loadJSONToObject(JSONObject json, UseCase useCase) {
+	public Options loadJSONToOptions(JSONObject json, UseCase useCase) {
 		// System.out.println(json);
 
 		long id = (long) json.get(Options.ID);
@@ -213,12 +214,16 @@ public class Persistence {
 
 		return new Options(id, name, introduction, conclusions, optionsList, probabilityModified, useCase);
 	}
+	
+	public void saveConfiguration(Configuration configuration) {
+		saveFile(CONFIGURATION, configuration.toJSON().toString());
+	}
 
 	public static void main(String[] args) {
 
 		Persistence main = new Persistence();
 
-		main.createFile();
+		main.createFile(FILE_WITH_FOLDER);
 		
 		JSONArray json = main.stringToJSONArray(main.loadFileToString(FILE_WITH_FOLDER));
 

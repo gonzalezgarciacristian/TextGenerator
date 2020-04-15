@@ -518,7 +518,7 @@ public class OptionsTest {
 		 */
 
 		JSONObject json = persistance.stringToJSONObject(persistance.loadFileToString(Persistence.FILE_WITH_FOLDER));
-		Options testOption = Persistence.getInstance().loadJSONToObject(json, useCase);
+		Options testOption = Persistence.getInstance().loadJSONToOptions(json, useCase);
 		String exercise = testOption.toString();
 		System.out.println(exercise);
 	}
@@ -538,7 +538,7 @@ public class OptionsTest {
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {
-			options.add(Persistence.getInstance().loadJSONToObject((JSONObject) json.get(i), useCase));
+			options.add(Persistence.getInstance().loadJSONToOptions((JSONObject) json.get(i), useCase));
 		}
 
 		UseCase useCaseFinal = new UseCase(options);
@@ -572,7 +572,7 @@ public class OptionsTest {
 
 		List<Options> options = new ArrayList<Options>();
 		for (int i = 0, length = json.size(); i < length; i++) {
-			options.add(Persistence.getInstance().loadJSONToObject((JSONObject) json.get(i), useCaseLoad));
+			options.add(Persistence.getInstance().loadJSONToOptions((JSONObject) json.get(i), useCaseLoad));
 		}
 
 		// Options testOption = main.loadJSONToObject(json);
