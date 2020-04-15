@@ -243,24 +243,28 @@ public class MainApp extends Application {
 		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
 		grid.add(btnWithoutSave, 1, 3, 1, 1);
 		
-		//Load
-		MainActions mainAction = new MainActions();
-		Configuration configuration = mainAction.loadConfiguration();
-		
-		//comboBox.getSelectionModel().select(configuration.getLanguageID());	
-		tftFUserEmail.setText(configuration.getUserEmail());
-		txtAEmailIntroduction.setText(configuration.getIntroduction());
-		txtAEmailSign.setText(configuration.getSign());
+		//Load configuration
+		Configuration configuration = new MainActions().loadConfiguration();		
+		reloadConfiguration(tftFUserEmail, txtAEmailIntroduction, txtAEmailSign, configuration);
 		
 		// Actions
 		// Al clicar sobre el botón, salvamos las opciones en un fichero de texto
 		btnSave.setOnAction(e -> saveConfiguration(tftFUserEmail.getText(), txtAEmailIntroduction.getText(), txtAEmailSign.getText()));
+		
+		btnWithoutSave.setOnAction(e -> reloadConfiguration(tftFUserEmail, txtAEmailIntroduction, txtAEmailSign, configuration));
 
 		return tab;
 	}	
 	
 	private void saveConfiguration(String userEmail, String introduction, String sign) {
 		new MainActions().saveConfiguration(new Configuration(userEmail, introduction, sign));
+	}
+	
+	private void reloadConfiguration(TextField tftFUserEmail, TextArea txtAEmailIntroduction, TextArea txtAEmailSign, Configuration configuration) {
+		//comboBox.getSelectionModel().select(configuration.getLanguageID());
+		tftFUserEmail.setText(configuration.getUserEmail());
+		txtAEmailIntroduction.setText(configuration.getIntroduction());
+		txtAEmailSign.setText(configuration.getSign());
 	}
 
 	/**
