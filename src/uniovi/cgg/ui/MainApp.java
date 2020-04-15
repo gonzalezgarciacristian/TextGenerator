@@ -156,7 +156,7 @@ public class MainApp extends Application {
 		}
 		
 		try {
-			new SendEmails(configuration.getSMTPServer(), configuration.getUserEmail(), configuration.getUserEmail(), password, sendTo, ccEmail, bccEmails, configuration.getTitle(), text);
+			new SendEmails(configuration.getSMTPServer(), configuration.getUserEmail(), configuration.getUserEmail(), password, sendTo, ccEmail, bccEmails, configuration.getTitle(), configuration.getIntroduction()+text+configuration.getSign());
 		} catch (AddressException e) {
 			// TODO: mostrar popup en este y en el siguiente catch
 			System.out.println(resourceBundle.getString("authenticationFailedException") + ": " + e.getMessage());
