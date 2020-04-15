@@ -218,6 +218,14 @@ public class Persistence {
 	public void saveConfiguration(Configuration configuration) {
 		saveFile(CONFIGURATION, configuration.toJSON().toString());
 	}
+	
+	public Configuration loadConfiguration() {
+		String json = loadFileToString(CONFIGURATION);
+		JSONObject a = stringToJSONObject(json);
+		Configuration configuration = new Configuration(a);
+		System.out.println("listo");
+		return configuration;
+	}
 
 	public static void main(String[] args) {
 

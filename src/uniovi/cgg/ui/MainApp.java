@@ -3,7 +3,6 @@ package uniovi.cgg.ui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.mail.MessagingException;
@@ -28,11 +27,9 @@ import uniovi.cgg.persistence.Persistence;
 import uniovi.cgg.util.SendEmails;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -199,10 +196,11 @@ public class MainApp extends Application {
 
 	/**
 	 * Creación y configuración de la pestaña 3: configuración
+	 * Despues carga la configuración previa, en caso de haberla, y rellena las opciones con loque haya guardado. Sino, las deja en blanco
 	 * 
 	 * @return Tab pestaña ya creada configurada
 	 */
-	private Tab tabConfiguration() {
+	private Tab tabConfiguration() {		
 		Tab tab = new Tab(resourceBundle.getString("tab.three.title"));
 
 		// Interface
@@ -210,52 +208,61 @@ public class MainApp extends Application {
 
 		tab.setContent(grid);
 
-		Label currentLanguage = new Label(
+		/*Label currentLanguage = new Label(
 				resourceBundle.getString("tab.three.currentLanguage") + Locale.getDefault().toString());
 		grid.add(currentLanguage, 0, 0, 1, 1);
 
 		ComboBox<String> comboBox = new ComboBox<String>();
 		comboBox.getItems().add(resourceBundle.getString("languageSpanish"));
 		comboBox.getItems().add(resourceBundle.getString("languageEnglish"));
-		grid.add(comboBox, 1, 0, 1, 1);
+		grid.add(comboBox, 1, 0, 1, 1);*/
 
 		Label labelUserEmail = new Label(resourceBundle.getString("tab.three.userEmail"));
-		grid.add(labelUserEmail, 0, 1, 1, 1);
+		grid.add(labelUserEmail, 0, 0, 1, 1);
 
 		TextField tftFUserEmail = new TextField();
-		grid.add(tftFUserEmail, 1, 1, 1, 1);
+		grid.add(tftFUserEmail, 1, 0, 1, 1);
 
 		Label labelEmailHead = new Label(resourceBundle.getString("tab.three.emailIntroduction"));
-		grid.add(labelEmailHead, 0, 2, 1, 1);
+		grid.add(labelEmailHead, 0, 1, 1, 1);
 
 		TextArea txtAEmailIntroduction = new TextArea();
 		txtAEmailIntroduction.setPrefWidth(220);
-		grid.add(txtAEmailIntroduction, 1, 2, 1, 1);
+		grid.add(txtAEmailIntroduction, 1, 1, 1, 1);
 
 		Label labelEmailSign = new Label(resourceBundle.getString("tab.three.emailEnd"));
-		grid.add(labelEmailSign, 0, 3, 1, 1);
+		grid.add(labelEmailSign, 0, 2, 1, 1);
 
 		TextArea txtAEmailSign = new TextArea();
 		txtAEmailSign.setPrefWidth(220);
-		grid.add(txtAEmailSign, 1, 3, 1, 1);
+		grid.add(txtAEmailSign, 1, 2, 1, 1);
 
 		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
-		grid.add(btnSave, 0, 4, 1, 1);
+		grid.add(btnSave, 0, 3, 1, 1);
 
 		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
-		grid.add(btnWithoutSave, 1, 4, 1, 1);
+		grid.add(btnWithoutSave, 1, 3, 1, 1);
+		
+		//Load
+		MainActions mainAction = new MainActions();
+		Configuration configuration = mainAction.loadConfiguration();
+		
+		//comboBox.getSelectionModel().select(configuration.getLanguageID());	
+		tftFUserEmail.setText(configuration.getUserEmail());
+		txtAEmailIntroduction.setText(configuration.getIntroduction());
+		txtAEmailSign.setText(configuration.getSign());
 		
 		// Actions
 		// Al clicar sobre el botón, salvamos las opciones en un fichero de texto
-		btnSave.setOnAction(e -> saveConfiguration(comboBox.getSelectionModel().getSelectedItem(), tftFUserEmail.getText(), txtAEmailIntroduction.getText(), txtAEmailSign.getText()));
+		btnSave.setOnAction(e -> saveConfiguration(tftFUserEmail.getText(), txtAEmailIntroduction.getText(), txtAEmailSign.getText()));
 
 		return tab;
 	}	
 	
-	private void saveConfiguration(String language, String userEmail, String introduction, String sign) {
+	private void saveConfiguration(String userEmail, String introduction, String sign) {
 		MainActions mainActions = new MainActions();
-		Configuration configuration = new Configuration(language, userEmail, introduction, sign);
-		mainActions.saveOptions(configuration);
+		Configuration configuration = new Configuration(userEmail, introduction, sign);
+		mainActions.saveConfiguration(configuration);
 	}
 
 	/**

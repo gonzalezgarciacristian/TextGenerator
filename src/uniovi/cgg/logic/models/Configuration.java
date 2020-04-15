@@ -1,25 +1,38 @@
 package uniovi.cgg.logic.models;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Configuration {
 	
-	private static final String LANGUAGE = "LANGUAGE";
 	private static final String USER_EMAIL = "USER_EMAIL";
 	private static final String INTRODUCTION = "INTRODUCTION";
 	private static final String SIGN = "SIGN";
 	
-	private String language = "";
 	private String userEmail = "";
 	private String introduction = "";
 	private String sign = "";
 	
-	public Configuration(String language, String userEmail, String introduction, String sign) {
-		this.language = language;
+	/**
+	 * Constructor por defecto
+	 * @param language
+	 * @param userEmail
+	 * @param introduction
+	 * @param sign
+	 */
+	public Configuration(String userEmail, String introduction, String sign) {
 		this.userEmail = userEmail;
 		this.introduction = introduction;
 		this.sign = sign;
+	}
+	
+	/**
+	 * Constructor pasándole un JSONObject, que es el formato en el que se almacena en ficharo
+	 * @param json
+	 */
+	public Configuration(JSONObject json) {
+		this.userEmail = (String) json.get(USER_EMAIL);
+		this.introduction = (String) json.get(INTRODUCTION);
+		this.sign = (String) json.get(SIGN);
 	}
 	
 	/**
@@ -32,14 +45,35 @@ public class Configuration {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put(LANGUAGE, this.language);
 		jsonObject.put(USER_EMAIL, this.userEmail);
 		jsonObject.put(INTRODUCTION, this.introduction);
 		jsonObject.put(SIGN, this.sign);
 
 		return jsonObject;
 	}
-	
-	
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
 
 }

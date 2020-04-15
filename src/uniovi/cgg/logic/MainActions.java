@@ -30,8 +30,12 @@ public class MainActions {
 		return useCaseFinal;
 	}	
 	
-	public void saveOptions(Configuration configuration) {
+	public void saveConfiguration(Configuration configuration) {
 		Persistence.getInstance().saveConfiguration(configuration);
+	}
+	
+	public Configuration loadConfiguration() {
+		return Persistence.getInstance().loadConfiguration();
 	}
 
 }
