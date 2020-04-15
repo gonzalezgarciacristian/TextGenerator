@@ -5,10 +5,12 @@ import org.json.simple.JSONObject;
 public class Configuration {
 	
 	private static final String USER_EMAIL = "USER_EMAIL";
+	private static final String TITLE = "TITLE";
 	private static final String INTRODUCTION = "INTRODUCTION";
 	private static final String SIGN = "SIGN";
 	
 	private String userEmail = "";
+	private String title = "";
 	private String introduction = "";
 	private String sign = "";
 	
@@ -19,8 +21,9 @@ public class Configuration {
 	 * @param introduction
 	 * @param sign
 	 */
-	public Configuration(String userEmail, String introduction, String sign) {
+	public Configuration(String userEmail, String title, String introduction, String sign) {
 		this.userEmail = userEmail;
+		this.title = title;
 		this.introduction = introduction;
 		this.sign = sign;
 	}
@@ -31,6 +34,7 @@ public class Configuration {
 	 */
 	public Configuration(JSONObject json) {
 		this.userEmail = (String) json.get(USER_EMAIL);
+		this.title = (String) json.get(TITLE);
 		this.introduction = (String) json.get(INTRODUCTION);
 		this.sign = (String) json.get(SIGN);
 	}
@@ -46,6 +50,7 @@ public class Configuration {
 		JSONObject jsonObject = new JSONObject();
 
 		jsonObject.put(USER_EMAIL, this.userEmail);
+		jsonObject.put(TITLE, this.title);
 		jsonObject.put(INTRODUCTION, this.introduction);
 		jsonObject.put(SIGN, this.sign);
 
@@ -58,6 +63,14 @@ public class Configuration {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getIntroduction() {
