@@ -37,6 +37,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 
 public class MainApp extends Application {
+	
+	private static final String JSON_FILE = "JSON";
+	private static final String JSON_EXTENSION = "*.json";
 
 	private final int STAGE_WIDTH = 640;
 	private final int STAGE_HEIGHT = 480;
@@ -70,6 +73,7 @@ public class MainApp extends Application {
 		GridPane grid = new GridPane();		
 		// Alineamiento
 		grid.setAlignment(Pos.CENTER);
+		
 		// Padding
 		grid.setHgap(10);
 		grid.setVgap(10);		
@@ -134,12 +138,12 @@ public class MainApp extends Application {
 		btnGenerate.setDisable(true);
 		btnGenerate.setOnAction(e -> txtAGeneratedText.setText(useCase.generateExercise()));
 		
-		btnSend.setOnAction(e -> sendMessage(txtFPassword.getText(), txtFSendTo.getText(), ccToMe.isSelected(), txtFbccEmails.getText(), "título", txtAGeneratedText.getText()));		
+		btnSend.setOnAction(e -> sendEmail(txtFPassword.getText(), txtFSendTo.getText(), ccToMe.isSelected(), txtFbccEmails.getText(), "título", txtAGeneratedText.getText()));		
 		
 		return tab;
 	}
 	
-	private void sendMessage(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
+	private void sendEmail(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
 		Configuration configuration = new MainActions().loadConfiguration();
 
 		//String from = "@hotmail.com";
@@ -164,14 +168,13 @@ public class MainApp extends Application {
 			System.out.println(resourceBundle.getString("authenticationFailedException") + ": " + e.getMessage());
 		}
 	}
-
+	
 	private void openFileChooser(Button btnGenerate) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
 		//fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), System.getProperty("user.dir")+Persistance.FOLDER)); 
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(JSON_FILE, JSON_EXTENSION));
 		
-
 		File file = fileChooser.showOpenDialog(new Stage());
 
 		if (file == null) {
@@ -280,7 +283,7 @@ public class MainApp extends Application {
 		
 		btnWithoutSave.setOnAction(e -> reloadConfiguration(txtFFrom, txtFUserEmail, txtFSMTPServer, txtFEmailTitle, txtAEmailIntroduction, txtAEmailSign));
 		
-		btnCheckSendEmail.setOnAction(e -> sendMessage(txtFPassword.getText(), txtFFrom.getText(), true, "", txtFEmailTitle.getText(), resourceBundle.getString("tab.three.testEmail")));
+		btnCheckSendEmail.setOnAction(e -> sendEmail(txtFPassword.getText(), txtFFrom.getText(), true, "", txtFEmailTitle.getText(), resourceBundle.getString("tab.three.testEmail")));
 
 		return tab;
 	}	
