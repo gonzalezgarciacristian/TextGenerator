@@ -144,21 +144,31 @@ public class MainApp extends Application {
 		return tab;
 	}
 	
+	/**
+	 * Abre el FileChooser, recibe el fichero cargado en caso de haberlo, y llama al método necesario para cargar un Caso de uso desde ese fichero. Después, habilita el boton generar. Si recibe null dle fichero, no hace nada
+	 * @param btnGenerate Button
+	 */
 	private void loadUseCaseToGenerateTab (Button btnGenerate) {
 		File file = openFileChooser();
 		
 		if(file != null) {
-			System.out.println(file.toString());
-			MainActions mainActions = new MainActions();
-			useCase = mainActions.loadFile(file);
+			useCase = new MainActions().loadFile(file);
 			btnGenerate.setDisable(false);
 		} else {
 			// TODO mostrar popup
 			System.out.println("Cancelada apertura de fichero -> File == null");
-		}
-		
+		}		
 	}
-	
+
+	/**
+	 * Recibe todos lso datos necesarios para enviar un correo usando la clase SendEmails. Lo que hace el método es recibir su excepción y si hay un CC añadirlo
+	 * @param password String
+	 * @param sendTo String
+	 * @param cc boolean
+	 * @param bccEmails String
+	 * @param title String
+	 * @param text String
+	 */
 	private void sendEmail(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
 		Configuration configuration = new MainActions().loadConfiguration();
 
@@ -185,6 +195,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Abre el buscador de ficheros del sistema operativo
+	 * @return File fichero elegido, en nuestro caso es un texto plano
+	 */
 	private File openFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
@@ -224,21 +238,24 @@ public class MainApp extends Application {
 		grid.add(btnWithoutSave, 3, 0, 1, 1);
 
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
-		Label labelID = new Label(resourceBundle.getString("tab.three.id"));
+		Label labelID = new Label(resourceBundle.getString("tab.two.id"));
 		grid.add(labelID, 0, 1, 1, 1);
 		
 		// Cabeceras
-		Label labelName = new Label(resourceBundle.getString("tab.three.name"));
+		Label labelName = new Label(resourceBundle.getString("tab.two.name"));
 		grid.add(labelName, 1, 1, 1, 1);
 		
-		Label labelIntroduction = new Label(resourceBundle.getString("tab.three.introduction"));
+		Label labelIntroduction = new Label(resourceBundle.getString("tab.two.introduction"));
 		grid.add(labelIntroduction, 2, 1, 1, 1);
 		
-		Label labelConclusions = new Label(resourceBundle.getString("tab.three.conclusions"));
+		Label labelConclusions = new Label(resourceBundle.getString("tab.two.conclusions"));
 		grid.add(labelConclusions, 3, 1, 1, 1);
 		
-		Label labelOptions = new Label(resourceBundle.getString("tab.three.options"));
+		Label labelOptions = new Label(resourceBundle.getString("tab.two.options"));
 		grid.add(labelOptions, 4, 1, 1, 1);
+		
+		Label labelProbabilityModified = new Label(resourceBundle.getString("tab.two.probabilityModified"));
+		grid.add(labelProbabilityModified, 5, 1, 1, 1);
 		
 		
 		// Filas
@@ -250,12 +267,32 @@ public class MainApp extends Application {
 		}
 		
 		// Actions
-		//btnLoad.setOnAction(e -> loadUseCase());
+		btnLoad.setOnAction(e -> loadUseCase());
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
 		
 		return tab;
 	}
 	
+	/**
+	 * Abre el fileChooser y recibe su fichero, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso
+	 */
+	private void loadUseCase() {
+		File file = openFileChooser();
+		
+		if(file != null) {
+			useCase = new MainActions().loadFile(file);
+		} else {
+			// TODO mostrar popup
+			System.out.println("Cancelada apertura de fichero -> File == null");
+		}
+		
+	}
+	
+	/**
+	 * Añade una nueva fila el panel que recibe en la column aque recibe. La fila se añade a la pestaña 2, la de modificación y creación de casos de uso
+	 * @param grid GridPane dónd eva a añadir la fila
+	 * @param row int número de la fila en dónde se añadirá
+	 */
 	private void addNewRow(GridPane grid, int row) {		
 		TextField txtFID = new TextField();
 		grid.add(txtFID, 0, row, 1, 1);
@@ -273,7 +310,7 @@ public class MainApp extends Application {
 		GridPane gridOptions = generalGrid();
 		grid.add(gridOptions, 4, row, 1, 1);
 		
-		Button btnAddOption = new Button(resourceBundle.getString("tab.three.btnAddOption"));
+		Button btnAddOption = new Button(resourceBundle.getString("tab.two.btnAddOption"));
 		gridOptions.add(btnAddOption, 0, 0, 1, 1);
 		
 		int optionsToAdd = 4;
@@ -282,10 +319,18 @@ public class MainApp extends Application {
 			addOption(gridOptions, i);
 		}
 		
+		CheckBox cbProbabilityModfied = new CheckBox();
+		gridOptions.add(cbProbabilityModfied, 5, row, 1, 1);
+		
 		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));
 		
 	}
 	
+	/**
+	 * Añade una nueva opción en el panel que recibe en la correspondiente fila que recibe
+	 * @param gridOptions GridPane
+	 * @param row int file dónde añadirá la opción
+	 */
 	private void addOption(GridPane gridOptions, int row) {
 		TextField txtFOptions = new TextField();
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
@@ -293,9 +338,6 @@ public class MainApp extends Application {
 		
 		TextField txtFProbability = new TextField();
 		gridOptions.add(txtFProbability, 1, row, 1, 1);
-		
-		CheckBox cbProbabilityModfied = new CheckBox();
-		gridOptions.add(cbProbabilityModfied, 2, row, 1, 1);
 		
 		TextField txtFDependence = new TextField();
 		gridOptions.add(txtFDependence, 3, row, 1, 1);
