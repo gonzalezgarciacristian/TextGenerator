@@ -3,15 +3,18 @@ package uniovi.cgg.ui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -23,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import uniovi.cgg.logic.MainActions;
 import uniovi.cgg.logic.models.Configuration;
+import uniovi.cgg.logic.models.Options;
 import uniovi.cgg.logic.models.UseCase;
 import uniovi.cgg.persistence.Persistence;
 import uniovi.cgg.util.SendEmails;
@@ -48,6 +52,8 @@ public class MainApp extends Application {
 	private static final String MAILTO = "mailto:";
 
 	private static ResourceBundle resourceBundle = null;
+	
+	private TabPane tabPane;
 
 	private UseCase useCase;
 
@@ -226,6 +232,7 @@ public class MainApp extends Application {
 		
 		// Botonera
 		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
+		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
 		grid.add(btnLoad, 0, 0, 1, 1);
 
 		Button btnAddRow = new Button(resourceBundle.getString("tab.two.btnAddRow"));
@@ -237,7 +244,6 @@ public class MainApp extends Application {
 		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
 		grid.add(btnWithoutSave, 3, 0, 1, 1);
 
-		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
 		Label labelID = new Label(resourceBundle.getString("tab.two.id"));
 		grid.add(labelID, 0, 1, 1, 1);
 		
@@ -257,39 +263,90 @@ public class MainApp extends Application {
 		Label labelProbabilityModified = new Label(resourceBundle.getString("tab.two.probabilityModified"));
 		grid.add(labelProbabilityModified, 5, 1, 1, 1);
 		
-		
-		// Filas
-		int rowsToAdd = 2;
-		
-		// +1 pq esta dentro del mismo grid el nombre de las columnas
-		for(int i = grid.getRowCount(); i < rowsToAdd+1; i++) {
-			addNewRow(grid, i);
-		}
+		addNewRow(grid, grid.getRowCount());
 		
 		// Actions
-		btnLoad.setOnAction(e -> loadUseCase());
+		btnLoad.setOnAction(e -> loadUseCase(grid));
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
 		
 		return tab;
 	}
 	
 	/**
-	 * Abre el fileChooser y recibe su fichero, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso
+	 * Borra todos los hijos que necesitan ser renovados para dejar solo los que hay en común en la tab3 cuando se carga un nuevo caso de uso, que son las cabeceras
+	 * @param grid
 	 */
-	private void loadUseCase() {
+	private void cleanTab3(GridPane grid) {
+		ObservableList<Node> a = grid.getChildren();
+		for(int i = a.size()-1, length = 8; i > length; i-- ) {
+			a.remove(i);
+		}
+	}
+	
+	/**
+	 * Llama al método encargado de limpair la tab y abre el fileChooser y recibe su fichero, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso.
+	 */
+	private void loadUseCase(GridPane grid) {
+		cleanTab3(grid);
+		
 		File file = openFileChooser();
 		
 		if(file != null) {
 			useCase = new MainActions().loadFile(file);
+			
+			List<Options> options = useCase.getOptions();
+			
+			// +2 debido a que previamente en el grid hay 2 elementos
+			int previousRows = grid.getRowCount();
+			for(int i = 0, length = options.size(); i < length; i++) {
+				addNewRowFromOption(grid, i+previousRows, options.get(i));				
+			}
+			
 		} else {
 			// TODO mostrar popup
 			System.out.println("Cancelada apertura de fichero -> File == null");
-		}
-		
+		}		
 	}
 	
 	/**
-	 * Añade una nueva fila el panel que recibe en la column aque recibe. La fila se añade a la pestaña 2, la de modificación y creación de casos de uso
+	 * Añade una nueva fila al panel y en la fila que recibe con el contenido del caso de uso que recibe. La fila se añade a la pestaña 2, la de modificación y creación de casos de uso
+	 * @param grid GridPane dónd eva a añadir la fila
+	 * @param row int número de la fila en dónde se añadirá
+	 * @param options Options Contenio a isnerta en la fila
+	 */
+	private void addNewRowFromOption(GridPane grid, int row, Options options) {
+		// Filas
+		TextField txtFID = new TextField(String.valueOf(options.getID()));
+		grid.add(txtFID, 0, row, 1, 1);
+		
+		TextField txtFName = new TextField(options.getName());
+		grid.add(txtFName, 1, row, 1, 1);
+		
+		TextField txtFIntroduction = new TextField(options.getIntroduction());
+		grid.add(txtFIntroduction, 2, row, 1, 1);
+		
+		TextField txtFConclusions = new TextField(options.getConclusions());
+		grid.add(txtFConclusions, 3, row, 1, 1);
+		
+		// Interface
+		GridPane gridOptions = generalGrid();
+		grid.add(gridOptions, 4, row, 1, 1);
+		
+		Button btnAddOption = new Button(resourceBundle.getString("tab.two.btnAddOption"));
+		gridOptions.add(btnAddOption, 0, 0, 1, 1);		
+		
+		for(int i = gridOptions.getRowCount(), length = options.getOptions().size(); i < length; i++) {
+			addOptionFromOption(gridOptions, i, options.getOptions().get(i));
+		}
+		
+		CheckBox cbProbabilityModfied = new CheckBox();
+		gridOptions.add(cbProbabilityModfied, 5, row, 1, 1);
+		
+		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));		
+	}
+	
+	/**
+	 * Añade una nueva fila al panel que recibe y en la fila que recibe. La fila se añade a la pestaña 2, la de modificación y creación de casos de uso
 	 * @param grid GridPane dónd eva a añadir la fila
 	 * @param row int número de la fila en dónde se añadirá
 	 */
@@ -313,17 +370,44 @@ public class MainApp extends Application {
 		Button btnAddOption = new Button(resourceBundle.getString("tab.two.btnAddOption"));
 		gridOptions.add(btnAddOption, 0, 0, 1, 1);
 		
-		int optionsToAdd = 4;
-		
-		for(int i = gridOptions.getRowCount(); i < optionsToAdd; i++) {
-			addOption(gridOptions, i);
-		}
+		addOption(gridOptions, gridOptions.getRowCount());
 		
 		CheckBox cbProbabilityModfied = new CheckBox();
 		gridOptions.add(cbProbabilityModfied, 5, row, 1, 1);
 		
-		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));
+		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));		
+	}
+	
+	/**
+	 * Añade una nueva opción en el panel que recibe en la correspondiente fila que recibe
+	 * @param gridOptions GridPane
+	 * @param row int file dónde añadirá la opción
+	 */
+	private void addOptionFromOption(GridPane gridOptions, int row, String[] strings) {
+		//TextField txtFOptions = new TextField();
+		TextField txtFOptions = new TextField(strings[Options.TEXT]);
+		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		gridOptions.add(txtFOptions, 0, row, 1, 1);
 		
+		//TextField txtFProbability = new TextField();
+		TextField txtFProbability = new TextField(strings[Options.PROBABILITY]);
+		gridOptions.add(txtFProbability, 1, row, 1, 1);
+		
+		TextField txtFDependence;
+		if(strings[Options.DEPENDENCIES].contentEquals(Options.NOTHING)) {
+			txtFDependence = new TextField();
+		}else {
+			txtFDependence = new TextField(strings[Options.DEPENDENCIES]);
+		}
+		gridOptions.add(txtFDependence, 3, row, 1, 1);
+		
+		TextField txtFDependsOn;
+		if(strings[Options.DEPENDENCIES].contentEquals(Options.NOTHING)) {
+			txtFDependsOn = new TextField();
+		}else {
+			txtFDependsOn = new TextField(strings[Options.DEPENDS_ON]);
+		}
+		gridOptions.add(txtFDependsOn, 4, row, 1, 1);
 	}
 	
 	/**
@@ -564,7 +648,7 @@ public class MainApp extends Application {
 
 		useCase = new UseCase();
 
-		TabPane tabPane = createAndConfigureTabs();
+		tabPane = createAndConfigureTabs();
 
 		VBox vBox = new VBox(tabPane);
 

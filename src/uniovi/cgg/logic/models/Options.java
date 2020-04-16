@@ -20,11 +20,11 @@ public class Options {
 	public static final String OPTIONS = "options";
 	public static final String PROBABILITY_MODIFIED = "probabilityModified";
 
-	private static final int TEXT = 0;
-	private static final int PROBABILITY = 1;
-	private static final int DEPENDENCIES = 2;
-	private static final int DEPENDSON = 3;
-	private static final String NOTHING = "-";
+	public static final int TEXT = 0;
+	public static final int PROBABILITY = 1;
+	public static final int DEPENDENCIES = 2;
+	public static final int DEPENDS_ON = 3;
+	public static final String NOTHING = "-";
 
 	private long id;
 
@@ -115,7 +115,7 @@ public class Options {
 		// Elimina de las posibles opciones aquellas que dependan de una variable y
 		// dicha variable esté a false
 		for (int i = 0, length = optionsCopy.size(); i < length; i++) {
-			dependencies = optionsCopy.get(i)[DEPENDSON].split(",");
+			dependencies = optionsCopy.get(i)[DEPENDS_ON].split(",");
 			for (int j = 0, lengthJ = dependencies.length; j < lengthJ; j++) {
 				if (!dependencies[j].contentEquals(NOTHING) && !useCase.getDependeceVariable(dependencies[j])) {
 					noPossibleOptions.add(optionsCopy.get(i));
@@ -229,7 +229,7 @@ public class Options {
 			optionArray.add(TEXT, options.get(i)[TEXT]);
 			optionArray.add(PROBABILITY, options.get(i)[PROBABILITY]);
 			optionArray.add(DEPENDENCIES, options.get(i)[DEPENDENCIES]);
-			optionArray.add(DEPENDSON, options.get(i)[DEPENDSON]);
+			optionArray.add(DEPENDS_ON, options.get(i)[DEPENDS_ON]);
 			optionsArray.add(optionArray);
 		}
 
@@ -248,6 +248,34 @@ public class Options {
 	 */
 	private int randomNumber(int min, int max) {
 		return new Random().nextInt((max - min) + 1) + min;
+	}
+
+	public long getID() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public String getConclusions() {
+		return conclusions;
+	}
+
+	public List<String[]> getOptions() {
+		return options;
+	}
+
+	public boolean isProbabilityModified() {
+		return probabilityModified;
+	}
+
+	public UseCase getUseCase() {
+		return useCase;
 	}
 	
 }
