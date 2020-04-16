@@ -133,7 +133,7 @@ public class MainApp extends Application {
 
 		// Actions
 		// Al clicar sobre el botón de cargar, abrimos un nuevo FileChooser
-		btnLoad.setOnAction(e -> openFileChooser(btnGenerate));
+		btnLoad.setOnAction(e -> loadUseCaseToGenerateTab(btnGenerate));
 
 		// Deshabilitado al inicio ya que no hay ningún texto guardado
 		btnGenerate.setDisable(true);
@@ -142,6 +142,21 @@ public class MainApp extends Application {
 		btnSend.setOnAction(e -> sendEmail(txtFPassword.getText(), txtFSendTo.getText(), ccToMe.isSelected(), txtFbccEmails.getText(), "título", txtAGeneratedText.getText()));		
 		
 		return tab;
+	}
+	
+	private void loadUseCaseToGenerateTab (Button btnGenerate) {
+		File file = openFileChooser();
+		
+		if(file != null) {
+			System.out.println(file.toString());
+			MainActions mainActions = new MainActions();
+			useCase = mainActions.loadFile(file);
+			btnGenerate.setDisable(false);
+		} else {
+			// TODO mostrar popup
+			System.out.println("Cancelada apertura de fichero -> File == null");
+		}
+		
 	}
 	
 	private void sendEmail(String password, String sendTo, boolean cc, String bccEmails, String title, String text) {
@@ -170,24 +185,13 @@ public class MainApp extends Application {
 		}
 	}
 	
-	private void openFileChooser(Button btnGenerate) {
+	private File openFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
 		//fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), System.getProperty("user.dir")+Persistance.FOLDER)); 
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(JSON_FILE, JSON_EXTENSION));
 		
-		File file = fileChooser.showOpenDialog(new Stage());
-
-		if (file == null) {
-			// TODO mostrar popup
-			System.out.println("Cancelada apertura de fichero -> File == null");
-			return;
-		}
-
-		System.out.println(file.toString());
-		MainActions mainActions = new MainActions();
-		useCase = mainActions.loadFile(file);
-		btnGenerate.setDisable(false);
+		return fileChooser.showOpenDialog(new Stage());
 	}
 	
 	/**
@@ -246,6 +250,7 @@ public class MainApp extends Application {
 		}
 		
 		// Actions
+		//btnLoad.setOnAction(e -> loadUseCase());
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
 		
 		return tab;
