@@ -27,7 +27,7 @@ public class Persistence {
 	private static final String FILE_NAME = "bbdd"+JSON_EXTENSION;
 	public static final String FILE_WITH_FOLDER = FOLDER + File.separator + FILE_NAME;
 	private static final String CONFIGURATION_NAME = "configuration"+CONF_EXTENSION;
-	private static final String CONFIGURATION = FOLDER + File.separator + CONFIGURATION_NAME;
+	public static final String CONFIGURATION = FOLDER + File.separator + CONFIGURATION_NAME;
 	public static final String i18n_PATH = "i18n/texts";
 
 	/**
@@ -52,10 +52,12 @@ public class Persistence {
 	 * Privado para que no se puedan crear varias, ya que solo queremos una. Patrón
 	 * Singleton.
 	 */
-	private Persistence() {
+	private Persistence() { }
 
+	public boolean checkExistingFile(String file) {
+		return new File(file).exists();
 	}
-
+	
 	/**
 	 * Si solo se pone /, la carpeta la creará en la raíz de la unidad, con ../ la
 	 * crea en el directorio superior

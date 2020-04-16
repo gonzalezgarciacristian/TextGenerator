@@ -503,7 +503,7 @@ public class MainApp extends Application {
 		Button btnCheckSendEmail = new Button(resourceBundle.getString("tab.three.btnCheckSendEmail"));
 		grid.add(btnCheckSendEmail, 1, 7, 1, 1);
 		
-		//Load configuration			
+		//Load configuration
 		reloadConfiguration(txtFFrom, txtFUserEmail, txtFSMTPServer, txtFEmailTitle, txtAEmailIntroduction, txtAEmailSign);
 		
 		// Actions
@@ -522,15 +522,25 @@ public class MainApp extends Application {
 	}
 	
 	private void reloadConfiguration(TextField tftFrom, TextField tftUserEmail, TextField tftSMTPServer, TextField tftEmailTitle, TextArea txtAEmailIntroduction, TextArea txtAEmailSign) {
-		Configuration configuration = new MainActions().loadConfiguration();
-		
-		//comboBox.getSelectionModel().select(configuration.getLanguageID());
-		tftFrom.setText(configuration.getFrom());
-		tftUserEmail.setText(configuration.getUserEmail());
-		tftSMTPServer.setText(configuration.getSMTPServer());
-		tftEmailTitle.setText(configuration.getTitle());
-		txtAEmailIntroduction.setText(configuration.getIntroduction());
-		txtAEmailSign.setText(configuration.getSign());
+		if(checkExistingConfiguration()){
+			Configuration configuration = new MainActions().loadConfiguration();
+			
+			//comboBox.getSelectionModel().select(configuration.getLanguageID());
+			tftFrom.setText(configuration.getFrom());
+			tftUserEmail.setText(configuration.getUserEmail());
+			tftSMTPServer.setText(configuration.getSMTPServer());
+			tftEmailTitle.setText(configuration.getTitle());
+			txtAEmailIntroduction.setText(configuration.getIntroduction());
+			txtAEmailSign.setText(configuration.getSign());		
+		}
+	}
+	
+	/**
+	 * Comprueba que exista el fichero de configuración y devuelve true si existe y sino false
+	 * @return boolean true - existe; false - no existe
+	 */
+	private boolean checkExistingConfiguration() {
+		return Persistence.getInstance().checkExistingFile(Persistence.CONFIGURATION);
 	}
 
 	/**
