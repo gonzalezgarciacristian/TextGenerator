@@ -31,6 +31,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -60,7 +61,7 @@ public class MainApp extends Application {
 		TabPane tabPane = new TabPane();
 
 		tabPane.getTabs().add(tabGenerator());
-		tabPane.getTabs().add(tab2());
+		tabPane.getTabs().add(tabUseCase());
 		tabPane.getTabs().add(tabConfiguration());
 		tabPane.getTabs().add(tabAbout());
 		
@@ -194,11 +195,108 @@ public class MainApp extends Application {
 	 * 
 	 * @return Tab pestaña ya creada configurada
 	 */
-	private Tab tab2() {
-		Tab tab = new Tab(resourceBundle.getString("tab.two.title"),
-				new Label(resourceBundle.getString("tab.two.label")));
+	private Tab tabUseCase() {
+		Tab tab = new Tab(resourceBundle.getString("tab.two.title"));
+		
+		// Interface
+		GridPane grid = generalGrid();		
+		ScrollPane scrollPane = new ScrollPane();
+
+		tab.setContent(scrollPane);		
+		
+		scrollPane.setContent(grid);
+		
+		// Botonera
+		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
+		grid.add(btnLoad, 0, 0, 1, 1);
+
+		Button btnAddRow = new Button(resourceBundle.getString("tab.two.btnAddRow"));
+		grid.add(btnAddRow, 1, 0, 1, 1);
+		
+		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
+		grid.add(btnSave, 2, 0, 1, 1);
+		
+		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
+		grid.add(btnWithoutSave, 3, 0, 1, 1);
+
+		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		Label labelID = new Label(resourceBundle.getString("tab.three.id"));
+		grid.add(labelID, 0, 1, 1, 1);
+		
+		// Cabeceras
+		Label labelName = new Label(resourceBundle.getString("tab.three.name"));
+		grid.add(labelName, 1, 1, 1, 1);
+		
+		Label labelIntroduction = new Label(resourceBundle.getString("tab.three.introduction"));
+		grid.add(labelIntroduction, 2, 1, 1, 1);
+		
+		Label labelConclusions = new Label(resourceBundle.getString("tab.three.conclusions"));
+		grid.add(labelConclusions, 3, 1, 1, 1);
+		
+		Label labelOptions = new Label(resourceBundle.getString("tab.three.options"));
+		grid.add(labelOptions, 4, 1, 1, 1);
+		
+		
+		// Filas
+		int rowsToAdd = 2;
+		
+		// +1 pq esta dentro del mismo grid el nombre de las columnas
+		for(int i = grid.getRowCount(); i < rowsToAdd+1; i++) {
+			addNewRow(grid, i);
+		}
+		
+		// Actions
+		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
 		
 		return tab;
+	}
+	
+	private void addNewRow(GridPane grid, int row) {		
+		TextField txtFID = new TextField();
+		grid.add(txtFID, 0, row, 1, 1);
+		
+		TextField txtFName = new TextField();
+		grid.add(txtFName, 1, row, 1, 1);
+		
+		TextField txtFIntroduction = new TextField();
+		grid.add(txtFIntroduction, 2, row, 1, 1);
+		
+		TextField txtFConclusions = new TextField();
+		grid.add(txtFConclusions, 3, row, 1, 1);
+		
+		// Interface
+		GridPane gridOptions = generalGrid();
+		grid.add(gridOptions, 4, row, 1, 1);
+		
+		Button btnAddOption = new Button(resourceBundle.getString("tab.three.btnAddOption"));
+		gridOptions.add(btnAddOption, 0, 0, 1, 1);
+		
+		int optionsToAdd = 4;
+		
+		for(int i = gridOptions.getRowCount(); i < optionsToAdd; i++) {
+			addOption(gridOptions, i);
+		}
+		
+		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));
+		
+	}
+	
+	private void addOption(GridPane gridOptions, int row) {
+		TextField txtFOptions = new TextField();
+		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		gridOptions.add(txtFOptions, 0, row, 1, 1);
+		
+		TextField txtFProbability = new TextField();
+		gridOptions.add(txtFProbability, 1, row, 1, 1);
+		
+		CheckBox cbProbabilityModfied = new CheckBox();
+		gridOptions.add(cbProbabilityModfied, 2, row, 1, 1);
+		
+		TextField txtFDependence = new TextField();
+		gridOptions.add(txtFDependence, 3, row, 1, 1);
+		
+		TextField txtFDependsOn = new TextField();
+		gridOptions.add(txtFDependsOn, 4, row, 1, 1);
 	}
 
 	/**
