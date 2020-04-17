@@ -359,21 +359,21 @@ public class OptionsTest {
 			new String[][] {
 					{ "las guarda en su ordenador personal en una hoja Excel situada en su directorio personal. ", "1",
 							"", "-" },
-					{ "los apunta en hojas de papel. ", "1", "", "-" },
+					{ "los apunta en hojas de papel. ", "1", "-", "-" },
 					{ "usa una aplicación web que tienen subida en su servidor y que usa el mismo sistema de usuario/password que el de las nóminas. ",
-							"1", "", "-" },
+							"1", "-", "-" },
 					{ "usa una aplicación móvil que tienen subida en su servidor y que usa el mismo sistema de usuario/password que el de las nóminas. ",
-							"1", "", "-" } },
+							"1", "-", "-" } },
 			false, useCase);
 
 	private Options hoursDataManagement = new Options(30, "HoursDataManagement", "Los datos son introducidos por ", "",
-			new String[][] { { "el gerente, que es el único que debería de tener acceso. ", "1", "", "-" },
+			new String[][] { { "el gerente, que es el único que debería de tener acceso. ", "1", "-", "-" },
 					{ "el propio empleado, pues él es su propio responsable. ", "1", "-", "-" },
 					{ "se cambia el empleado responsable de apuntar todas las horas cada X tiempo. ", "1", "-", "-" },
-					{ "cada empleado cuando entra a trabajar. ", "1", "-", "" },
-					{ "cada empleado cuando entra y sale de trabajar. ", "1", "-", "" },
+					{ "cada empleado cuando entra a trabajar. ", "1", "-", "-" },
+					{ "cada empleado cuando entra y sale de trabajar. ", "1", "-", "-" },
 					{ "cada empleado, no obstante, no se acuerdan todos los días, cosa que suele ocurrir muy amenudo, y a veces las firman cuando cuadra, es decir, un dia cada semana o cada dos todos los que le faltan y el siguiente. ",
-							"1", "-", "" } },
+							"1", "-", "-" } },
 			false, useCase);
 
 	private Options printedSheet = new Options(31, "ServerLocation",

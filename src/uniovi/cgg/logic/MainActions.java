@@ -37,5 +37,9 @@ public class MainActions {
 	public Configuration loadConfiguration() {
 		return Persistence.getInstance().loadConfiguration();
 	}
+	
+	public void saveFile(File file, UseCase useCase) {
+		Persistence.getInstance().saveFile(file.toString(), useCase.toString());
+	}
 
 }

@@ -204,7 +204,7 @@ public class Persistence {
 			option2[0] = (String) option.get(0); // TEXT
 			option2[1] = (String) option.get(1); // PROBABILITY
 			option2[2] = (String) option.get(2); // DEPENDENCIES
-			option2[3] = (String) option.get(3); // DEPENDSON
+			option2[3] = (String) option.get(3); // DEPENDS_ON
 
 			optionsList.add(option2);
 

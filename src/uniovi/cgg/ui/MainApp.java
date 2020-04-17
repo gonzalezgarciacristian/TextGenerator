@@ -3,11 +3,14 @@ package uniovi.cgg.ui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+
+import org.json.simple.JSONArray;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -204,16 +207,34 @@ public class MainApp extends Application {
 	}
 	
 	/**
-	 * Abre el buscador de ficheros del sistema operativo
-	 * @return File fichero elegido, en nuestro caso es un texto plano
+	 * Creación y configuración del FileChooser de la aplicación
+	 * @return FielChooser FileChooser creado y configurado
 	 */
-	private File openFileChooser() {
+	private FileChooser fileChooserConfiguration() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(resourceBundle.getString("tab.one.btnLoad.fileChooser"));
 		//fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), System.getProperty("user.dir")+Persistance.FOLDER)); 
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(JSON_FILE, JSON_EXTENSION));
 		
+		return fileChooser;
+	}
+	
+	/**
+	 * Abre el buscador de ficheros del sistema operativo para buscar un fichero y abrirlo
+	 * @return File fichero elegido, en nuestro caso es un texto plano
+	 */
+	private File openFileChooser() {
+		FileChooser fileChooser = fileChooserConfiguration();		
 		return fileChooser.showOpenDialog(new Stage());
+	}
+	
+	/**
+	 * Abre el buscador de ficheros del sistema operativo para buscar una ruta y crear un fichero
+	 * @return File fichero elegido, en nuestro caso es un texto plano
+	 */
+	private File saveFileChooser() {
+		FileChooser fileChooser = fileChooserConfiguration();
+		return fileChooser.showSaveDialog(new Stage());
 	}
 	
 	/**
@@ -277,16 +298,74 @@ public class MainApp extends Application {
 		// Actions
 		btnLoad.setOnAction(e -> loadUseCaseWithFileChooser(grid, previousChildren, btnCancel));
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
-		//btnSave.setOnAction(e -> loadUseCase(grid, previousChildren));
+		btnSave.setOnAction(e -> saveUseCase(grid, previousChildren));
 		//btnOverwrite.setOnAction(e -> loadUseCase(grid, previousChildren));
 		btnCancel.setOnAction(e -> loadLoadedUseCase(loadUseCaseTab2, grid, previousChildren));
 		
 		return tab;
 	}
 	
+	private void saveUseCase(GridPane grid, int previousChildren) {
+		UseCase useCase = new UseCase();
+		Options option;
+		ObservableList<Node> columns;
+		List<String[]> optionsList;
+		
+		long id = 0;
+		String name = "";
+		String introduction = "";
+		String conclusions = "";		
+		
+		//+6 pq cada fila tiene 6 columnas (no he encontrado com oiterar de fila en fila :S)
+		for(int i = previousChildren, length = grid.getChildren().size(); i < length; i+=6) {
+			columns = grid.getChildren();
+			optionsList = new ArrayList<String[]>();
+			
+			try {
+				id = Long.parseLong(((TextField)columns.get(i)).getText());
+			}catch (NumberFormatException e) {
+				// Popup y que corrija los ID posiblemente pero mejor hacer que sean autoincrementales
+				id = 0;
+			}
+			name = ((TextField)columns.get(i+1)).getText();
+			introduction = ((TextArea)columns.get(i+2)).getText();
+			conclusions = ((TextArea)columns.get(i+3)).getText();
+			
+			GridPane gridOptions = (GridPane) columns.get(i+4);
+			
+			//+1 pq el primer objeto es el botón añadir opción y +4 pq itero por filas 
+			for(int j = 1, lengthj = gridOptions.getChildren().size(); j < lengthj; j+=4) {
+				ObservableList<Node> columns2 = gridOptions.getChildren();
+				String[] option2 = new String[4];
+				option2[0] = (String) ((TextArea)columns2.get(j+0)).getText(); // TEXT
+				option2[1] = (String) ((TextField)columns2.get(j+1)).getText(); // PROBABILITY
+				
+				String dependecies = (String) ((TextField)columns2.get(j+2)).getText();
+				if(dependecies.contentEquals("")) {
+					dependecies = Options.NOTHING;
+				}				
+				option2[2] = dependecies; // DEPENDENCIES
+				
+				String depends_on = (String) ((TextField)columns2.get(j+3)).getText();
+				if(depends_on.contentEquals("")) {
+					depends_on = Options.NOTHING;
+				}
+				option2[3] = depends_on; // DEPENDS_ON
+
+				optionsList.add(option2);
+			}
+			
+			boolean probabilityModified = ((CheckBox)columns.get(i+5)).isSelected();			
+			option = new Options(id, name, introduction, conclusions, optionsList, probabilityModified, useCase);
+		}
+		//System.out.println(useCase.toString());
+		File file = saveFileChooser();
+		new MainActions().saveFile(file, useCase);
+	}
+	
 	/**
 	 * Borra todos los hijos que necesitan ser renovados para dejar solo los que hay en común en la tab3 cuando se carga un nuevo caso de uso, que son las cabeceras
-	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
+	 * @param grid GridPane grid en dónde se le quitarán los hijos innecesarios y se añadirán los nuevos
 	 * @param previousChildren int hijos que no se han de borrar
 	 */
 	private void cleanTab3(GridPane grid, int previousChildren) {
@@ -299,7 +378,7 @@ public class MainApp extends Application {
 	}
 	
 	/**
-	 * Abre el fileChooser para poder cargar u nfichero usand ola ventana del SO, después llama al método necesari opara cargar dicho ficharo en la pestaña de casos de uso y después habilita el botón cancelar
+	 * Abre el fileChooser para poder cargar un fichero usand ola ventana del SO, después llama al método necesari opara cargar dicho ficharo en la pestaña de casos de uso y después habilita el botón cancelar
 	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
 	 * @param previousChildren int hijos que no se han de borrar
 	 * @param btnCancel Button botón que hay que habilitar si se ha cargado el fichero correctamene para así pdoer cancelar los cambios usando este botón
@@ -350,10 +429,10 @@ public class MainApp extends Application {
 		TextField txtFName = new TextField(options.getName());
 		grid.add(txtFName, 1, row, 1, 1);
 		
-		TextField txtFIntroduction = new TextField(options.getIntroduction());
+		TextArea txtFIntroduction = new TextArea(options.getIntroduction());
 		grid.add(txtFIntroduction, 2, row, 1, 1);
 		
-		TextField txtFConclusions = new TextField(options.getConclusions());
+		TextArea txtFConclusions = new TextArea(options.getConclusions());
 		grid.add(txtFConclusions, 3, row, 1, 1);
 		
 		// Interface
@@ -382,17 +461,19 @@ public class MainApp extends Application {
 	 * @param grid GridPane dónd eva a añadir la fila
 	 * @param row int número de la fila en dónde se añadirá
 	 */
-	private void addNewRow(GridPane grid, int row) {		
+	// TODO tengo una parte de esto medio repetido en otro sitio, mirar a ver si puedo juntarlo al refactorizar
+	private void addNewRow(GridPane grid, int row) {	
+		// TextArea permite \n, TextField no.
 		TextField txtFID = new TextField();
 		grid.add(txtFID, 0, row, 1, 1);
 		
 		TextField txtFName = new TextField();
 		grid.add(txtFName, 1, row, 1, 1);
 		
-		TextField txtFIntroduction = new TextField();
+		TextArea txtFIntroduction = new TextArea();
 		grid.add(txtFIntroduction, 2, row, 1, 1);
 		
-		TextField txtFConclusions = new TextField();
+		TextArea txtFConclusions = new TextArea();
 		grid.add(txtFConclusions, 3, row, 1, 1);
 		
 		// Interface
@@ -405,7 +486,7 @@ public class MainApp extends Application {
 		addOption(gridOptions, gridOptions.getRowCount());
 		
 		CheckBox cbProbabilityModfied = new CheckBox();
-		gridOptions.add(cbProbabilityModfied, 5, row, 1, 1);
+		grid.add(cbProbabilityModfied, 5, row, 1, 1);
 		
 		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));		
 	}
@@ -418,7 +499,7 @@ public class MainApp extends Application {
 	 */
 	private void addOptionFromOption(GridPane gridOptions, int row, String[] strings) {		
 		//TextField txtFOptions = new TextField();
-		TextField txtFOptions = new TextField(strings[Options.TEXT]);
+		TextArea txtFOptions = new TextArea(strings[Options.TEXT]);
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
 		gridOptions.add(txtFOptions, 0, row, 1, 1);
 		
@@ -435,7 +516,7 @@ public class MainApp extends Application {
 		gridOptions.add(txtFDependence, 3, row, 1, 1);
 		
 		TextField txtFDependsOn;
-		if(strings[Options.DEPENDENCIES].contentEquals(Options.NOTHING)) {
+		if(strings[Options.DEPENDS_ON].contentEquals(Options.NOTHING)) {
 			txtFDependsOn = new TextField();
 		}else {
 			txtFDependsOn = new TextField(strings[Options.DEPENDS_ON]);
@@ -449,7 +530,7 @@ public class MainApp extends Application {
 	 * @param row int file dónde añadirá la opción
 	 */
 	private void addOption(GridPane gridOptions, int row) {
-		TextField txtFOptions = new TextField();
+		TextArea txtFOptions = new TextArea();
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
 		gridOptions.add(txtFOptions, 0, row, 1, 1);
 		
