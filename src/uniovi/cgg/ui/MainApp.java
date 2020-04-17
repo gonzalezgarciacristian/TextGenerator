@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-import org.json.simple.JSONArray;
-
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -56,11 +54,11 @@ public class MainApp extends Application {
 
 	private static ResourceBundle resourceBundle = null;
 	
-	private TabPane tabPane;
+	private TabPane tabPane = null;
 
-	private UseCase useCase;
+	private UseCase useCase = null;
 	
-	private File loadUseCaseTab2;
+	private File loadUseCaseTab2 = null;
 
 	/**
 	 * Creamos y configuramos las pestañas
@@ -115,8 +113,8 @@ public class MainApp extends Application {
 		grid.add(btnGenerate, 1, 0, 1, 1);
 
 		TextArea txtAGeneratedText = new TextArea(resourceBundle.getString("tab.one.txtAGeneratedText"));
-		txtAGeneratedText.setPrefWidth(220);
 		grid.add(txtAGeneratedText, 0, 1, 2, 1);
+		txtAGeneratedText.setWrapText(true);
 
 		Label sendTo = new Label(resourceBundle.getString("tab.one.sendTo"));
 		grid.add(sendTo, 0, 2, 1, 1);
@@ -165,6 +163,7 @@ public class MainApp extends Application {
 		if(file != null) {
 			useCase = new MainActions().loadFile(file);
 			btnGenerate.setDisable(false);
+			loadUseCaseTab2 = file;
 		} else {
 			// TODO mostrar popup
 			System.out.println("Cancelada apertura de fichero -> File == null");
@@ -267,6 +266,7 @@ public class MainApp extends Application {
 		Button btnOverwrite = new Button(resourceBundle.getString("tab.three.btnOverwrite"));
 		grid.add(btnOverwrite, 3, 0, 1, 1);
 		btnOverwrite.setDisable(true);
+		btnOverwrite.setDisable(true);
 		
 		Button btnCancel = new Button(resourceBundle.getString("tab.three.btnCancel"));
 		grid.add(btnCancel, 4, 0, 1, 1);
@@ -296,18 +296,17 @@ public class MainApp extends Application {
 		addNewRow(grid, grid.getRowCount());
 		
 		// Actions
-		btnLoad.setOnAction(e -> loadUseCaseWithFileChooser(grid, previousChildren, btnCancel));
+		btnLoad.setOnAction(e -> loadUseCaseWithFileChooser(grid, previousChildren, btnOverwrite, btnCancel));
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
-		btnSave.setOnAction(e -> saveUseCase(grid, previousChildren));
-		//btnOverwrite.setOnAction(e -> loadUseCase(grid, previousChildren));
+		btnSave.setOnAction(e -> saveUseCase(grid, previousChildren, false));
+		btnOverwrite.setOnAction(e -> saveUseCase(grid, previousChildren, true));
 		btnCancel.setOnAction(e -> loadLoadedUseCase(loadUseCaseTab2, grid, previousChildren));
 		
 		return tab;
 	}
 	
-	private void saveUseCase(GridPane grid, int previousChildren) {
+	private void saveUseCase(GridPane grid, int previousChildren, boolean overwrite) {
 		UseCase useCase = new UseCase();
-		Options option;
 		ObservableList<Node> columns;
 		List<String[]> optionsList;
 		
@@ -356,11 +355,17 @@ public class MainApp extends Application {
 			}
 			
 			boolean probabilityModified = ((CheckBox)columns.get(i+5)).isSelected();			
-			option = new Options(id, name, introduction, conclusions, optionsList, probabilityModified, useCase);
+			new Options(id, name, introduction, conclusions, optionsList, probabilityModified, useCase);
 		}
 		//System.out.println(useCase.toString());
-		File file = saveFileChooser();
-		new MainActions().saveFile(file, useCase);
+		if(overwrite) {
+			new MainActions().saveFile(loadUseCaseTab2, useCase);
+		}else {
+			File file = saveFileChooser();
+			if(file != null) {
+				new MainActions().saveFile(file, useCase);
+			}
+		}
 	}
 	
 	/**
@@ -379,16 +384,17 @@ public class MainApp extends Application {
 	
 	/**
 	 * Abre el fileChooser para poder cargar un fichero usand ola ventana del SO, después llama al método necesari opara cargar dicho ficharo en la pestaña de casos de uso y después habilita el botón cancelar
-	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
+	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y se añadirán los nuevos
 	 * @param previousChildren int hijos que no se han de borrar
 	 * @param btnCancel Button botón que hay que habilitar si se ha cargado el fichero correctamene para así pdoer cancelar los cambios usando este botón
 	 */
-	private void loadUseCaseWithFileChooser(GridPane grid, int previousChildren, Button btnCancel) {
+	private void loadUseCaseWithFileChooser(GridPane grid, int previousChildren, Button btnOverwrite, Button btnCancel) {
 		File file = openFileChooser();
 		
 		if(file != null) {
 			loadLoadedUseCase(file, grid, previousChildren);
 			loadUseCaseTab2 = file;
+			btnOverwrite.setDisable(false);
 			btnCancel.setDisable(false);
 		} else {
 			// TODO mostrar popup
@@ -471,10 +477,12 @@ public class MainApp extends Application {
 		grid.add(txtFName, 1, row, 1, 1);
 		
 		TextArea txtFIntroduction = new TextArea();
-		grid.add(txtFIntroduction, 2, row, 1, 1);
+		grid.add(txtFIntroduction, 2, row, 1, 1);		
+		txtFIntroduction.setWrapText(true);
 		
 		TextArea txtFConclusions = new TextArea();
 		grid.add(txtFConclusions, 3, row, 1, 1);
+		txtFIntroduction.setWrapText(true);
 		
 		// Interface
 		GridPane gridOptions = generalGrid();
@@ -502,6 +510,7 @@ public class MainApp extends Application {
 		TextArea txtFOptions = new TextArea(strings[Options.TEXT]);
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
 		gridOptions.add(txtFOptions, 0, row, 1, 1);
+		txtFOptions.setWrapText(true);
 		
 		//TextField txtFProbability = new TextField();
 		TextField txtFProbability = new TextField(strings[Options.PROBABILITY]);
@@ -533,6 +542,7 @@ public class MainApp extends Application {
 		TextArea txtFOptions = new TextArea();
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
 		gridOptions.add(txtFOptions, 0, row, 1, 1);
+		txtFOptions.setWrapText(true);
 		
 		TextField txtFProbability = new TextField();
 		gridOptions.add(txtFProbability, 1, row, 1, 1);
@@ -595,15 +605,15 @@ public class MainApp extends Application {
 		grid.add(labelEmailHead, 0, 4, 1, 1);
 
 		TextArea txtAEmailIntroduction = new TextArea();
-		txtAEmailIntroduction.setPrefWidth(220);
 		grid.add(txtAEmailIntroduction, 1, 4, 1, 1);
+		txtAEmailIntroduction.setWrapText(true);
 
 		Label labelEmailSign = new Label(resourceBundle.getString("tab.three.emailEnd"));
 		grid.add(labelEmailSign, 0, 5, 1, 1);
 
 		TextArea txtAEmailSign = new TextArea();
-		txtAEmailSign.setPrefWidth(220);
 		grid.add(txtAEmailSign, 1, 5, 1, 1);
+		txtAEmailSign.setWrapText(true);
 
 		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
 		grid.add(btnSave, 0, 6, 1, 1);
