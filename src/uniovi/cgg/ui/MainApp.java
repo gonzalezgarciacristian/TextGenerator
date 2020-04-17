@@ -241,13 +241,16 @@ public class MainApp extends Application {
 		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
 		grid.add(btnSave, 2, 0, 1, 1);
 		
-		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
-		grid.add(btnWithoutSave, 3, 0, 1, 1);
+		Button btnOverwrite = new Button(resourceBundle.getString("tab.three.btnOverwrite"));
+		grid.add(btnOverwrite, 3, 0, 1, 1);
 
+		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
+		grid.add(btnWithoutSave, 4, 0, 1, 1);		
+		
+		// Cabeceras
 		Label labelID = new Label(resourceBundle.getString("tab.two.id"));
 		grid.add(labelID, 0, 1, 1, 1);
 		
-		// Cabeceras
 		Label labelName = new Label(resourceBundle.getString("tab.two.name"));
 		grid.add(labelName, 1, 1, 1, 1);
 		
@@ -263,10 +266,12 @@ public class MainApp extends Application {
 		Label labelProbabilityModified = new Label(resourceBundle.getString("tab.two.probabilityModified"));
 		grid.add(labelProbabilityModified, 5, 1, 1, 1);
 		
+		int previousChildren = grid.getChildren().size();
+		
 		addNewRow(grid, grid.getRowCount());
 		
 		// Actions
-		btnLoad.setOnAction(e -> loadUseCase(grid));
+		btnLoad.setOnAction(e -> loadUseCase(grid, previousChildren));
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
 		
 		return tab;
@@ -274,20 +279,25 @@ public class MainApp extends Application {
 	
 	/**
 	 * Borra todos los hijos que necesitan ser renovados para dejar solo los que hay en común en la tab3 cuando se carga un nuevo caso de uso, que son las cabeceras
-	 * @param grid
+	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
+	 * @param previousChildren int hijos que no se han de borrar
 	 */
-	private void cleanTab3(GridPane grid) {
+	private void cleanTab3(GridPane grid, int previousChildren) {
 		ObservableList<Node> a = grid.getChildren();
-		for(int i = a.size()-1, length = 8; i > length; i-- ) {
+
+		//-1 en ambos debido a que empeiz ane 0, y la contabilidad con size es total: 10 hijos, pero el 10 está en [9]
+		for(int i = a.size()-1, length = previousChildren-1; i > length; i-- ) {
 			a.remove(i);
 		}
 	}
 	
 	/**
-	 * Llama al método encargado de limpair la tab y abre el fileChooser y recibe su fichero, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso.
+	 * Llama al método encargado de limpiar la tab y abre el fileChooser y recibe su fichero, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso.
+	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
+	 * @param previousChildren int hijos que no se han de borrar
 	 */
-	private void loadUseCase(GridPane grid) {
-		cleanTab3(grid);
+	private void loadUseCase(GridPane grid, int previousChildren) {
+		cleanTab3(grid, previousChildren);
 		
 		File file = openFileChooser();
 		
@@ -296,7 +306,7 @@ public class MainApp extends Application {
 			
 			List<Options> options = useCase.getOptions();
 			
-			// +2 debido a que previamente en el grid hay 2 elementos
+			// previousRow debido a que hay elementos rpeviamente en el grid y esos no hay que borrarlos ni pisarlos
 			int previousRows = grid.getRowCount();
 			for(int i = 0, length = options.size(); i < length; i++) {
 				addNewRowFromOption(grid, i+previousRows, options.get(i));				
@@ -314,7 +324,7 @@ public class MainApp extends Application {
 	 * @param row int número de la fila en dónde se añadirá
 	 * @param options Options Contenio a isnerta en la fila
 	 */
-	private void addNewRowFromOption(GridPane grid, int row, Options options) {
+	private void addNewRowFromOption(GridPane grid, int row, Options options) {		
 		// Filas
 		TextField txtFID = new TextField(String.valueOf(options.getID()));
 		grid.add(txtFID, 0, row, 1, 1);
@@ -334,13 +344,17 @@ public class MainApp extends Application {
 		
 		Button btnAddOption = new Button(resourceBundle.getString("tab.two.btnAddOption"));
 		gridOptions.add(btnAddOption, 0, 0, 1, 1);		
-		
-		for(int i = gridOptions.getRowCount(), length = options.getOptions().size(); i < length; i++) {
-			addOptionFromOption(gridOptions, i, options.getOptions().get(i));
+
+		// Para mantener los nodos que estén por encima en el gridOptions, como el botón de añadir. El -1 es debido a que el for comienza en 0 y el getRowCoutn devuelve el número desde 1
+		int previousChildren = gridOptions.getRowCount();
+		for(int i = 0, length = options.getOptions().size(); i < length; i++) {
+		//for(int i = 1, length = options.getOptions().size(); i < length; i++) {
+			 addOptionFromOption(gridOptions, i+previousChildren, options.getOptions().get(i));
 		}
 		
 		CheckBox cbProbabilityModfied = new CheckBox();
-		gridOptions.add(cbProbabilityModfied, 5, row, 1, 1);
+		grid.add(cbProbabilityModfied, 5, row, 1, 1);
+		cbProbabilityModfied.setSelected(options.isProbabilityModified());
 		
 		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));		
 	}
@@ -382,8 +396,9 @@ public class MainApp extends Application {
 	 * Añade una nueva opción en el panel que recibe en la correspondiente fila que recibe
 	 * @param gridOptions GridPane
 	 * @param row int file dónde añadirá la opción
+	 * @return boolean retorna si la probabilidad ha sido moficiada o no
 	 */
-	private void addOptionFromOption(GridPane gridOptions, int row, String[] strings) {
+	private void addOptionFromOption(GridPane gridOptions, int row, String[] strings) {		
 		//TextField txtFOptions = new TextField();
 		TextField txtFOptions = new TextField(strings[Options.TEXT]);
 		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
