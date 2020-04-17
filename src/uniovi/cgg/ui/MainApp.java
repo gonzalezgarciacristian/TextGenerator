@@ -56,6 +56,8 @@ public class MainApp extends Application {
 	private TabPane tabPane;
 
 	private UseCase useCase;
+	
+	private File loadUseCaseTab2;
 
 	/**
 	 * Creamos y configuramos las pestañas
@@ -243,9 +245,11 @@ public class MainApp extends Application {
 		
 		Button btnOverwrite = new Button(resourceBundle.getString("tab.three.btnOverwrite"));
 		grid.add(btnOverwrite, 3, 0, 1, 1);
-
-		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
-		grid.add(btnWithoutSave, 4, 0, 1, 1);		
+		btnOverwrite.setDisable(true);
+		
+		Button btnCancel = new Button(resourceBundle.getString("tab.three.btnCancel"));
+		grid.add(btnCancel, 4, 0, 1, 1);
+		btnCancel.setDisable(true);
 		
 		// Cabeceras
 		Label labelID = new Label(resourceBundle.getString("tab.two.id"));
@@ -271,8 +275,11 @@ public class MainApp extends Application {
 		addNewRow(grid, grid.getRowCount());
 		
 		// Actions
-		btnLoad.setOnAction(e -> loadUseCase(grid, previousChildren));
+		btnLoad.setOnAction(e -> loadUseCaseWithFileChooser(grid, previousChildren, btnCancel));
 		btnAddRow.setOnAction(e -> addNewRow(grid, grid.getRowCount()));
+		//btnSave.setOnAction(e -> loadUseCase(grid, previousChildren));
+		//btnOverwrite.setOnAction(e -> loadUseCase(grid, previousChildren));
+		btnCancel.setOnAction(e -> loadLoadedUseCase(loadUseCaseTab2, grid, previousChildren));
 		
 		return tab;
 	}
@@ -285,37 +292,48 @@ public class MainApp extends Application {
 	private void cleanTab3(GridPane grid, int previousChildren) {
 		ObservableList<Node> a = grid.getChildren();
 
-		//-1 en ambos debido a que empeiz ane 0, y la contabilidad con size es total: 10 hijos, pero el 10 está en [9]
+		//-1 en ambos debido a que empeiza en 0, y la contabilidad con size es total: 10 hijos, pero el 10 está en [9]
 		for(int i = a.size()-1, length = previousChildren-1; i > length; i-- ) {
 			a.remove(i);
 		}
 	}
 	
 	/**
-	 * Llama al método encargado de limpiar la tab y abre el fileChooser y recibe su fichero, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso.
+	 * Abre el fileChooser para poder cargar u nfichero usand ola ventana del SO, después llama al método necesari opara cargar dicho ficharo en la pestaña de casos de uso y después habilita el botón cancelar
 	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
 	 * @param previousChildren int hijos que no se han de borrar
+	 * @param btnCancel Button botón que hay que habilitar si se ha cargado el fichero correctamene para así pdoer cancelar los cambios usando este botón
 	 */
-	private void loadUseCase(GridPane grid, int previousChildren) {
-		cleanTab3(grid, previousChildren);
-		
+	private void loadUseCaseWithFileChooser(GridPane grid, int previousChildren, Button btnCancel) {
 		File file = openFileChooser();
 		
 		if(file != null) {
-			useCase = new MainActions().loadFile(file);
-			
-			List<Options> options = useCase.getOptions();
-			
-			// previousRow debido a que hay elementos rpeviamente en el grid y esos no hay que borrarlos ni pisarlos
-			int previousRows = grid.getRowCount();
-			for(int i = 0, length = options.size(); i < length; i++) {
-				addNewRowFromOption(grid, i+previousRows, options.get(i));				
-			}
-			
+			loadLoadedUseCase(file, grid, previousChildren);
+			loadUseCaseTab2 = file;
+			btnCancel.setDisable(false);
 		} else {
 			// TODO mostrar popup
 			System.out.println("Cancelada apertura de fichero -> File == null");
 		}		
+	}
+	
+	/**
+	 * Llama al método encargado de limpiar la tab y abre el fichero recibido, para así cargar un caso de uso para la pestaña de modificaciñon de casos de uso.
+	 * @param file File fichero a cargar
+	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y s eañadirán los nuevos
+	 * @param previousChildren int hijos que no se han de borrar
+	 */
+	private void loadLoadedUseCase(File file, GridPane grid, int previousChildren) {
+		cleanTab3(grid, previousChildren);
+		useCase = new MainActions().loadFile(file);
+		
+		List<Options> options = useCase.getOptions();
+		
+		// previousRow debido a que hay elementos rpeviamente en el grid y esos no hay que borrarlos ni pisarlos
+		int previousRows = grid.getRowCount();
+		for(int i = 0, length = options.size(); i < length; i++) {
+			addNewRowFromOption(grid, i+previousRows, options.get(i));				
+		}
 	}
 	
 	/**
@@ -509,7 +527,7 @@ public class MainApp extends Application {
 		Button btnSave = new Button(resourceBundle.getString("tab.three.btnSave"));
 		grid.add(btnSave, 0, 6, 1, 1);
 
-		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnWithoutSave"));
+		Button btnWithoutSave = new Button(resourceBundle.getString("tab.three.btnCancel"));
 		grid.add(btnWithoutSave, 1, 6, 1, 1);
 		
 		PasswordField txtFPassword = new PasswordField();
