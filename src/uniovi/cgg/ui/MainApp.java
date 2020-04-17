@@ -245,8 +245,12 @@ public class MainApp extends Application {
 		Tab tab = new Tab(resourceBundle.getString("tab.two.title"));
 		
 		// Interface
-		GridPane grid = generalGrid();		
+		GridPane grid = generalGrid();
+		grid.setMaxWidth(3000);
+		grid.setMaxHeight(100);		
+		
 		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setPrefSize(5000000, 50000);
 
 		tab.setContent(scrollPane);		
 		
@@ -373,17 +377,17 @@ public class MainApp extends Application {
 	 * @param grid GridPane grid en dónde se le quitarán los hijos innecesarios y se añadirán los nuevos
 	 * @param previousChildren int hijos que no se han de borrar
 	 */
-	private void cleanTab3(GridPane grid, int previousChildren) {
+	private void cleanTabUseCase(GridPane grid, int previousChildren) {
 		ObservableList<Node> a = grid.getChildren();
 
-		//-1 en ambos debido a que empeiza en 0, y la contabilidad con size es total: 10 hijos, pero el 10 está en [9]
+		//-1 en ambos debido a que empieza en 0, y la contabilidad con size es total: 10 hijos, pero el 10 está en [9]
 		for(int i = a.size()-1, length = previousChildren-1; i > length; i-- ) {
 			a.remove(i);
 		}
 	}
 	
 	/**
-	 * Abre el fileChooser para poder cargar un fichero usand ola ventana del SO, después llama al método necesari opara cargar dicho ficharo en la pestaña de casos de uso y después habilita el botón cancelar
+	 * Abre el fileChooser para poder cargar un fichero usando la ventana del SO, después llama al método necesari opara cargar dicho ficharo en la pestaña de casos de uso y después habilita el botón cancelar
 	 * @param grid GridPane grid en dónde se le quitarán lso hijos innecesarios y se añadirán los nuevos
 	 * @param previousChildren int hijos que no se han de borrar
 	 * @param btnCancel Button botón que hay que habilitar si se ha cargado el fichero correctamene para así pdoer cancelar los cambios usando este botón
@@ -409,7 +413,7 @@ public class MainApp extends Application {
 	 * @param previousChildren int hijos que no se han de borrar
 	 */
 	private void loadLoadedUseCase(File file, GridPane grid, int previousChildren) {
-		cleanTab3(grid, previousChildren);
+		cleanTabUseCase(grid, previousChildren);
 		useCase = new MainActions().loadFile(file);
 		
 		List<Options> options = useCase.getOptions();
@@ -442,7 +446,7 @@ public class MainApp extends Application {
 		grid.add(txtFConclusions, 3, row, 1, 1);
 		
 		// Interface
-		GridPane gridOptions = generalGrid();
+		GridPane gridOptions = gridOptions();
 		grid.add(gridOptions, 4, row, 1, 1);
 		
 		Button btnAddOption = new Button(resourceBundle.getString("tab.two.btnAddOption"));
@@ -460,6 +464,13 @@ public class MainApp extends Application {
 		cbProbabilityModfied.setSelected(options.isProbabilityModified());
 		
 		btnAddOption.setOnAction(e -> addOption(gridOptions, gridOptions.getRowCount()));		
+	}
+	
+	private GridPane gridOptions(){
+		GridPane gridOptions = generalGrid();
+		gridOptions.setMaxWidth(750);
+		gridOptions.setMaxHeight(100);
+		return gridOptions;
 	}
 	
 	/**
@@ -485,7 +496,8 @@ public class MainApp extends Application {
 		txtFIntroduction.setWrapText(true);
 		
 		// Interface
-		GridPane gridOptions = generalGrid();
+		GridPane gridOptions = gridOptions();	
+		
 		grid.add(gridOptions, 4, row, 1, 1);
 		
 		Button btnAddOption = new Button(resourceBundle.getString("tab.two.btnAddOption"));
