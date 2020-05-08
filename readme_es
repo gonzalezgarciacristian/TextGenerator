@@ -15,3 +15,15 @@
 -----
 Manual:
 	*Si se usa Gmail deberas desactivar la verificación en dos pasos o tras un intento y que te de error, ir a tu cuenta y permitir que esta aplicación
+-----
+Crear jar del proyecto
+	*File -> Export ->Runnable Jar file ->
+		**Select Launcher (tiene que se runa clase de Java que no herede de Application (de JavaFX)... Sino no funcionará el Jar)
+		**Select Export destination
+		**Library handling -> Select: 'Extract required libraries into generated JAR'
+-----
+*Ejecución en Windows del Runnable Jar
+	*Doble clic sobre él y listo
+		**Si esto falla, abrir el CMD y a la carpeta dónde está el Jar y escribir: java -jar NombreDelJarSinExtensión
+			***Si el nombre tiene espacios, ponerlo entre: java -jar "nombre del jar con espacios"
+			*** También se peude ejecutar java -jar desde dónde sea y después arrastrar el jar a la conseola y te pone toda la ruta él solo
