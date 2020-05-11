@@ -252,7 +252,7 @@ public class OptionsTest {
 
 	private Options clientServiceAccess = new Options(21, "ClientServiceAccess",
 			"El acceso al servicio se hace mediante ", "\n",
-			new String[][] { { "", "1", "-", "-" },
+			new String[][] {
 					{ "un usuario y una contraseña desarrollado por la empresa para el usuario. ", "1", "-", "-" },
 					{ "el registro previo del usuario dando su email y contraseña, la cual no se guarda hasheada en el servidor. ",
 							"1", "-", "-" },
@@ -295,7 +295,7 @@ public class OptionsTest {
 	private Options dataService = new Options(23, "DataService",
 			"Otro servicio que se utiliza para recibir los datos del usuario y que usa el trabajador para responder al cliente es ",
 			" ",
-			new String[][] { { "", "1", "-", "-" }, { "un servicio web de la propia empresa. ", "1", "encrypted", "-" },
+			new String[][] { { "un servicio web de la propia empresa. ", "1", "encrypted", "-" },
 					{ "un servicio web de otra empresa. ", "1", "encrypted", "-" },
 					{ "una aplicación móvil. ", "1", "encrypted", "-" },
 					{ "un correo electrónico. ", "1", "encrypted", "-" }, { "por correo postal.\n", "1", "-", "-" },
@@ -329,7 +329,7 @@ public class OptionsTest {
 			false, useCase);
 
 	private Options sendToBank = new Options(26, "SendToBank", "Se envían al banco usando ", "",
-			new String[][] { { "", "1", "-", "-" }, { "un servicio web. ", "1", "-", "-" },
+			new String[][] { { "un servicio web. ", "1", "-", "-" },
 					{ "un correo electrónico. ", "1", "-", "-" }, { "correo postal.", "1", "-", "-" },
 					{ "un fax. ", "1", "-", "-" }, { "en persona usando hojas de papel/CD/DVD/USB. ", "1", "-", "-" } },
 			false, useCase);
