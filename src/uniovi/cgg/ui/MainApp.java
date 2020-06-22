@@ -47,8 +47,10 @@ public class MainApp extends Application {
 	private static final String JSON_FILE = "JSON";
 	private static final String JSON_EXTENSION = "*.json";
 
-	private final int STAGE_WIDTH = 640;
-	private final int STAGE_HEIGHT = 480;
+	private final int STAGE_WIDTH = 1024;
+	private final int STAGE_HEIGHT = 768;
+	private final int MAX_WIDTH_TEXTAREA = STAGE_WIDTH*2;
+	private final int MAX_HEIGHT_TEXTAREA = STAGE_HEIGHT*2;	
 
 	private static final String MAILTO = "mailto:";
 
@@ -102,11 +104,19 @@ public class MainApp extends Application {
 
 		// Interface
 		GridPane grid = generalGrid();
-
+		
+		//grid.setPrefSize(300000, 300000);
+		//grid.prefWidthProperty().bind(tab.widthProperty());		
+		//maxHeight="Infinity" maxWidth="Infinity"
+		//grid.prefHeight(Priority.ALWAYS);
+		
 		tab.setContent(grid);
+		
+		//GridPane.setHgrow(grid, Priority.ALWAYS);
+		//GridPane.setVgrow(grid, Priority.ALWAYS);
 
 		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
-		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		// Node to include, Column index, Row index, [Column span, Row span] -> How many row and columns needs the component 
 		grid.add(btnLoad, 0, 0, 1, 1);
 
 		Button btnGenerate = new Button(resourceBundle.getString("tab.one.btnGenerate"));
@@ -114,31 +124,33 @@ public class MainApp extends Application {
 
 		TextArea txtAGeneratedText = new TextArea(resourceBundle.getString("tab.one.txtAGeneratedText"));
 		grid.add(txtAGeneratedText, 0, 1, 2, 1);
-		txtAGeneratedText.setWrapText(true);
+		txtAGeneratedText.setWrapText(true);		
+		txtAGeneratedText.setPrefWidth(MAX_WIDTH_TEXTAREA);
+		txtAGeneratedText.setPrefHeight(MAX_HEIGHT_TEXTAREA);
 
 		Label sendTo = new Label(resourceBundle.getString("tab.one.sendTo"));
-		grid.add(sendTo, 0, 2, 1, 1);
+		grid.add(sendTo, 0, 4, 1, 1);
 
 		TextField txtFSendTo = new TextField();
-		grid.add(txtFSendTo, 1, 2, 1, 1);
+		grid.add(txtFSendTo, 1, 4, 1, 1);
 		
 		Label labelBccEmails = new Label(resourceBundle.getString("tab.one.bccEmails"));
-		grid.add(labelBccEmails, 0, 3, 1, 1);
+		grid.add(labelBccEmails, 0, 5, 1, 1);
 
 		TextField txtFbccEmails = new TextField();
-		grid.add(txtFbccEmails, 1, 3, 1, 1);
+		grid.add(txtFbccEmails, 1, 5, 1, 1);
 		
 		Label labelPassword = new Label(resourceBundle.getString("tab.one.password"));
-		grid.add(labelPassword, 0, 4, 1, 1);
+		grid.add(labelPassword, 0, 6, 1, 1);
 
 		PasswordField txtFPassword = new PasswordField();
-		grid.add(txtFPassword, 1, 4, 1, 1);
+		grid.add(txtFPassword, 1, 6, 1, 1);
 
 		CheckBox ccToMe = new CheckBox(resourceBundle.getString("tab.one.ccToMe"));
-		grid.add(ccToMe, 0, 5, 1, 1);
+		grid.add(ccToMe, 0, 7, 1, 1);
 		
 		Button btnSend = new Button(resourceBundle.getString("tab.one.btnSend"));
-		grid.add(btnSend, 1, 5, 1, 1);
+		grid.add(btnSend, 1, 7, 1, 1);
 
 		// Actions
 		// Al clicar sobre el botón de cargar, abrimos un nuevo FileChooser
@@ -258,7 +270,7 @@ public class MainApp extends Application {
 		
 		// Botonera
 		Button btnLoad = new Button(resourceBundle.getString("tab.one.btnLoad"));
-		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		// Node to include, Column index, Row index, [Column span, Row span] -> How many row and columns needs the component 
 		grid.add(btnLoad, 0, 0, 1, 1);
 
 		Button btnAddRow = new Button(resourceBundle.getString("tab.two.btnAddRow"));
@@ -520,7 +532,7 @@ public class MainApp extends Application {
 	private void addOptionFromOption(GridPane gridOptions, int row, String[] strings) {		
 		//TextField txtFOptions = new TextField();
 		TextArea txtFOptions = new TextArea(strings[Options.TEXT]);
-		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		// Node to include, Column index, Row index, [Column span, Row span]-> How many row and columns needs the component 
 		gridOptions.add(txtFOptions, 0, row, 1, 1);
 		txtFOptions.setWrapText(true);
 		
@@ -552,7 +564,7 @@ public class MainApp extends Application {
 	 */
 	private void addOption(GridPane gridOptions, int row) {
 		TextArea txtFOptions = new TextArea();
-		// Node to include, Column index, Row index, [Row span, Column span] -> How many row and columns needs the component 
+		// Node to include, Column index, Row index, [Column span, Row span] -> How many row and columns needs the component 
 		gridOptions.add(txtFOptions, 0, row, 1, 1);
 		txtFOptions.setWrapText(true);
 		
@@ -692,24 +704,12 @@ public class MainApp extends Application {
 
 		tab.setContent(grid);
 
-		Label labelDeveloper1 = new Label(resourceBundle.getString("tab.four.developer1"));
-		grid.add(labelDeveloper1, 0, 0, 1, 1);
-
-		Hyperlink linkDeveloper1Email = new Hyperlink(resourceBundle.getString("tab.four.developer1Email"));
-		grid.add(linkDeveloper1Email, 1, 0, 1, 1);
-
-		Label labelDeveloper2 = new Label(resourceBundle.getString("tab.four.developer2"));
-		grid.add(labelDeveloper2, 0, 1, 1, 1);
-
-		Hyperlink linkDeveloper2Email = new Hyperlink(resourceBundle.getString("tab.four.developer2Email"));
-		grid.add(linkDeveloper2Email, 1, 1, 1, 1);
-
 		FileInputStream fisImageEII = null;
 		try {
 			fisImageEII = new FileInputStream("resources/logoEII.png");
 			Image imageEII = new Image(fisImageEII);
 			ImageView imageViewEII = new ImageView(imageEII);
-			grid.add(imageViewEII, 2, 0, 1, 1);
+			grid.add(imageViewEII, 0, 0, 1, 1);
 		} catch (FileNotFoundException e1) {
 			System.out.println(e1);
 			e1.printStackTrace();
@@ -720,11 +720,17 @@ public class MainApp extends Application {
 			fisImageUniOvi = new FileInputStream("resources/logoUniOvi.png");
 			Image imageUniOvi = new Image(fisImageUniOvi);
 			ImageView imageViewUniOvi = new ImageView(imageUniOvi);
-			grid.add(imageViewUniOvi, 2, 1, 1, 1);
+			grid.add(imageViewUniOvi, 1, 0, 1, 1);
 		} catch (FileNotFoundException e1) {
 			System.out.println(e1);
 			e1.printStackTrace();
 		}
+		
+		Label labelDeveloper1 = new Label(resourceBundle.getString("tab.four.developer1"));
+		grid.add(labelDeveloper1, 0, 1, 1, 1);
+
+		Hyperlink linkDeveloper1Email = new Hyperlink(resourceBundle.getString("tab.four.developer1Email"));
+		grid.add(linkDeveloper1Email, 1, 1, 1, 1);
 
 		Hyperlink linkGitHub = new Hyperlink(resourceBundle.getString("tab.four.githubProject"));
 		grid.add(linkGitHub, 0, 2, 1, 1);
@@ -737,7 +743,6 @@ public class MainApp extends Application {
 
 		// Actions
 		linkDeveloper1Email.setOnAction(e -> getHostServices().showDocument(MAILTO + linkDeveloper1Email.getText()));
-		linkDeveloper2Email.setOnAction(e -> getHostServices().showDocument(MAILTO + linkDeveloper2Email.getText()));
 		linkGitHub.setOnAction(e -> getHostServices().showDocument(resourceBundle.getString("tab.four.githubURL")));
 
 		return tab;
@@ -802,7 +807,7 @@ public class MainApp extends Application {
 		Scene scene = new Scene(vBox);
 		stage.setScene(scene);
 
-		stage = stageProperties(stage);
+		stage = stageProperties(stage);		
 
 		stage.show();
 	}
