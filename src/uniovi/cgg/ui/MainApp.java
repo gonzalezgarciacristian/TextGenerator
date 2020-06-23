@@ -1,17 +1,19 @@
 package uniovi.cgg.ui;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -690,6 +692,21 @@ public class MainApp extends Application {
 	private boolean checkExistingConfiguration() {
 		return Persistence.getInstance().checkExistingFile(Persistence.CONFIGURATION);
 	}
+	
+	/**
+	 * Carga una imagen de la carpeta recursos (que está añadida en el Path para así al exportarl oal jar se pueda leer su contenido).
+	 * Explanation: https://stackoverflow.com/questions/9864267/loading-image-resource
+	 * @param image String No necesita añadir la ruta de la carpeta, sino solamente el fichero con el / delante.
+	 * @return
+	 * @throws IllegalArgumentException Throws by getClass().getResource(image)
+	 * @throws IOException
+	 */
+	private ImageView loadImageFromResources(String image) throws IllegalArgumentException, IOException {
+		BufferedImage biImage = ImageIO.read(getClass().getResource(image));
+		Image imageUniOvi = SwingFXUtils.toFXImage(biImage, null);
+		ImageView imageViewUniOvi = new ImageView(imageUniOvi);
+		return imageViewUniOvi;
+	}
 
 	/**
 	 * Creación y configuración de la pestaña 4: Acerca de...
@@ -703,28 +720,35 @@ public class MainApp extends Application {
 		GridPane grid = generalGrid();
 
 		tab.setContent(grid);
-
-		FileInputStream fisImageEII = null;
+		
 		try {
-			fisImageEII = new FileInputStream("resources/logoEII.png");
-			Image imageEII = new Image(fisImageEII);
-			ImageView imageViewEII = new ImageView(imageEII);
-			grid.add(imageViewEII, 0, 0, 1, 1);
-		} catch (FileNotFoundException e1) {
-			System.out.println(e1);
-			e1.printStackTrace();
-		}
-
-		FileInputStream fisImageUniOvi = null;
+			// They are loaded from the resources folder
+			grid.add(loadImageFromResources("/logoEII.png"), 0, 0, 1, 1);
+		} catch (IllegalArgumentException iae) {
+			System.out.println(iae);
+			iae.printStackTrace();
+		} catch (IOException ioe) {
+			System.out.println(ioe);
+			ioe.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}		
+		
+		// En dos separados, así si falla una, al menos carga la otra
 		try {
-			fisImageUniOvi = new FileInputStream("resources/logoUniOvi.png");
-			Image imageUniOvi = new Image(fisImageUniOvi);
-			ImageView imageViewUniOvi = new ImageView(imageUniOvi);
-			grid.add(imageViewUniOvi, 1, 0, 1, 1);
-		} catch (FileNotFoundException e1) {
-			System.out.println(e1);
-			e1.printStackTrace();
-		}
+			// They are loaded from the resources folder
+			grid.add(loadImageFromResources("/logoUniOvi.png"), 1, 0, 1, 1);
+		} catch (IllegalArgumentException iae) {
+			System.out.println(iae);
+			iae.printStackTrace();
+		} catch (IOException ioe) {
+			System.out.println(ioe);
+			ioe.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}	
 		
 		Label labelDeveloper1 = new Label(resourceBundle.getString("tab.four.developer1"));
 		grid.add(labelDeveloper1, 0, 1, 1, 1);
@@ -735,10 +759,10 @@ public class MainApp extends Application {
 		Hyperlink linkGitHub = new Hyperlink(resourceBundle.getString("tab.four.githubProject"));
 		grid.add(linkGitHub, 0, 2, 1, 1);
 
-		Label license = new Label(resourceBundle.getString("tab.four.license")); // TODO
+		Label license = new Label(resourceBundle.getString("tab.four.license"));
 		grid.add(license, 0, 3, 1, 1);
 
-		Label version = new Label(resourceBundle.getString("tab.four.version")); // TODO
+		Label version = new Label(resourceBundle.getString("tab.four.version"));
 		grid.add(version, 1, 3, 1, 1);
 
 		// Actions
