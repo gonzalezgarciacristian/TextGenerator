@@ -11,7 +11,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.10.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -24,7 +24,7 @@
 				<version>0.0.4</version>
 				<configuration>
 					<mainClass>uniovi.cgg.ui.MainApp</mainClass>
-					<executable>D:\Eclipse\Java\javafx-sdk-13.0.2\lib</executable>
+					<executable>D:\Eclipse\Java\javafx-sdk-18\lib</executable>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -34,23 +34,23 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx</artifactId>
-			<version>13</version>
+			<version>18</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-base</artifactId>
-			<version>13</version>
+			<version>18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>13</version>
+			<version>18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-swing</artifactId>
-			<version>13</version>
+			<version>18</version>
 		</dependency>
 		<!-- JSON -->
 		<dependency>

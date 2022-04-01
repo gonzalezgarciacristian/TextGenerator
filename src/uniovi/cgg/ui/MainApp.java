@@ -816,8 +816,18 @@ public class MainApp extends Application {
 	private void loadi18n() {
 		// Locale.setDefault(new Locale("en")); // es españa, en inglés
 		resourceBundle = ResourceBundle.getBundle(Persistence.i18n_PATH);
-		System.out.println(resourceBundle.getLocale());
+		// System.out.println(resourceBundle.getLocale());
 	}
+	
+	/**
+	 * Comentando el otro método inferior, se lanzaría este y permite ver en la consola al bersión de JavaFX utilizada
+	 * @param stage
+	 */
+	/*@Override
+    public void start(Stage stage) throws IOException {
+        System.out.println("JavaFX Version: " + System.getProperty("javafx.version"));
+        System.out.println("JavaFX Runtime Version: " + System.getProperty("javafx.runtime.version"));
+    }*/
 
 	@Override
 	public void start(Stage stage) {
