@@ -3,8 +3,7 @@
 *Java13: https://www.oracle.com/java/technologies/javase-jdk13-downloads.html
 *Maven, JAVA_HOME y otros: https://mkyong.com/maven/how-to-install-maven-in-windows/
 
-*Eclipse: se ejecuta el Launcher.java y normalmente, no hace falta añadir argumentos: Clic sobre el proyecto, Run as -> Java App.
-	*A veces, al cambiar el locale, improtar las librerías y tratar de forzar el inglés, peta todo y n ofunciona
+*Eclipse: se ejecuta el Launcher.java y normalmente, no hace falta añadir argumentos: Clic sobre el proyecto, Run as -> Java App. De otra manera, podría fallar a veces.
  
 *Si da problema al arrancar (Error: JavaFX runtime components are missing, and are required to run this application) hay que poner como argumento de la VM lo siguiente:
  	java --module-path "C:\Program Files\Java\javafx-sdk-13.0.2\lib" --add-modules javafx.controls,javafx.fxml,java.logging,java.desktop -cp . Main
