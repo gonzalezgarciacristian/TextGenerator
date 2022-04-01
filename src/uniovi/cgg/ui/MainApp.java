@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
@@ -815,6 +816,7 @@ public class MainApp extends Application {
 	private void loadi18n() {
 		// Locale.setDefault(new Locale("en")); // es españa, en inglés
 		resourceBundle = ResourceBundle.getBundle(Persistence.i18n_PATH);
+		System.out.println(resourceBundle.getLocale());
 	}
 
 	@Override
