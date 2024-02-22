@@ -759,6 +759,9 @@ public class MainApp extends Application {
 
 		Hyperlink linkGitHub = new Hyperlink(resourceBundle.getString("tab.four.githubProject"));
 		grid.add(linkGitHub, 0, 2, 1, 1);
+		
+		Label currentVersion = new Label(resourceBundle.getString("tab.four.currentVersion"));
+		grid.add(currentVersion, 1, 2, 1, 1);
 
 		Label license = new Label(resourceBundle.getString("tab.four.license"));
 		grid.add(license, 0, 3, 1, 1);
@@ -814,13 +817,12 @@ public class MainApp extends Application {
 	 * es, en
 	 */
 	private void loadi18n() {
-		// Locale.setDefault(new Locale("en")); // es españa, en inglés
+		//Locale.setDefault(Locale.ENGLISH); // "es" españa, "en" inglés		
 		resourceBundle = ResourceBundle.getBundle(Persistence.i18n_PATH);
-		// System.out.println(resourceBundle.getLocale());
 	}
 	
 	/**
-	 * Comentando el otro método inferior, se lanzaría este y permite ver en la consola al bersión de JavaFX utilizada
+	 * Comentando el otro método inferior, se lanzaría este y permite ver en la consola al versión de JavaFX utilizada
 	 * @param stage
 	 */
 	/*@Override

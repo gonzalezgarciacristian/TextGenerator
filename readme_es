@@ -1,33 +1,38 @@
+Requiere Java 17 y Java FX 21:
+
+--
+
 *Guide: https://openjfx.io/openjfx-docs/#maven
-*Jaxa Fx 13: https://gluonhq.com/products/javafx/
+*JavaFx: https://gluonhq.com/products/javafx/
 *Java13: https://www.oracle.com/java/technologies/javase-jdk13-downloads.html
 *Maven, JAVA_HOME y otros: https://mkyong.com/maven/how-to-install-maven-in-windows/
 
 *Eclipse: se ejecuta el Launcher.java y normalmente, no hace falta añadir argumentos: Clic sobre el proyecto, Run as -> Java App. De otra manera, podría fallar a veces.
  
-*Si da problema al arrancar (Error: JavaFX runtime components are missing, and are required to run this application) hay que poner como argumento de la VM lo siguiente:
+*Si da problema al arrancar (Error: JavaFX runtime components are missing, and are required to run this application) hay que poner como argumento de la VM lo siguiente (ojo a la versión de Java):
  	java --module-path "C:\Program Files\Java\javafx-sdk-13.0.2\lib" --add-modules javafx.controls,javafx.fxml,java.logging,java.desktop -cp . Main
  	
 -----
-* Si no depende de ninguna variable de otro/s texto/s, pide el texto directamente. En caso contrario, mira sus dependencias y si están a true, pide el texto, pero solo sí todas sus depe
-	* Vamos, es un dependencia1 && dependencia2, no se deja hacer OR (||)
-* Cada posible texto puede estar linkado a una variable o más. Si no se quiere itnroducción o conclusiones entocnes no meterla,s si estas van a ser las mismas, pero sus posibles sentencias dependen todas de otra cosa, mete rintro y conclusiones en cada sentencia aunq sea repetir, ya que sino podrían salir ambas pero si n ose cumplió nada, no llevarían nada de texto intermedio.
-* Las probabilidades de un texto son por apariciones antes de tirar los dados
-	* De momento no soporta el 0, pero debería, por si se quiere guardar pero que no la tire
+*Notas de uso:
+	*Si no depende de ninguna variable de otro/s texto/s, pide el texto directamente. En caso contrario, mira sus dependencias y si están a true, pide el texto, pero solo sí todas sus depe
+		*Vamos, es un dependencia1 && dependencia2, no se deja hacer OR (||)
+	*Cada posible texto puede estar linkado a una variable o más. Si no se quiere itnroducción o conclusiones entocnes no meterlas, si estas van a ser las mismas, pero sus posibles sentencias dependen todas de otra cosa, mete rintro y conclusiones en cada sentencia aunq sea repetir, ya que sino podrían salir ambas pero si n ose cumplió nada, no llevarían nada de texto intermedio.
+	*Las probabilidades de un texto son por apariciones antes de tirar los dados
+		*De momento no soporta el 0, pero debería, por si se quiere guardar pero que no la tire
 -----
-Manual:
+*Manual enviar correo:
 	*Si se usa Gmail deberas desactivar la verificación en dos pasos o tras un intento y que te de error, ir a tu cuenta y permitir que esta aplicación
 -----
-Crear jar del proyecto
+*Crear jar del proyecto:
 	*File -> Export ->Runnable Jar file ->
-		**Select Launcher (tiene que se runa clase de Java que no herede de Application (de JavaFX)... Sino no funcionará el Jar)
+		**Select Launcher (tiene que ser una clase de Java que no herede de Application (de JavaFX)... Sino no funcionará el Jar)
 		**Select Export destination
 		**Library handling -> Select: 'Extract required libraries into generated JAR'
 	**Asegurarse de que la carpeta resources está añadida al build path para que al exportar el JAR los coja de ahí
 -----
-*Ejecución en Windows del Runnable Jar	
+*Ejecución en Windows del Runnable Jar:	
 	*Doble clic sobre él y listo
-		**Si esto falla, abrir el CMD y a la carpeta dónde está el Jar y escribir: java -jar NombreDelJarSinExtensión
-			***Si el nombre tiene espacios, ponerlo entre: java -jar "nombre del jar con espacios"
-			*** También se peude ejecutar java -jar desde dónde sea y después arrastrar el jar a la conseola y te pone toda la ruta él solo
+		**Si esto falla, abrir el CMD y a la carpeta dónde está el Jar y escribir: java -jar NombreDelJarSinEspaciosNiExtensión
+			***Si el nombre tiene espacios, ponerlo entre comillas: java -jar "nombre del jar con espacios"
+			*** También se puede ejecutar java -jar desde dónde sea y después arrastrar el jar a la consola, esto te pone entre comillas toda la ruta absoluta
 		

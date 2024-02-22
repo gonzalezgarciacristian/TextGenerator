@@ -1,0 +1,1529 @@
+[
+  {
+    "conclusions": " ",
+    "name": "Companies",
+    "options": [
+      [
+        "Asesoría SL. It is a consultancy that is responsible for managing the data of other companies that are its clients.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "Change point ORG. It is a web platform that is responsible for managing the data of people who create signatures to protest.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "The Devil. It is a law firm that is responsible for protecting anyone against anything.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "Delete From. It is a database administration company that is responsible for managing databases of different clients.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "Pay me more. It is an insurance company that is responsible for insuring vehicles at all risk.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "Quacks. It is a private medical clinic that offers different medical services.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "Tooth pullers. It is a dental clinic.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "Modest package. It is an online video game sales company that sells video game packages at reduced prices.",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 0,
+    "introduction": "The company to audit is ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": " employees.\n",
+    "name": "CompanySize",
+    "options": [
+      [
+        "small and has 3",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "small and has 7",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "small and has 9",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "medium and has 13",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "medium and has 36",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "medium and has 45",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "large and has 57",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "large and has 1500",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "large and has 3500",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 1,
+    "introduction": "It has a size ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "Agreement",
+    "options": [
+      [
+        "is obliged to sign a contract with clients that guarantees that the same security measures that clients apply to the personal data they are going to process will be complied with. ",
+        "3",
+        "automateSalarySystem",
+        "-"
+      ],
+      [
+        "allows each company it works with to treat its clients' data following its own security measures. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 2,
+    "introduction": "This company ",
+    "probabilityModified": true
+  },
+  {
+    "conclusions": "\n",
+    "name": "SalarySystem",
+    "options": [
+      [
+        "is automated on a server. ",
+        "3",
+        "-",
+        "-"
+      ],
+      [
+        "is done by hand with paper and pen. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 3,
+    "introduction": "Payroll management ",
+    "probabilityModified": true
+  },
+  {
+    "conclusions": "\n",
+    "name": "Operating System",
+    "options": [
+      [
+        "Windows operating system. ",
+        "1",
+        "windows",
+        "automateSalarySystem"
+      ],
+      [
+        "Linux operating system. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "Virtual Machine with Linux on Amazon Web Service. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "Virtual Machine with Windows on Amazon Web Service. ",
+        "1",
+        "windows",
+        "automateSalarySystem"
+      ],
+      [
+        "Virtual Machine with Linux on Microsoft Azure. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "Virtual Machine with Windows on Microsoft Azure. ",
+        "1",
+        "windows",
+        "automateSalarySystem"
+      ]
+    ],
+    "id": 4,
+    "introduction": "The characteristics of this company's server are as follows: \n*",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "DataBase",
+    "options": [
+      [
+        "Oracle. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "MySQL. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "PostgreSQL. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "MariaDB. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "SQLite. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "MongoDB. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "Cassandra. ",
+        "1",
+        "-",
+        "automateSalarySystem"
+      ],
+      [
+        "Microsoft Access. ",
+        "1",
+        "-",
+        "windows,automateSalarySystem"
+      ],
+      [
+        "Microsoft SQL Server. ",
+        "1",
+        "-",
+        "windows,automateSalarySystem"
+      ]
+    ],
+    "id": 5,
+    "introduction": "*Database ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": " ",
+    "name": "LoginDataBaseSystem",
+    "options": [
+      [
+        "Employees who work with the database have a user with an individual password to access the payroll management system.  ",
+        "1",
+        "passwordBBDDSystem",
+        "-"
+      ],
+      [
+        "Employees who work with the database use the same user they have to access both their own computer and the payroll management system. ",
+        "1",
+        "passwordBBDDSystem",
+        "-"
+      ],
+      [
+        "Employees who work with the database use the same password, as it is shared, both to access their own computer and to access the payroll management system. ",
+        "1",
+        "passwordBBDDSystem",
+        "-"
+      ],
+      [
+        "The computer they use to access the payroll management system has a post-it with the password written on it. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "The computer they use to access the payroll management system does not have a password and is accessible to anyone. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 6,
+    "introduction": "",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": " to access the system. \n",
+    "name": "PasswordDataBaseAttemptsSystem",
+    "options": [
+      [
+        "unlimited",
+        "1",
+        "-",
+        "passwordBBDDSystem"
+      ],
+      [
+        "limited",
+        "1",
+        "-",
+        "passwordBBDDSystem"
+      ]
+    ],
+    "id": 7,
+    "introduction": "Each user has a number of attempts ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "PasswordChangeSystem",
+    "options": [
+      [
+        "Passwords are changed periodically, so it is rare that more than one person knows a password that is not theirs. ",
+        "1",
+        "-",
+        "passwordBBDDSystem"
+      ],
+      [
+        "The password change is up to the user. Then, there are workers who change it every day, and others who have never changed it and then everyone knows their password. ",
+        "1",
+        "-",
+        "passwordBBDDSystem"
+      ],
+      [
+        "Passwords are never changed, which has caused all employees to know practically everyone's passwords. ",
+        "1",
+        "-",
+        "passwordBBDDSystem"
+      ]
+    ],
+    "id": 8,
+    "introduction": "",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "UserAccounts",
+    "options": [
+      [
+        "There are no users and everyone can directly access any computer. ",
+        "2",
+        "-",
+        "-"
+      ],
+      [
+        "Users are limited and are not authorized to perform all available actions as there are different user profiles. ",
+        "1",
+        "profile",
+        "-"
+      ]
+    ],
+    "id": 9,
+    "introduction": "",
+    "probabilityModified": true
+  },
+  {
+    "conclusions": "\n",
+    "name": "UserProfiles",
+    "options": [
+      [
+        "One of the existing profiles is that of the manager of the company being managed, this profile is the only one that can modify and close the payroll of that company. ",
+        "1",
+        "salaryAdmin,userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "One of the existing profiles is that of the manager of the company being managed, this profile can modify and close the payroll of that company, but there are two other users who can modify and close the payroll for when the manager is not there. It could happen that none of the 3 are there. ",
+        "1",
+        "salaryAdmin,userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "One of the existing profiles is that of the manager of the company being managed, this profile can do everything, but also any worker can modify the payroll of that company, although it is known who does what action always by the use of a log. ",
+        "1",
+        "userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "One of the existing profiles is that of the manager of the company being managed, this profile can do everything, but also any worker also has all possible permissions, although it is known who does what action always by the use of a log ",
+        "1",
+        "userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "One of the existing profiles is that of the manager of the company being managed, this profile can do everything, but also any worker also has all possible permissions, without leaving a trace of who did what, as there is no log. ",
+        "1",
+        "userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "However, it is poorly managed and any worker has all possible permissions, but it is known who does what action always by the use of a log. ",
+        "1",
+        "userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "However, it is poorly managed and any worker has all possible permissions. In addition, they can do everything without leaving a trace of who did what, as there is no log system. ",
+        "1",
+        "userAccounts,passwordChangeSystem2",
+        "profile"
+      ],
+      [
+        "However, there is only one administrator account, which is the manager of the company, and it is shared by all users, as they do not have their own accounts. ",
+        "1",
+        "-",
+        "profile"
+      ]
+    ],
+    "id": 10,
+    "introduction": "",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "PasswordChangeSystem2",
+    "options": [
+      [
+        "Passwords are changed periodically, so it is rare that more than one person knows a password that is not theirs. ",
+        "1",
+        "-",
+        "userAccounts"
+      ],
+      [
+        "The password change is up to the user. Then, there are workers who change it every day, and others who have never changed it and then everyone knows their password. ",
+        "1",
+        "-",
+        "userAccounts"
+      ],
+      [
+        "Passwords are never changed, which has caused all employees to know practically everyone's passwords. ",
+        "1",
+        "-",
+        "userAccounts"
+      ]
+    ],
+    "id": 11,
+    "introduction": "",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "SalaryAdmin",
+    "options": [
+      [
+        "another colleague remains as responsible to whom a new user is given and when the manager returns that user is disabled. ",
+        "1",
+        "-",
+        "salaryAdmin"
+      ],
+      [
+        "another colleague remains as responsible to whom the key of the administrator user is given. ",
+        "1",
+        "-",
+        "salaryAdmin"
+      ],
+      [
+        "a guest account is created with a password known by the new manager. ",
+        "1",
+        "-",
+        "salaryAdmin"
+      ],
+      [
+        "a guest account is created and the password is told to everyone who has to close a payroll. ",
+        "1",
+        "-",
+        "salaryAdmin"
+      ],
+      [
+        "the administrator's password is told to everyone so they can fix their own problems. ",
+        "1",
+        "-",
+        "salaryAdmin"
+      ],
+      [
+        "it waits for the manager to return, no matter how long it takes. ",
+        "1",
+        "-",
+        "salaryAdmin"
+      ]
+    ],
+    "id": 12,
+    "introduction": "As only the manager can close the payrolls, when he is absent, ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "PhysicalPlace",
+    "options": [
+    [
+      "an apartment. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "an office building. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "a proprietary building. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 13,
+  "introduction": "Regarding the physical space, the company is located in ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "\n",
+  "name": "RoomsPlace",
+  "options": [
+    [
+      "they do not exist, it is a large room where each one has their table or a shared table. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they do not exist, it is a large room where each one has their table or a shared table, but each table is separated by partitions. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they do not exist except for the private office of the manager, the rest of the workers are in a common room. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they are collective for the same work group, movable panels are used to create them. The manager has a private office. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they are individual and private for everyone. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 14,
+  "introduction": "The offices ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "\n",
+  "name": "ServerLocation",
+  "options": [
+    [
+      "the common room. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "the common room, stored in a locked cabinet that the current manager has. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "the common room, stored in a locked cabinet to which everyone has access because the keys are in a shared box. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "the common room stored, in a locked cabinet which is hanging from the lock along with the copies of the key. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "a private room that only the current manager has access to. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "a private room that everyone has access to because the keys are in a shared box. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "a private room, but the keys are hanging from the lock on a keychain where the copies of these are also found. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 15,
+  "introduction": "The server is located in ",
+  "probabilityModified": false
+},
+  {
+    "conclusions": "\n",
+    "name": "Network",
+    "options": [
+      [
+        "it is entirely wired and does not use WI-FI. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is entirely wired, but there is also a WI-FI network that gives access to all workers. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is entirely wired, but there is also a WI-FI network that gives access to all workers and customers.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is entirely wired, but there is also a public WI-FI network created by the company for workers and visitors. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is entirely wired, but there is also a public WI-FI network of the city that they connect to when theirs fails or unintentionally. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is entirely wired, but there is also an unknown public WI-FI network that they connect to when theirs fails or unintentionally. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is a WI-FI network of the company. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "it is a WI-FI network of the company, although there are other open networks that are sometimes used, as they usually work better than the company's. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 16,
+    "introduction": "The local network ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "",
+    "name": "Backups",
+    "options": [
+      [
+        "every Friday. ",
+        "1",
+        "backup",
+        "-"
+      ],
+      [
+        "once a month. ",
+        "1",
+        "backup",
+        "-"
+      ],
+      [
+        "once a year. ",
+        "1",
+        "backup",
+        "-"
+      ],
+      [
+        "when they remember, sometimes they do them two days in a row and sometimes after 5 months have passed. ",
+        "1",
+        "backup",
+        "-"
+      ],
+      [
+        "... never. What is a backup? They only take up unnecessary space and are a waste of time... and money. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 17,
+    "introduction": "Backups are made ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "",
+    "name": "BackupTool",
+    "options": [
+      [
+        "an automated system that sends them to a service in a public cloud (AWS, Azure, ...).",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "an automated system that sends them to a service in a private cloud that only this company has access to.",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "an automatic tape system that can store up to 3 years of backups and is located in a room of the company.",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "an external hard drive ",
+        "1",
+        "physicalBackup",
+        "backup"
+      ],
+      [
+        "in a system of two tapes that are exchanged (one day one is used and another day another) based on the explanations about the system that were given years ago to the worker in charge. ",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "on the server's own hard drive using the operating system's tool. ",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "on a Blu-Ray that is left on the manager's table. ",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "on a Blu-Ray that is left on the server or even inside it. ",
+        "1",
+        "-",
+        "backup"
+      ],
+      [
+        "an automatic program that creates an image on a hard drive of the main computer and ",
+        "1",
+        "physicalBackup",
+        "backup"
+      ]
+    ],
+    "id": 18,
+    "introduction": "Backups are made using ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "PhysicalBackup",
+    "options": [
+      [
+        "that is stored in the company. ",
+        "1",
+        "-",
+        "physicalBackup"
+      ],
+      [
+        "that the boss picks up when it is finished and takes it home ",
+        "1",
+        "-",
+        "physicalBackup"
+      ],
+      [
+        "that the manager keeps under lock and key in the closet. ",
+        "1",
+        "-",
+        "physicalBackup"
+      ],
+      [
+        "that the last employee to leave the office keeps on his desk. ",
+        "1",
+        "-",
+        "physicalBackup"
+      ],
+      [
+        "that the last employee to leave the office picks up and leaves on the manager's table. ",
+        "1",
+        "-",
+        "physicalBackup"
+      ],
+      [
+        "that the manager picks up the next working day. ",
+        "1",
+        "-",
+        "physicalBackup"
+      ],
+      [
+        "that is left on the PC until the next day. ",
+        "1",
+        "-",
+        "physicalBackup"
+      ]
+    ],
+    "id": 19,
+    "introduction": "",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": " ",
+    "name": "ClientService",
+    "options": [
+      [
+        "desktop application.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "web application hosted on the company's server. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "web application hosted on a Spanish hosting.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "web application hosted on a cloud service outside of Spain, but within Europe.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "web application hosted on a cloud service outside of Europe.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "web application hosted on a hosting in the United States.",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "mobile application uploaded to Google Play and that obtains its data from the company's server.",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 20,
+    "introduction": "The service that is given to customers and is used to respond to them is based on a ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "ClientServiceAccess",
+    "options": [
+      [
+        "a user and a password developed by the company for the user. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "the prior registration of the user giving their email and password, which is not hashed on the server. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "the prior registration of the user giving their email and password, which is not hashed on the server and is sent to the user in an email in plain text. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "the prior registration of the user giving their email and password, which is hashed on the server. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "direct access as there is no user/password. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "access of the name of the contracting company, as there is no password. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 21,
+    "introduction": "Access to the service is made through ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "ClientServiceAccessSystem",
+    "options": [
+      [
+        "secure protocols such as HTTPS and FTPS. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic securely with a security algorithm of the company. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using private class cryptography. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using public class cryptography. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using hybrid class cryptography. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the AES algorithm. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the DES algorithm. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the Pretty Good Privacy (PGP) algorithm. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the OpenPGP algorithm. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the SHA-1 algorithm. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the SHA-3 algorithm. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the MD6 algorithm. ",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 22,
+    "introduction": "Access to the service is done using ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": " ",
+    "name": "DataService",
+    "options": [
+      [
+        "a web service of the company itself. ",
+        "1",
+        "encrypted",
+        "-"
+      ],
+      [
+        "a web service of another company. ",
+        "1",
+        "encrypted",
+        "-"
+      ],
+      [
+        "a mobile application. ",
+        "1",
+        "encrypted",
+        "-"
+      ],
+      [
+        "an email. ",
+        "1",
+        "encrypted",
+        "-"
+      ],
+      [
+        "by postal mail.\n",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "a fax.\n",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "by phone.\n",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "in person using paper\/CD\/DVD\/USB.\n",
+        "1",
+        "-",
+        "-"
+      ]
+    ],
+    "id": 23,
+    "introduction": "Another service that is used to receive user data and that the worker uses to respond to the client is ",
+    "probabilityModified": false
+  },
+  {
+    "conclusions": "\n",
+    "name": "dataServiceEncrypted",
+    "options": [
+      [
+        "it is encrypted. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is in plain text. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "insecure protocols such as HTTP and FTP, but encrypting all traffic using the AES algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is encrypted using the DES algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is encrypted using the Pretty Good Privacy (PGP) algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is encrypted using the OpenPGP algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is encrypted using the SHA-1 algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is encrypted using the SHA-3 algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it is encrypted using the MD6 algorithm. ",
+        "1",
+        "-",
+        "encrypted"
+      ],
+      [
+        "it uses the same method as the previous service",
+        "3",
+        "-",
+        "encrypted"
+      ]
+    ],
+    "id": 24,
+    "introduction": "This service ",
+    "probabilityModified": true
+  },
+  {
+    "conclusions": "",
+    "name": "OwnSalarySystem",
+    "options": [
+      [
+        "are done by hand. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "are done manually on a computer. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "are generated with a program and are saved on a CD\/DVD. ",
+        "1",
+        "-",
+        "-"
+      ],
+      [
+        "are generated by a third company that takes care of everything. ",
+        "1",
+        "cessionData",
+        "-"
+      ],
+      [
+        "are generated by a third company with which a contract was signed that they must comply with all legal criteria. ",
+        "1",
+        "cessionData",
+        "-"
+      ]
+    ],
+    "id": 25,
+    "introduction": "The internal payrolls of the company and the clients ",
+    "probabilityModified": false
+  },
+{
+  "conclusions": "",
+  "name": "SendToBank",
+  "options": [
+    [
+      "a web service. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "an email. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "postal mail.",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "a fax. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "in person using paper sheets\/CD\/DVD\/USB. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 26,
+  "introduction": "They are sent to the bank using ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "",
+  "name": "SendToRecipient",
+  "options": [
+    [
+      "a web service. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "an email. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "postal mail. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "a fax. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "email and\/or postal mail and\/or mobile app and\/or web app and\/or fax and\/or in person using paper sheets\/CD\/DVD\/USB. The customer can choose any combination",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "in person using paper sheets\/CD\/DVD\/USB. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 27,
+  "introduction": "They are sent to the interested recipient using ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "\n",
+  "name": "CessionData",
+  "options": [
+    [
+      "the customer and employees are always informed. ",
+      "1",
+      "-",
+      "cessionData"
+    ],
+    [
+      "neither the customers nor the employees are ever informed. ",
+      "1",
+      "-",
+      "cessionData"
+    ],
+    [
+      "the customer and employees are informed if they ask. ",
+      "1",
+      "-",
+      "cessionData"
+    ],
+    [
+      "the customer and employees are informed depending on the worker involved. ",
+      "1",
+      "-",
+      "cessionData"
+    ]
+  ],
+  "id": 28,
+  "introduction": "The transfer of data to this third company ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "",
+  "name": "HoursData",
+  "options": [
+    [
+      "they are stored on their personal computer in an Excel sheet located in their personal directory. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they are noted on paper sheets. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they use a web application that is uploaded on their server and uses the same user\/password system as the payroll. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "they use a mobile application that is uploaded on their server and uses the same user\/password system as the payroll. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 29,
+  "introduction": "The data of the worked hours is managed by the manager, who ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "",
+  "name": "HoursDataManagement",
+  "options": [
+    [
+      "the manager, who is the only one who should have access. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "the employee himself, as he is his own responsible. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "the employee responsible for recording all the hours changes every X time. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "each employee when they start working. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "each employee when they start and finish working. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "each employee, however, they do not remember every day, which often happens, and sometimes they sign when it fits, that is, one day each week or every two all those that are missing and the next. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 30,
+  "introduction": "The data is entered by ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "",
+  "name": "ServerLocation",
+  "options": [
+    [
+      "in ringed folders that are stored in an open cabinet. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "in ringed folders that are stored in a cabinet following the same process as server access. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "and once finished with them they are recycled, something very important, but without shredding. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "and once finished with them they are recycled, something very important, after going through the shredder. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "when the manager remembers and there is ink in the printer. Sometimes it goes weeks without doing it. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "when the manager remembers. Sometimes weeks or months pass on the pile of papers on his desk. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 31,
+  "introduction": "In addition, this sheet is printed monthly as it contains the data for the month, and is filed ",
+  "probabilityModified": false
+},
+{
+  "conclusions": "",
+  "name": "ServerLocation",
+  "options": [
+    [
+      "they are put in ringed folders that are stored in ",
+      "3",
+      "location",
+      "-"
+    ],
+    [
+      "once finished with them they are recycled, something very important, but without shredding. ",
+      "1",
+      "-",
+      "-"
+    ],
+    [
+      "once finished with them they are recycled, something very important, but after having shredded them. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 32,
+  "introduction": "The other documents ",
+  "probabilityModified": true
+},
+{
+  "conclusions": "",
+  "name": "DocumentStorage",
+  "options": [
+    [
+      "the common room. ",
+      "1",
+      "-",
+      "location"
+    ],
+    [
+      "the common room, stored in a locked cabinet that the current manager has. ",
+      "1",
+      "-",
+      "location"
+    ],
+    [
+      "the common room, stored in a locked cabinet to which everyone has access because the keys are in a shared box. ",
+      "1",
+      "-",
+      "location"
+    ],
+    [
+      "the common room stored, in a locked cabinet which is hanging from the lock along with the copies of the key. ",
+      "1",
+      "-",
+      "location"
+    ],
+    [
+      "a private room that only the current manager has access to. ",
+      "1",
+      "-",
+      "location"
+    ],
+    [
+      "a private room that everyone has access to because the keys are in a shared box. ",
+      "1",
+      "-",
+      "location"
+    ],
+    [
+      "a private room, but the keys are hanging from the lock on a keychain where the copies of these are also found. ",
+      "1",
+      "-",
+      "location"
+    ]
+  ],
+  "id": 33,
+  "introduction": "",
+  "probabilityModified": false
+},
+{
+  "conclusions": "\n",
+  "name": "FileLOPD",
+  "options": [
+    [
+      "the LOPD data files have never been declared, nor is a record of treatment activities kept. ",
+      "2",
+      "-",
+      "-"
+    ],
+    [
+      "the LOPD data files have been declared, but no record of treatment activities is kept. ",
+      "2",
+      "-",
+      "-"
+    ],
+    [
+      "the LOPD data files have been declared and the record of treatment activities is kept. ",
+      "1",
+      "-",
+      "-"
+    ]
+  ],
+  "id": 34,
+  "introduction": "\nDuring the life of this company ",
+  "probabilityModified": true
+}
+]

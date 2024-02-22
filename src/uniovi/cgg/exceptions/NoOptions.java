@@ -2,7 +2,7 @@ package uniovi.cgg.exceptions;
 
 /**
  * Clase que contiene la excepción NoOption que debe ser lanzada cuando no
- * quedna opciones en el array entre las que elegir
+ * quedan opciones en el array entre las que elegir
  * 
  * @author Cristian González García
  *
